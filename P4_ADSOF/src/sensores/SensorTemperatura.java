@@ -25,29 +25,31 @@ public class SensorTemperatura extends Sensor {
 	 * Crea un nuevo sensor de temperatura
 	 * 
 	 * @param id, ID del sensor
-	 * @param offset, 
+	 * @param offset, offset de calibración
 	 * @param ultimaLectura, valor de la última lectura
-	 * @param tiempoUltimaLectura,  
-	 * @param ultimaCalibracion, f
-	 * @param tipo
+	 * @param tiempoUltimaLectura, fecha y hora de la última lectura
+	 * @param ultimaCalibracion, 
+	 * @param fechaInstalacion, fecha de instalación del sensor
+	 * @param tipo, tipo de unidad en la que se mide
 	 */
 	public SensorTemperatura(String id, double offset, double ultimaLectura, LocalDateTime tiempoUltimaLectura,
-			LocalTime ultimaCalibracion, TipoTemp tipo) {
-		super(id, offset, ultimaLectura, tiempoUltimaLectura, ultimaCalibracion);
+			LocalTime ultimaCalibracion, LocalTime fechaInstalacion,TipoTemp tipo) {
+		super(id, offset, ultimaLectura, tiempoUltimaLectura, ultimaCalibracion, fechaInstalacion);
 		this.tipo = tipo;
 	}
 	
 	/**
 	 * Crea un nuevo sensor de temperatura por defecto
 	 * 
-	 * @param offset
-	 * @param ultimaLectura
-	 * @param tiempoUltimaLectura
+	 * @param offset, offset de calibración
+	 * @param ultimaLectura, valor de la última lectura
+	 * @param tiempoUltimaLectura, fecha y hora de la última lectura
+	 * @param fechaInstalacion, fecha de instalación del sensor
 	 * @param ultimaCalibracion
 	 */
-	public SensorTemperatura(double offset, double ultimaLectura, LocalDateTime tiempoUltimaLectura,
+	public SensorTemperatura(double offset, double ultimaLectura, LocalDateTime tiempoUltimaLectura, LocalTime fechaInstalacion,
 			LocalTime ultimaCalibracion) {
-		this(idType+ids, offset, ultimaLectura, tiempoUltimaLectura, ultimaCalibracion, TipoTemp.CELSIUS);
+		this(idType+ids, offset, ultimaLectura, tiempoUltimaLectura, ultimaCalibracion, fechaInstalacion,TipoTemp.CELSIUS);
 		ids++;
 	}
 }
