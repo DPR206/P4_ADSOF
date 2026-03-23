@@ -12,4 +12,36 @@ package sensores;
  */
 public enum TipoTemp {
 
+	CELSIUS("ºC"),
+	FAHARENHEIT("ºF"),
+	KELVIN("K");
+	
+	private String unidad;
+
+	/**
+	 * Crea una nueva unidad de temperatura
+	 * 
+	 * @param unidad, la unidad de medida
+	 */
+	private TipoTemp(String unidad) {
+		this.unidad = unidad;
+	}
+
+	/**
+	 * Obtiene la unidad de medición
+	 * 
+	 * @return the unidad, la unidad de medida
+	 */
+	public String getUnidad() {
+		return unidad;
+	}
+	
+	/**
+	 * Devuelve la información del formato de temperatura
+	 * 
+	 * @return String con información de la unidad de medición
+	 */
+	public String toString() {
+		return this.unidad;
+	}
 }

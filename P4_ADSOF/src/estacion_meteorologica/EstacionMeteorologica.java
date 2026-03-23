@@ -17,5 +17,19 @@ public class EstacionMeteorologica {
 	private UbicacionGeografica ubicacion;
 	private Sensor sensores;
 	
+	/**
+	 * Crea una nueva estación meteorológica
+	 * 
+	 * @param nombre
+	 * @param ubicacion
+	 * @param sensores
+	 */
+	public EstacionMeteorologica(String nombre, UbicacionGeografica ubicacion, Sensor sensores) {
+		this.nombre = nombre;
+		this.ubicacion = ubicacion;
+		this.sensores = sensores;
+	}
+	
+	
 
 }

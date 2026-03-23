@@ -19,8 +19,8 @@ public abstract class Sensor {
 	private String id;
 	private double offset;
 	private double ultimaLectura;
-	private LocalTime tiempoUltimaLectura;
-	private LocalTime ultimaCalibracion;
+	private LocalDateTime tiempoUltimaLectura;
+	private LocalTime ultimaCalibracion; /*A lo mejor habría que quitarlo y poner duration como estática*/
 	
 	
 	/**
@@ -31,7 +31,7 @@ public abstract class Sensor {
 	 * @param tiempoUltimaLectura
 	 * @param ultimaCalibracion
 	 */
-	public Sensor(String id, double offset, double ultimaLectura, LocalTime tiempoUltimaLectura, LocalTime ultimaCalibracion) {
+	public Sensor(String id, double offset, double ultimaLectura, LocalDateTime tiempoUltimaLectura, LocalTime ultimaCalibracion) {
 		this.id = id;
 		this.offset = offset;
 		this.ultimaLectura = ultimaLectura;
@@ -91,7 +91,7 @@ public abstract class Sensor {
 	/**
 	 * @return the tiempoUltimaLectura
 	 */
-	public LocalTime getTiempoUltimaLectura() {
+	public LocalDateTime getTiempoUltimaLectura() {
 		return tiempoUltimaLectura;
 	}
 
@@ -99,7 +99,7 @@ public abstract class Sensor {
 	/**
 	 * @param tiempoUltimaLectura the tiempoUltimaLectura to set
 	 */
-	public void setTiempoUltimaLectura(LocalTime tiempoUltimaLectura) {
+	public void setTiempoUltimaLectura(LocalDateTime tiempoUltimaLectura) {
 		this.tiempoUltimaLectura = tiempoUltimaLectura;
 	}
 
