@@ -2,6 +2,8 @@ package procesadores;
 
 import java.util.*;
 
+import procesadores.conversoresTemperatura.ConversorTemperatura;
+
 public class Procesador {
 	private List<Double> historial = new ArrayList<>();
 	private Conversor conversor;
@@ -25,5 +27,9 @@ public class Procesador {
 
 	public double getMedia() {
 		return historial.stream().mapToDouble(Double::doubleValue).average().orElse(0);
+	}
+
+	public Conversor getConversor() {
+		return conversor;
 	}
 }

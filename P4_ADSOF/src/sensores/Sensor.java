@@ -5,6 +5,7 @@ package sensores;
 
 import java.time.*;
 import estrategias.*;
+import procesadores.Procesador;
 /**
  * Esta clase representa un sensor
  * @author Claudia Saiz Escribano y Duna Puente Romera. 
@@ -22,6 +23,7 @@ public abstract class Sensor {
 	private LocalDateTime ultimaCalibracion; /*A lo mejor habría que quitarlo y poner duration como estática*/
 	private LocalTime fechaInstalacion;
 	private Estrategia estrategia;
+	private Procesador procesador;
 	
 	
 	/**
@@ -34,8 +36,7 @@ public abstract class Sensor {
 	 * @param ultimaCalibracion fecha y hora de la última calibración
 	 * @param fechaInstalacion fecha de instalación del sensor
 	 */
-	public Sensor(String id, double offset, double ultimaLectura, LocalDateTime tiempoUltimaLectura, LocalDateTime ultimaCalibracion,
-			LocalTime fechaInstalacion) {
+	public Sensor(String id, double offset, double ultimaLectura, LocalDateTime tiempoUltimaLectura, LocalDateTime ultimaCalibracion, LocalTime fechaInstalacion, Procesador procesador) {
 		this.id = id;
 		this.offset = offset;
 		this.ultimaLectura = ultimaLectura;
@@ -43,6 +44,7 @@ public abstract class Sensor {
 		this.ultimaCalibracion = ultimaCalibracion;
 		this.fechaInstalacion = fechaInstalacion;
 		this.estrategia = new EstrategiaCercana(ultimaLectura, 5);
+		this.procesador = procesador;
 	}
 	
 	/**
@@ -55,8 +57,7 @@ public abstract class Sensor {
 	 * @param ultimaCalibracion fecha y hora de la última calibración
 	 * @param fechaInstalacion fecha de instalación del sensor
 	 */
-	public Sensor(String id, double offset, double ultimaLectura, LocalDateTime tiempoUltimaLectura, LocalDateTime ultimaCalibracion,
-			LocalTime fechaInstalacion, Estrategia estrategia) {
+	public Sensor(String id, double offset, double ultimaLectura, LocalDateTime tiempoUltimaLectura, LocalDateTime ultimaCalibracion, LocalTime fechaInstalacion, Estrategia estrategia, Procesador procesador) {
 		this.id = id;
 		this.offset = offset;
 		this.ultimaLectura = ultimaLectura;
@@ -64,6 +65,7 @@ public abstract class Sensor {
 		this.ultimaCalibracion = ultimaCalibracion;
 		this.fechaInstalacion = fechaInstalacion;
 		this.estrategia = estrategia;
+		this.procesador = procesador;
 	}
 
 

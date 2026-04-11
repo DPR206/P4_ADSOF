@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 import excepciones.IncompatibleConversorException;
-import procesadores.*;
+import procesadores.Procesador;
 import procesadores.conversoresPresion.ConversorPresion;
 
 /**
@@ -25,8 +25,6 @@ public class SensorPresion extends Sensor{
 	private static double cotaSuperior = 1100;
 	private static String unidad = "hPa";
 	
-	private Procesador procesador;
-	
 	/**
 	 * @param id
 	 * @param offset
@@ -34,11 +32,11 @@ public class SensorPresion extends Sensor{
 	 * @param tiempoUltimaLectura
 	 * @param ultimaCalibracion
 	 * @param fechaInstalacion
+	 * @throws IncompatibleConversorException 
 	 */
-	public SensorPresion(String id, double offset, double ultimaLectura, LocalDateTime tiempoUltimaLectura,
-			LocalDateTime ultimaCalibracion, LocalTime fechaInstalacion) {
-		super(id, offset, ultimaLectura, tiempoUltimaLectura, ultimaCalibracion, fechaInstalacion);
-		this.procesador = new Procesador(new ConversorIdentidad());
+	public SensorPresion(String id, double offset, double ultimaLectura, LocalDateTime tiempoUltimaLectura, LocalDateTime ultimaCalibracion, LocalTime fechaInstalacion, Procesador procesador) throws IncompatibleConversorException {
+		super(id, offset, ultimaLectura, tiempoUltimaLectura, ultimaCalibracion, fechaInstalacion, procesador);
+		if(!(procesador.getConversor() instanceof ConversorPresion)) throw new IncompatibleConversorException("Este sensor debe tener un convesor de presión");
 	}
 	
 	/**
@@ -48,43 +46,12 @@ public class SensorPresion extends Sensor{
 	 * @param tiempoUltimaLectura
 	 * @param ultimaCalibracion
 	 * @param fechaInstalacion
+	 * @throws IncompatibleConversorException 
 	 */
-	public SensorPresion(double offset, double ultimaLectura, LocalDateTime tiempoUltimaLectura,
-			LocalDateTime ultimaCalibracion, LocalTime fechaInstalacion) {
-		super(idType+String.format("%04d", ids), offset, ultimaLectura, tiempoUltimaLectura, ultimaCalibracion, fechaInstalacion);
+	public SensorPresion(double offset, double ultimaLectura, LocalDateTime tiempoUltimaLectura, LocalDateTime ultimaCalibracion, LocalTime fechaInstalacion, Procesador procesador) throws IncompatibleConversorException {
+		super(idType+String.format("%04d", ids), offset, ultimaLectura, tiempoUltimaLectura, ultimaCalibracion, fechaInstalacion, procesador);
+		if(!(procesador.getConversor() instanceof ConversorPresion)) throw new IncompatibleConversorException("Este sensor debe tener un convesor de presión");
 		ids++;
-		this.procesador = new Procesador(new ConversorIdentidad());
-	}
-	
-	/**
-	 * @param id
-	 * @param offset
-	 * @param ultimaLectura
-	 * @param tiempoUltimaLectura
-	 * @param ultimaCalibracion
-	 * @param fechaInstalacion
-	 */
-	public SensorPresion(String id, double offset, double ultimaLectura, LocalDateTime tiempoUltimaLectura,
-			LocalDateTime ultimaCalibracion, LocalTime fechaInstalacion, Conversor conversor) throws IncompatibleConversorException {
-		super(id, offset, ultimaLectura, tiempoUltimaLectura, ultimaCalibracion, fechaInstalacion);
-		if(!(conversor instanceof ConversorPresion)) throw new IncompatibleConversorException("Debe asociar un conversor de presión a este sensor");
-		this.procesador = new Procesador(conversor);
-	}
-	
-	/**
-	 * 
-	 * @param offset
-	 * @param ultimaLectura
-	 * @param tiempoUltimaLectura
-	 * @param ultimaCalibracion
-	 * @param fechaInstalacion
-	 */
-	public SensorPresion(double offset, double ultimaLectura, LocalDateTime tiempoUltimaLectura,
-			LocalDateTime ultimaCalibracion, LocalTime fechaInstalacion, Conversor conversor) throws IncompatibleConversorException {
-		super(idType+String.format("%04d", ids), offset, ultimaLectura, tiempoUltimaLectura, ultimaCalibracion, fechaInstalacion);
-		ids++;
-		if(!(conversor instanceof ConversorPresion)) throw new IncompatibleConversorException("Debe asociar un conversor de presión a este sensor");
-		this.procesador = new Procesador(conversor);
 	}
 	
 	@Override

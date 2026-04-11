@@ -24,8 +24,6 @@ public class SensorHumedad extends Sensor{
 	private static double cotaSuperior = 100;
 	private static String unidad = "%";
 	
-	private Procesador procesador;
-	
 	/**
 	 * Crea un nuevo sensor de temperatura
 	 * 
@@ -34,11 +32,11 @@ public class SensorHumedad extends Sensor{
 	 * @param ultimaLectura, valor de la última lectura
 	 * @param tiempoUltimaLectura, fecha y hora de la última lectura
 	 * @param ultimaCalibracion
+	 * @throws IncompatibleConversorException 
 	 */
-	public SensorHumedad(String id, double offset, double ultimaLectura, LocalDateTime tiempoUltimaLectura,
-			LocalDateTime ultimaCalibracion, LocalTime fechaInstalacion) {
-		super(id, offset, ultimaLectura, tiempoUltimaLectura, ultimaCalibracion, fechaInstalacion);
-		this.procesador = new Procesador(new ConversorIdentidad());
+	public SensorHumedad(String id, double offset, double ultimaLectura, LocalDateTime tiempoUltimaLectura, LocalDateTime ultimaCalibracion, LocalTime fechaInstalacion, Procesador procesador) throws IncompatibleConversorException {
+		super(id, offset, ultimaLectura, tiempoUltimaLectura, ultimaCalibracion, fechaInstalacion, procesador);
+		if(!(procesador.getConversor() instanceof ConversorIdentidad)) throw new IncompatibleConversorException("Este sensor debe tener un convesor identidad");
 	}
 	
 	/**
@@ -49,45 +47,12 @@ public class SensorHumedad extends Sensor{
 	 * @param tiempoUltimaLectura, fecha y hora de la última lectura
 	 * @param ultimaCalibracion
 	 * @param fechaInstalacion, fecha de instalación del sensor
+	 * @throws IncompatibleConversorException 
 	 */
-	public SensorHumedad(double offset, double ultimaLectura, LocalDateTime tiempoUltimaLectura,
-			LocalDateTime ultimaCalibracion, LocalTime fechaInstalacion) {
-		super(idType+String.format("%04d", ids), offset, ultimaLectura, tiempoUltimaLectura, ultimaCalibracion, fechaInstalacion);
+	public SensorHumedad(double offset, double ultimaLectura, LocalDateTime tiempoUltimaLectura, LocalDateTime ultimaCalibracion, LocalTime fechaInstalacion, Procesador procesador) throws IncompatibleConversorException {
+		super(idType+String.format("%04d", ids), offset, ultimaLectura, tiempoUltimaLectura, ultimaCalibracion, fechaInstalacion, procesador);
+		if(!(procesador.getConversor() instanceof ConversorIdentidad)) throw new IncompatibleConversorException("Este sensor debe tener un convesor identidad");
 		ids++;
-		this.procesador = new Procesador(new ConversorIdentidad());
-	}
-	
-	/**
-	 * Crea un nuevo sensor de temperatura
-	 * 
-	 * @param id, ID del sensor
-	 * @param offset, offset de calibración
-	 * @param ultimaLectura, valor de la última lectura
-	 * @param tiempoUltimaLectura, fecha y hora de la última lectura
-	 * @param ultimaCalibracion
-	 */
-	public SensorHumedad(String id, double offset, double ultimaLectura, LocalDateTime tiempoUltimaLectura,
-			LocalDateTime ultimaCalibracion, LocalTime fechaInstalacion, Conversor conversor) throws IncompatibleConversorException {
-		super(id, offset, ultimaLectura, tiempoUltimaLectura, ultimaCalibracion, fechaInstalacion);
-		if(!(conversor instanceof ConversorIdentidad)) throw new IncompatibleConversorException("Debe asociar un conversor identidad a este sensor");
-		this.procesador = new Procesador(conversor);
-	}
-	
-	/**
-	 * Crea un nuevo sensor de temperatura
-	 * 
-	 * @param offset, offset de calibración
-	 * @param ultimaLectura, valor de la última lectura
-	 * @param tiempoUltimaLectura, fecha y hora de la última lectura
-	 * @param ultimaCalibracion
-	 * @param fechaInstalacion, fecha de instalación del sensor
-	 */
-	public SensorHumedad(double offset, double ultimaLectura, LocalDateTime tiempoUltimaLectura,
-			LocalDateTime ultimaCalibracion, LocalTime fechaInstalacion, Conversor conversor) throws IncompatibleConversorException {
-		super(idType+String.format("%04d", ids), offset, ultimaLectura, tiempoUltimaLectura, ultimaCalibracion, fechaInstalacion);
-		ids++;
-		if(!(conversor instanceof ConversorIdentidad)) throw new IncompatibleConversorException("Debe asociar un conversor identidad a este sensor");
-		this.procesador = new Procesador(conversor);
 	}
 
 	@Override

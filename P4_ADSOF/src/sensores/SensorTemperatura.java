@@ -24,7 +24,6 @@ public class SensorTemperatura extends Sensor {
 	private static double cotaSuperior = 1000;
 	private static final double KelvinCelsius = -273.15;
 	
-	private Procesador procesador;
 	private TipoTemp tipo;
 
 	/**
@@ -37,48 +36,12 @@ public class SensorTemperatura extends Sensor {
 	 * @param ultimaCalibracion, 
 	 * @param fechaInstalacion, fecha de instalación del sensor
 	 * @param tipo, tipo de unidad en la que se mide
-	 */
-	public SensorTemperatura(String id, double offset, double ultimaLectura, LocalDateTime tiempoUltimaLectura,
-			LocalDateTime ultimaCalibracion, LocalTime fechaInstalacion,TipoTemp tipo) {
-		super(id, offset, ultimaLectura, tiempoUltimaLectura, ultimaCalibracion, fechaInstalacion);
-		this.tipo = tipo;
-		this.procesador = new Procesador(new ConversorIdentidad());
-	}
-	
-	/**
-	 * Crea un nuevo sensor de temperatura por defecto
-	 * 
-	 * @param offset, offset de calibración
-	 * @param ultimaLectura, valor de la última lectura
-	 * @param tiempoUltimaLectura, fecha y hora de la última lectura
-	 * @param fechaInstalacion, fecha de instalación del sensor
-	 * @param ultimaCalibracion
-	 */
-	public SensorTemperatura(double offset, double ultimaLectura, LocalDateTime tiempoUltimaLectura, LocalTime fechaInstalacion,
-			LocalDateTime ultimaCalibracion) {
-		this(idType+String.format("%04d", ids), offset, ultimaLectura, tiempoUltimaLectura, ultimaCalibracion, fechaInstalacion,TipoTemp.CELSIUS);
-		ids++;
-		this.procesador = new Procesador(new ConversorIdentidad());
-	}
-	
-	/**
-	 * Crea un nuevo sensor de temperatura
-	 * 
-	 * @param id, ID del sensor
-	 * @param offset, offset de calibración
-	 * @param ultimaLectura, valor de la última lectura
-	 * @param tiempoUltimaLectura, fecha y hora de la última lectura
-	 * @param ultimaCalibracion, 
-	 * @param fechaInstalacion, fecha de instalación del sensor
-	 * @param tipo, tipo de unidad en la que se mide
 	 * @throws IncompatibleConversorException 
 	 */
-	public SensorTemperatura(String id, double offset, double ultimaLectura, LocalDateTime tiempoUltimaLectura,
-			LocalDateTime ultimaCalibracion, LocalTime fechaInstalacion,TipoTemp tipo, Conversor conversor) throws IncompatibleConversorException {
-		super(id, offset, ultimaLectura, tiempoUltimaLectura, ultimaCalibracion, fechaInstalacion);
+	public SensorTemperatura(String id, double offset, double ultimaLectura, LocalDateTime tiempoUltimaLectura, LocalDateTime ultimaCalibracion, LocalTime fechaInstalacion,TipoTemp tipo, Procesador procesador) throws IncompatibleConversorException {
+		super(id, offset, ultimaLectura, tiempoUltimaLectura, ultimaCalibracion, fechaInstalacion, procesador);
+		if(!(procesador.getConversor() instanceof ConversorTemperatura)) throw new IncompatibleConversorException("Este sensor debe tener un convesor de temperatura");
 		this.tipo = tipo;
-		if(!(conversor instanceof ConversorTemperatura)) throw new IncompatibleConversorException("Debe asociar un conversor de temperatura a este sensor");
-		this.procesador = new Procesador(conversor);
 	}
 	
 	/**
@@ -91,13 +54,10 @@ public class SensorTemperatura extends Sensor {
 	 * @param ultimaCalibracion
 	 * @throws IncompatibleConversorException 
 	 */
-	public SensorTemperatura(double offset, double ultimaLectura, LocalDateTime tiempoUltimaLectura, LocalTime fechaInstalacion,
-			LocalDateTime ultimaCalibracion, Conversor conversor) throws IncompatibleConversorException {
-		this(idType+String.format("%04d", ids), offset, ultimaLectura, tiempoUltimaLectura, ultimaCalibracion, fechaInstalacion,TipoTemp.CELSIUS);
+	public SensorTemperatura(double offset, double ultimaLectura, LocalDateTime tiempoUltimaLectura, LocalTime fechaInstalacion, LocalDateTime ultimaCalibracion, Procesador procesador) throws IncompatibleConversorException {
+		this(idType+String.format("%04d", ids), offset, ultimaLectura, tiempoUltimaLectura, ultimaCalibracion, fechaInstalacion,TipoTemp.CELSIUS, procesador);
+		if(!(procesador.getConversor() instanceof ConversorTemperatura)) throw new IncompatibleConversorException("Este sensor debe tener un convesor de temperatura");
 		ids++;
-		this.procesador = new Procesador(new ConversorIdentidad());
-		if(!(conversor instanceof ConversorTemperatura)) throw new IncompatibleConversorException("Debe asociar un conversor de temperatura a este sensor");
-		this.procesador = new Procesador(conversor);
 	}
 
 	/**
