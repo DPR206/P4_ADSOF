@@ -21,7 +21,7 @@ public abstract class Sensor {
 	private double ultimaLectura;
 	private LocalDateTime tiempoUltimaLectura;
 	private LocalDateTime ultimaCalibracion; /*A lo mejor habría que quitarlo y poner duration como estática*/
-	private LocalTime fechaInstalacion;
+	private LocalDateTime fechaInstalacion;
 	private Estrategia estrategia;
 	private Procesador procesador;
 	
@@ -36,7 +36,7 @@ public abstract class Sensor {
 	 * @param ultimaCalibracion fecha y hora de la última calibración
 	 * @param fechaInstalacion fecha de instalación del sensor
 	 */
-	public Sensor(String id, double offset, double ultimaLectura, LocalDateTime tiempoUltimaLectura, LocalDateTime ultimaCalibracion, LocalTime fechaInstalacion, Procesador procesador) {
+	public Sensor(String id, double offset, double ultimaLectura, LocalDateTime tiempoUltimaLectura, LocalDateTime ultimaCalibracion, LocalDateTime fechaInstalacion, Procesador procesador) {
 		this.id = id;
 		this.offset = offset;
 		this.ultimaLectura = ultimaLectura;
@@ -57,7 +57,7 @@ public abstract class Sensor {
 	 * @param ultimaCalibracion fecha y hora de la última calibración
 	 * @param fechaInstalacion fecha de instalación del sensor
 	 */
-	public Sensor(String id, double offset, double ultimaLectura, LocalDateTime tiempoUltimaLectura, LocalDateTime ultimaCalibracion, LocalTime fechaInstalacion, Estrategia estrategia, Procesador procesador) {
+	public Sensor(String id, double offset, double ultimaLectura, LocalDateTime tiempoUltimaLectura, LocalDateTime ultimaCalibracion, LocalDateTime fechaInstalacion, Estrategia estrategia, Procesador procesador) {
 		this.id = id;
 		this.offset = offset;
 		this.ultimaLectura = ultimaLectura;
@@ -164,7 +164,7 @@ public abstract class Sensor {
 	 * Obtiene la fecha de instalación del sensor
 	 * @return la fecha de instalación
 	 */
-	public LocalTime getFechaInstalacion() {
+	public LocalDateTime getFechaInstalacion() {
 		return fechaInstalacion;
 	}
 
@@ -173,7 +173,7 @@ public abstract class Sensor {
 	 * Establece la fecha de instalación del sensor
 	 * @param fechaInstalacion la fecha de instalación
 	 */
-	public void setFechaInstalacion(LocalTime fechaInstalacion) {
+	public void setFechaInstalacion(LocalDateTime fechaInstalacion) {
 		this.fechaInstalacion = fechaInstalacion;
 	}
 
@@ -187,8 +187,10 @@ public abstract class Sensor {
 	}
 
 	public void realizarLectura() {
-		this.setUltimaLectura(this.leerValorSimulado()-offset);
+		double valor = estrategia.generarValor()-offset;
+		this.setUltimaLectura(valor);
 		this.setTiempoUltimaLectura(LocalDateTime.now());
+		this.procesador.procesar(valor);
 	}
 
 	/**
@@ -203,14 +205,6 @@ public abstract class Sensor {
 			return false;
 		return true;
 	}
-	
-	/**
-	 * Devuelve un valor simulado conforme a la estrategia del sensor
-	 * @return Valor simulado generado
-	 */
-	public double leerValorSimulado() {
-	        return estrategia.generarValor();
-	    }
 
 	/**
 	 * Obtiene la última lectura con unidades

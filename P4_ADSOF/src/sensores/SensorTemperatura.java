@@ -5,6 +5,7 @@ package sensores;
 
 import java.time.*;
 
+import estrategias.Estrategia;
 import excepciones.IncompatibleConversorException;
 import procesadores.*;
 import procesadores.conversoresTemperatura.ConversorTemperatura;
@@ -25,23 +26,22 @@ public class SensorTemperatura extends Sensor {
 	private static final double KelvinCelsius = -273.15;
 	
 	private TipoTemp tipo;
-
+	
 	/**
-	 * Crea un nuevo sensor de temperatura
+	 * Crea un nuevo sensor de temperatura por defecto
 	 * 
-	 * @param id, ID del sensor
 	 * @param offset, offset de calibración
 	 * @param ultimaLectura, valor de la última lectura
 	 * @param tiempoUltimaLectura, fecha y hora de la última lectura
-	 * @param ultimaCalibracion, 
 	 * @param fechaInstalacion, fecha de instalación del sensor
-	 * @param tipo, tipo de unidad en la que se mide
+	 * @param ultimaCalibracion
 	 * @throws IncompatibleConversorException 
 	 */
-	public SensorTemperatura(String id, double offset, double ultimaLectura, LocalDateTime tiempoUltimaLectura, LocalDateTime ultimaCalibracion, LocalTime fechaInstalacion,TipoTemp tipo, Procesador procesador) throws IncompatibleConversorException {
-		super(id, offset, ultimaLectura, tiempoUltimaLectura, ultimaCalibracion, fechaInstalacion, procesador);
+	public SensorTemperatura(double offset, double ultimaLectura, LocalDateTime tiempoUltimaLectura, LocalDateTime ultimaCalibracion, LocalDateTime fechaInstalacion, Procesador procesador) throws IncompatibleConversorException {
+		super(idType+String.format("%04d", ids), offset, ultimaLectura, tiempoUltimaLectura, ultimaCalibracion, fechaInstalacion, procesador);
 		if(!(procesador.getConversor() instanceof ConversorTemperatura)) throw new IncompatibleConversorException("Este sensor debe tener un convesor de temperatura");
-		this.tipo = tipo;
+		ids++;
+		this.tipo = TipoTemp.CELSIUS;
 	}
 	
 	/**
@@ -54,10 +54,11 @@ public class SensorTemperatura extends Sensor {
 	 * @param ultimaCalibracion
 	 * @throws IncompatibleConversorException 
 	 */
-	public SensorTemperatura(double offset, double ultimaLectura, LocalDateTime tiempoUltimaLectura, LocalTime fechaInstalacion, LocalDateTime ultimaCalibracion, Procesador procesador) throws IncompatibleConversorException {
-		this(idType+String.format("%04d", ids), offset, ultimaLectura, tiempoUltimaLectura, ultimaCalibracion, fechaInstalacion,TipoTemp.CELSIUS, procesador);
+	public SensorTemperatura(double offset, double ultimaLectura, LocalDateTime tiempoUltimaLectura, LocalDateTime ultimaCalibracion, LocalDateTime fechaInstalacion, Estrategia estrategia, Procesador procesador) throws IncompatibleConversorException {
+		super(idType+String.format("%04d", ids), offset, ultimaLectura, tiempoUltimaLectura, ultimaCalibracion, fechaInstalacion, estrategia, procesador);
 		if(!(procesador.getConversor() instanceof ConversorTemperatura)) throw new IncompatibleConversorException("Este sensor debe tener un convesor de temperatura");
 		ids++;
+		this.tipo = TipoTemp.CELSIUS;
 	}
 
 	/**

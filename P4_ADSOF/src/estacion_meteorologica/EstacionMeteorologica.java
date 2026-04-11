@@ -3,11 +3,15 @@
  */
 package estacion_meteorologica;
 
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import estrategias.Estrategia;
 import sensores.*;
 import excepciones.*;
+import procesadores.ConversorIdentidad;
+import procesadores.Procesador;
 
 /**
  * Esta clase representa la estacion meteorologica
@@ -130,6 +134,104 @@ public class EstacionMeteorologica {
 				throw new IdentificadorDuplicado(s, this.sensores.get(s.getId()));
 			else
 				this.sensores.put(s.getId(), s);
+	}
+	
+	public void addSensor(TipoSensor tipo, double offset, double ultimaLectura, LocalDateTime tiempoUltimaLectura, LocalDateTime ultimaCalibracion, LocalDateTime fechaInstalacion) {
+		Sensor s = null;
+		Procesador procesador = new Procesador(new ConversorIdentidad());
+		try {
+			switch(tipo) {
+			case TipoSensor.TEMPERATURA: 
+				s = new SensorTemperatura(offset, ultimaLectura, tiempoUltimaLectura, ultimaCalibracion, fechaInstalacion, procesador);
+				break;
+			case TipoSensor.PRESION:
+				s = new SensorTemperatura(offset, ultimaLectura, tiempoUltimaLectura, ultimaCalibracion, fechaInstalacion, procesador);
+				break;
+			case TipoSensor.HUMEDAD:
+				s = new SensorTemperatura(offset, ultimaLectura, tiempoUltimaLectura, ultimaCalibracion, fechaInstalacion, procesador);
+				break;
+			}
+		
+			if(this.sensores.containsValue(s))
+				throw new IdentificadorDuplicado(s, this.sensores.get(s.getId()));
+			else
+				this.sensores.put(s.getId(), s);
+		} catch (IncompatibleConversorException | IdentificadorDuplicado e) {
+			System.out.println(e.getMessage());
+		}
+	}
+	
+	public void addSensor(TipoSensor tipo, double offset, double ultimaLectura, LocalDateTime tiempoUltimaLectura, LocalDateTime ultimaCalibracion, LocalDateTime fechaInstalacion, Estrategia estrategia) {
+		Sensor s = null;
+		Procesador procesador = new Procesador(new ConversorIdentidad());
+		try {
+			switch(tipo) {
+			case TipoSensor.TEMPERATURA: 
+				s = new SensorTemperatura(offset, ultimaLectura, tiempoUltimaLectura, ultimaCalibracion, fechaInstalacion, estrategia, procesador);
+				break;
+			case TipoSensor.PRESION:
+				s = new SensorTemperatura(offset, ultimaLectura, tiempoUltimaLectura, ultimaCalibracion, fechaInstalacion, estrategia, procesador);
+				break;
+			case TipoSensor.HUMEDAD:
+				s = new SensorTemperatura(offset, ultimaLectura, tiempoUltimaLectura, ultimaCalibracion, fechaInstalacion, estrategia, procesador);
+				break;
+			}
+		
+			if(this.sensores.containsValue(s))
+				throw new IdentificadorDuplicado(s, this.sensores.get(s.getId()));
+			else
+				this.sensores.put(s.getId(), s);
+		} catch (IncompatibleConversorException | IdentificadorDuplicado e) {
+			System.out.println(e.getMessage());
+		}
+	}
+	
+	public void addSensor(TipoSensor tipo, double offset, double ultimaLectura, LocalDateTime tiempoUltimaLectura, LocalDateTime ultimaCalibracion, LocalDateTime fechaInstalacion, Procesador procesador) {
+		Sensor s = null;
+		try {
+			switch(tipo) {
+			case TipoSensor.TEMPERATURA: 
+				s = new SensorTemperatura(offset, ultimaLectura, tiempoUltimaLectura, ultimaCalibracion, fechaInstalacion, procesador);
+				break;
+			case TipoSensor.PRESION:
+				s = new SensorTemperatura(offset, ultimaLectura, tiempoUltimaLectura, ultimaCalibracion, fechaInstalacion, procesador);
+				break;
+			case TipoSensor.HUMEDAD:
+				s = new SensorTemperatura(offset, ultimaLectura, tiempoUltimaLectura, ultimaCalibracion, fechaInstalacion, procesador);
+				break;
+			}
+		
+			if(this.sensores.containsValue(s))
+				throw new IdentificadorDuplicado(s, this.sensores.get(s.getId()));
+			else
+				this.sensores.put(s.getId(), s);
+		} catch (IncompatibleConversorException | IdentificadorDuplicado e) {
+			System.out.println(e.getMessage());
+		}
+	}
+	
+	public void addSensor(TipoSensor tipo, double offset, double ultimaLectura, LocalDateTime tiempoUltimaLectura, LocalDateTime ultimaCalibracion, LocalDateTime fechaInstalacion, Estrategia estrategia, Procesador procesador) {
+		Sensor s = null;
+		try {
+			switch(tipo) {
+			case TipoSensor.TEMPERATURA: 
+				s = new SensorTemperatura(offset, ultimaLectura, tiempoUltimaLectura, ultimaCalibracion, fechaInstalacion, estrategia, procesador);
+				break;
+			case TipoSensor.PRESION:
+				s = new SensorTemperatura(offset, ultimaLectura, tiempoUltimaLectura, ultimaCalibracion, fechaInstalacion, estrategia, procesador);
+				break;
+			case TipoSensor.HUMEDAD:
+				s = new SensorTemperatura(offset, ultimaLectura, tiempoUltimaLectura, ultimaCalibracion, fechaInstalacion, estrategia, procesador);
+				break;
+			}
+		
+			if(this.sensores.containsValue(s))
+				throw new IdentificadorDuplicado(s, this.sensores.get(s.getId()));
+			else
+				this.sensores.put(s.getId(), s);
+		} catch (IncompatibleConversorException | IdentificadorDuplicado e) {
+			System.out.println(e.getMessage());
+		}
 	}
 	
 	/**

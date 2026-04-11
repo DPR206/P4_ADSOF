@@ -1,35 +1,61 @@
 package procesadores;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
-import procesadores.conversoresTemperatura.ConversorTemperatura;
-
 public class Procesador {
-	private List<Double> historial = new ArrayList<>();
+	private List<Valor> historial = new ArrayList<>();
 	private Conversor conversor;
 
 	public Procesador(Conversor conversor) {
 		this.conversor = conversor;
 	}
 
+	public Conversor getConversor() {
+		return conversor;
+	}
+	
 	public void procesar(double valor) {
 		double convertido = conversor.convertir(valor);
-		historial.add(convertido);
+		historial.add(new Valor(convertido, LocalDateTime.now()));
 	}
 
 	public double getMin() {
-		return historial.stream().mapToDouble(Double::doubleValue).min().orElse(0);
+		double min = historial.get(0).getValor();
+		for(Valor v : historial) {
+			if(v.getValor() < min) min = v.getValor();
+		}
+		return min;
 	}
 
 	public double getMax() {
-		return historial.stream().mapToDouble(Double::doubleValue).max().orElse(0);
+		double max = historial.get(0).getValor();
+		for(Valor v : historial) {
+			if(v.getValor() > max) max = v.getValor();
+		}
+		return max;
 	}
 
 	public double getMedia() {
-		return historial.stream().mapToDouble(Double::doubleValue).average().orElse(0);
+		double media = 0;
+		for(Valor v : historial) {
+			media += v.getValor();
+		}
+		return media/historial.size();
 	}
-
-	public Conversor getConversor() {
-		return conversor;
+	
+	@Override
+	public String toString() {
+		String valores = "[";
+		for(Valor v : historial) {
+			valores += v.getValor();
+			valores += ", ";
+		}
+		if (!historial.isEmpty()) {
+		    valores = valores.substring(0, valores.length() - 2);
+		}
+		valores += "]";
+		
+		return valores + "-- MIN: " + this.getMin() + "-- MAX: " + this.getMax() + "-- MEDIA: " + this.getMedia();
 	}
 }

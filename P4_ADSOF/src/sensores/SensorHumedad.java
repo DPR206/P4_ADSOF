@@ -4,8 +4,8 @@
 package sensores;
 
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 
+import estrategias.Estrategia;
 import excepciones.IncompatibleConversorException;
 import procesadores.*;
 
@@ -27,16 +27,17 @@ public class SensorHumedad extends Sensor{
 	/**
 	 * Crea un nuevo sensor de temperatura
 	 * 
-	 * @param id, ID del sensor
 	 * @param offset, offset de calibración
 	 * @param ultimaLectura, valor de la última lectura
 	 * @param tiempoUltimaLectura, fecha y hora de la última lectura
 	 * @param ultimaCalibracion
+	 * @param fechaInstalacion, fecha de instalación del sensor
 	 * @throws IncompatibleConversorException 
 	 */
-	public SensorHumedad(String id, double offset, double ultimaLectura, LocalDateTime tiempoUltimaLectura, LocalDateTime ultimaCalibracion, LocalTime fechaInstalacion, Procesador procesador) throws IncompatibleConversorException {
-		super(id, offset, ultimaLectura, tiempoUltimaLectura, ultimaCalibracion, fechaInstalacion, procesador);
+	public SensorHumedad(double offset, double ultimaLectura, LocalDateTime tiempoUltimaLectura, LocalDateTime ultimaCalibracion, LocalDateTime fechaInstalacion, Procesador procesador) throws IncompatibleConversorException {
+		super(idType+String.format("%04d", ids), offset, ultimaLectura, tiempoUltimaLectura, ultimaCalibracion, fechaInstalacion, procesador);
 		if(!(procesador.getConversor() instanceof ConversorIdentidad)) throw new IncompatibleConversorException("Este sensor debe tener un convesor identidad");
+		ids++;
 	}
 	
 	/**
@@ -49,8 +50,8 @@ public class SensorHumedad extends Sensor{
 	 * @param fechaInstalacion, fecha de instalación del sensor
 	 * @throws IncompatibleConversorException 
 	 */
-	public SensorHumedad(double offset, double ultimaLectura, LocalDateTime tiempoUltimaLectura, LocalDateTime ultimaCalibracion, LocalTime fechaInstalacion, Procesador procesador) throws IncompatibleConversorException {
-		super(idType+String.format("%04d", ids), offset, ultimaLectura, tiempoUltimaLectura, ultimaCalibracion, fechaInstalacion, procesador);
+	public SensorHumedad(double offset, double ultimaLectura, LocalDateTime tiempoUltimaLectura, LocalDateTime ultimaCalibracion, LocalDateTime fechaInstalacion, Estrategia estrategia, Procesador procesador) throws IncompatibleConversorException {
+		super(idType+String.format("%04d", ids), offset, ultimaLectura, tiempoUltimaLectura, ultimaCalibracion, fechaInstalacion, estrategia, procesador);
 		if(!(procesador.getConversor() instanceof ConversorIdentidad)) throw new IncompatibleConversorException("Este sensor debe tener un convesor identidad");
 		ids++;
 	}
