@@ -15,6 +15,7 @@ import procesadores.Procesador;
  */
 public abstract class Sensor {
 	private static final Duration caducidadPorDefecto = Duration.ofDays(365);
+	private static final long cambioBruscoPorDefecto = 50;
 	
 	private String id;
 	private double offset;
@@ -25,6 +26,7 @@ public abstract class Sensor {
 	private Estrategia estrategia;
 	private Procesador procesador;
 	private Duration caducidad;
+	private long cambioBrusco;
 	
 	
 	/**
@@ -37,15 +39,11 @@ public abstract class Sensor {
 	 * @param ultimaCalibracion fecha y hora de la última calibración
 	 * @param fechaInstalacion fecha de instalación del sensor
 	 */
-	public Sensor(String id, double offset, double ultimaLectura, LocalDateTime tiempoUltimaLectura, LocalDateTime ultimaCalibracion, LocalDateTime fechaInstalacion, Procesador procesador) {
-		this.id = id;
-		this.offset = offset;
-		this.ultimaLectura = ultimaLectura;
-		this.tiempoUltimaLectura = tiempoUltimaLectura;
-		this.ultimaCalibracion = ultimaCalibracion;
-		this.fechaInstalacion = fechaInstalacion;
-		this.estrategia = new EstrategiaCercana(ultimaLectura, 5);
-		this.procesador = procesador;
+	public Sensor(String id, double offset, double ultimaLectura, LocalDateTime tiempoUltimaLectura, LocalDateTime ultimaCalibracion, 
+					LocalDateTime fechaInstalacion, Procesador procesador, Duration caducidad, long cambioBrusco) {
+		
+		this(id, offset, ultimaLectura, tiempoUltimaLectura, ultimaCalibracion, fechaInstalacion, new EstrategiaCercana(ultimaLectura, 5),
+				procesador, caducidad, cambioBrusco);
 	}
 	
 	/**
@@ -58,7 +56,8 @@ public abstract class Sensor {
 	 * @param ultimaCalibracion fecha y hora de la última calibración
 	 * @param fechaInstalacion fecha de instalación del sensor
 	 */
-	public Sensor(String id, double offset, double ultimaLectura, LocalDateTime tiempoUltimaLectura, LocalDateTime ultimaCalibracion, LocalDateTime fechaInstalacion, Estrategia estrategia, Procesador procesador) {
+	public Sensor(String id, double offset, double ultimaLectura, LocalDateTime tiempoUltimaLectura, LocalDateTime ultimaCalibracion, 
+				LocalDateTime fechaInstalacion, Estrategia estrategia, Procesador procesador, Duration caducidad, long cambioBrusco) {
 		this.id = id;
 		this.offset = offset;
 		this.ultimaLectura = ultimaLectura;
@@ -67,8 +66,59 @@ public abstract class Sensor {
 		this.fechaInstalacion = fechaInstalacion;
 		this.estrategia = estrategia;
 		this.procesador = procesador;
+		this.caducidad = caducidad;
+		this.cambioBrusco = cambioBrusco;
 	}
 
+	public Sensor(String id, double offset, double ultimaLectura, LocalDateTime tiempoUltimaLectura, LocalDateTime ultimaCalibracion, 
+			LocalDateTime fechaInstalacion, Procesador procesador) {
+		this(id, offset, ultimaLectura, tiempoUltimaLectura, ultimaCalibracion, fechaInstalacion, procesador, 
+				Sensor.caducidadPorDefecto, Sensor.cambioBruscoPorDefecto);
+	}
+	
+	public Sensor(String id, double offset, double ultimaLectura, LocalDateTime tiempoUltimaLectura, LocalDateTime ultimaCalibracion, 
+			LocalDateTime fechaInstalacion, Estrategia estrategia, Procesador procesador) {
+		this(id, offset, ultimaLectura, tiempoUltimaLectura, ultimaCalibracion, fechaInstalacion, estrategia, procesador, 
+				Sensor.caducidadPorDefecto, Sensor.cambioBruscoPorDefecto);
+	}
+
+	/**
+	 * @param id
+	 * @param offset
+	 * @param ultimaLectura
+	 * @param tiempoUltimaLectura
+	 * @param ultimaCalibracion
+	 * @param fechaInstalacion
+	 * @param estrategia
+	 * @param procesador
+	 * @param caducidad
+	 */
+	public Sensor(String id, double offset, double ultimaLectura, LocalDateTime tiempoUltimaLectura,
+			LocalDateTime ultimaCalibracion, LocalDateTime fechaInstalacion, Estrategia estrategia,
+			Procesador procesador, Duration caducidad) {
+		
+		this(id, offset, ultimaLectura, tiempoUltimaLectura, ultimaCalibracion, fechaInstalacion, estrategia, procesador, 
+				caducidad, Sensor.cambioBruscoPorDefecto);
+	}
+
+	/**
+	 * @param id
+	 * @param offset
+	 * @param ultimaLectura
+	 * @param tiempoUltimaLectura
+	 * @param ultimaCalibracion
+	 * @param fechaInstalacion
+	 * @param estrategia
+	 * @param procesador
+	 * @param cambioBrusco
+	 */
+	public Sensor(String id, double offset, double ultimaLectura, LocalDateTime tiempoUltimaLectura,
+			LocalDateTime ultimaCalibracion, LocalDateTime fechaInstalacion, Estrategia estrategia,
+			Procesador procesador, long cambioBrusco) {
+		
+		this(id, offset, ultimaLectura, tiempoUltimaLectura, ultimaCalibracion, fechaInstalacion, estrategia, procesador, 
+				Sensor.caducidadPorDefecto, cambioBrusco);
+	}
 
 	/**
 	 * Obtiene el tiempo de caducidad de las calibraciones
@@ -81,10 +131,14 @@ public abstract class Sensor {
 
 	/**
 	 * Establece el tiempo de lecturas realizadas en rango
-	 * @param caducidad la nueva duración de la caducidad
+	 * @param caducidad la nueva duración de la caducidad en días
 	 */
-	public void setCaducidad(Duration caducidad) {
-		this.caducidad = caducidad;
+	//public void setCaducidad(Duration caducidad) {
+		//this.caducidad = caducidad;
+	//}
+	
+	public void cambiarCaducidad(int dias) {
+		this.caducidad = Duration.ofDays(dias);
 	}
 
 	/**
@@ -92,6 +146,13 @@ public abstract class Sensor {
 	 */
 	public static Duration getCaducidadPorDefecto() {
 		return caducidadPorDefecto;
+	}
+	
+	/**
+	 * @return the cambiobruscopordefecto
+	 */
+	public static long getCambiobruscopordefecto() {
+		return cambioBruscoPorDefecto;
 	}
 
 	/**
