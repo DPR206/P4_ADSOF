@@ -129,14 +129,14 @@ public class EstacionMeteorologica implements IDocumento {
 	 * 
 	 * @return
 	 */
-	public List<Sensor> sensoresResgitrados() {
+	public List<Sensor> sensoresRegistrados() {
 		return new ArrayList<>(this.sensores.values());
 	}
 
-	public List<Exception> alertas(){
+	public List<Exception> alertas() {
 		return this.alertas.values().stream().flatMap(List::stream).collect(Collectors.toList());
 	}
-	
+
 	/**
 	 * Obtener un sensor en base a su id
 	 * 
@@ -296,7 +296,7 @@ public class EstacionMeteorologica implements IDocumento {
 		sensor.setOffsetLectura(offsetLectura);
 		this.alertas.get(sensor).clear();
 	}
-	
+
 	/**
 	 * Realizar una lectura simultánea de todos los sensores
 	 */
@@ -337,24 +337,32 @@ public class EstacionMeteorologica implements IDocumento {
 		List<String> parrafos = new ArrayList<>();
 		parrafos.add(ubicacion.toString());
 		parrafos.add("Número de sensores: " + sensores.size());
-		parrafos.add("Última lectura: "); // DE DONDE LA SACO??
+		LocalDateTime ultimaLectura = null;
+		for (Sensor s : sensores.values()) {
+			if (ultimaLectura == null || s.getTiempoUltimaLectura().isBefore(ultimaLectura)) {
+				ultimaLectura = s.getTiempoUltimaLectura();
+			}
+		}
+		parrafos.add("Última lectura: " + ultimaLectura);
 		return parrafos;
 	}
 
 	@Override
 	public List<Seccion> getListas() {
 		List<Seccion> secciones = new ArrayList<>();
-		
+
 		List<String> listaSensores = new ArrayList<>();
-		for(Sensor s : sensores.values()) listaSensores.add(s.toString());
+		for (Sensor s : sensores.values())
+			listaSensores.add(s.toString());
 		Seccion sensores = new Seccion("Sensores activos: ", listaSensores);
 		secciones.add(sensores);
+
 		
 		List<String> listaAlertas = new ArrayList<>();
 		for(Exception e : this.alertas()) listaAlertas.add(e.toString());
-		Seccion alertas = new Seccion("Alertas activas: ", listaAlertas);
+		Seccion alertas = new Seccion("Alertas activas: " + this.alertas.size(), listaAlertas);
 		secciones.add(alertas);
-		
+
 		return secciones;
 	}
 
