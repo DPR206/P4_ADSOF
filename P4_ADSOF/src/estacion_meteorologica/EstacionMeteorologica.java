@@ -6,6 +6,7 @@ package estacion_meteorologica;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 import estrategias.Estrategia;
 import sensores.*;
@@ -349,7 +350,10 @@ public class EstacionMeteorologica implements IDocumento {
 		Seccion sensores = new Seccion("Sensores activos: ", listaSensores);
 		secciones.add(sensores);
 		
-		// FALTA AÑADIR SECCION ALARMAS
+		List<String> listaAlertas = new ArrayList<>();
+		for(Exception e : this.alertas()) listaAlertas.add(e.toString());
+		Seccion alertas = new Seccion("Alertas activas: ", listaAlertas);
+		secciones.add(alertas);
 		
 		return secciones;
 	}
