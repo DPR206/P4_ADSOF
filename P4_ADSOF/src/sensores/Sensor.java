@@ -227,8 +227,8 @@ public abstract class Sensor {
 
 	@Override
 	public String toString() {
-		return id + " (desde: " + this.fechaInstalacion + "): ";
+		return id + " (desde: " + this.fechaInstalacion + "): "+ detallesHijo() + ") última lectura: " + this.ultimaLectura;
 	}
 	
-	
+	public abstract String detallesHijo();
 }
