@@ -22,6 +22,7 @@ public class EstacionMeteorologica {
 	private HashMap<String, Sensor> sensores;
 	Timer timer = new Timer();
 	private long periodoLectura;
+	private int maximoLecturas;
 
 	/**
 	 * Crea una nueva estación meteorológica
@@ -31,14 +32,16 @@ public class EstacionMeteorologica {
 	 * @param sensores, sensores de la estación
 	 * @param timer
 	 * @param periodoLectura
+	 * @param maximoLecturas
 	 */
 	public EstacionMeteorologica(String nombre, UbicacionGeografica ubicacion, HashMap<String, Sensor> sensores,
-			Timer timer, long periodoLectura) {
+			Timer timer, long periodoLectura, int maximoLecturas) {
 		this.nombre = nombre;
 		this.ubicacion = ubicacion;
 		this.sensores = sensores;
 		this.timer = timer;
 		this.periodoLectura = periodoLectura;
+		this.maximoLecturas = maximoLecturas;
 	}
 
 	/**
