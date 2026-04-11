@@ -10,18 +10,20 @@ import java.util.concurrent.atomic.AtomicInteger;
 import estrategias.Estrategia;
 import sensores.*;
 import excepciones.*;
+import formateadores.IDocumento;
+import formateadores.Seccion;
 import procesadores.ConversorIdentidad;
 import procesadores.Procesador;
 
 /**
  * Esta clase representa la estacion meteorologica
- * @author Claudia Saiz Escribano y Duna Puente Romera. 
- * @version 1.0
- * Nombre del fichero: EstacionMeteorologica.java
+ * 
+ * @author Claudia Saiz Escribano y Duna Puente Romera.
+ * @version 1.0 Nombre del fichero: EstacionMeteorologica.java
  * 
  */
-public class EstacionMeteorologica {
-	
+public class EstacionMeteorologica implements IDocumento {
+
 	private String nombre;
 	private UbicacionGeografica ubicacion;
 	private HashMap<String, Sensor> sensores;
@@ -33,9 +35,9 @@ public class EstacionMeteorologica {
 	/**
 	 * Crea una nueva estación meteorológica
 	 * 
-	 * @param nombre, nombre de la estación
-	 * @param ubicacion, ubicación de la estación
-	 * @param sensores, sensores de la estación
+	 * @param nombre,        nombre de la estación
+	 * @param ubicacion,     ubicación de la estación
+	 * @param sensores,      sensores de la estación
 	 * @param timer
 	 * @param periodoLectura
 	 * @param maximoLecturas
@@ -91,7 +93,7 @@ public class EstacionMeteorologica {
 	public void setSensores(HashMap<String, Sensor> sensores) {
 		this.sensores = sensores;
 	}
-	
+
 	/**
 	 * @return the periodoLectura
 	 */
@@ -108,51 +110,58 @@ public class EstacionMeteorologica {
 
 	/**
 	 * Obtener una lista de los sensores registrados
+	 * 
 	 * @return
 	 */
-	public List<Sensor> sensoresResgitrados(){
+	public List<Sensor> sensoresResgitrados() {
 		return new ArrayList<>(this.sensores.values());
 	}
-	
+
 	/**
 	 * Obtener un sensor en base a su id
+	 * 
 	 * @param id identificador del sensor
 	 * @return el sensor asociado
 	 */
 	public Sensor obtenerSensorId(String id) {
 		return this.sensores.get(id);
 	}
-	
+
 	/**
 	 * Añadir sensores a la estación impidiendo duplicados
+	 * 
 	 * @param sensores sensores a añadir
 	 * @throws IdentificadorDuplicado error por sensor preexistente
 	 */
-	public void addSensor(Sensor...sensores) throws IdentificadorDuplicado {
-		for(Sensor s : sensores)
-			if(this.sensores.containsValue(s))
+	public void addSensor(Sensor... sensores) throws IdentificadorDuplicado {
+		for (Sensor s : sensores)
+			if (this.sensores.containsValue(s))
 				throw new IdentificadorDuplicado(s, this.sensores.get(s.getId()));
 			else
 				this.sensores.put(s.getId(), s);
 	}
-	
-	public void addSensor(TipoSensor tipo, double offset, double ultimaLectura, LocalDateTime tiempoUltimaLectura, LocalDateTime ultimaCalibracion, LocalDateTime fechaInstalacion) {
+
+	public void addSensor(TipoSensor tipo, double offset, double ultimaLectura, LocalDateTime tiempoUltimaLectura,
+			LocalDateTime ultimaCalibracion, LocalDateTime fechaInstalacion) {
 		Sensor s = null;
 		Procesador procesador = new Procesador(new ConversorIdentidad());
 		try {
-			switch(tipo) {
-			case TipoSensor.TEMPERATURA: 
-				s = new SensorTemperatura(offset, ultimaLectura, tiempoUltimaLectura, ultimaCalibracion, fechaInstalacion, procesador);
+			switch (tipo) {
+			case TipoSensor.TEMPERATURA:
+				s = new SensorTemperatura(offset, ultimaLectura, tiempoUltimaLectura, ultimaCalibracion,
+						fechaInstalacion, procesador);
 				break;
 			case TipoSensor.PRESION:
-				s = new SensorTemperatura(offset, ultimaLectura, tiempoUltimaLectura, ultimaCalibracion, fechaInstalacion, procesador);
+				s = new SensorTemperatura(offset, ultimaLectura, tiempoUltimaLectura, ultimaCalibracion,
+						fechaInstalacion, procesador);
 				break;
 			case TipoSensor.HUMEDAD:
-				s = new SensorTemperatura(offset, ultimaLectura, tiempoUltimaLectura, ultimaCalibracion, fechaInstalacion, procesador);
+				s = new SensorTemperatura(offset, ultimaLectura, tiempoUltimaLectura, ultimaCalibracion,
+						fechaInstalacion, procesador);
 				break;
 			}
-		
-			if(this.sensores.containsValue(s))
+
+			if (this.sensores.containsValue(s))
 				throw new IdentificadorDuplicado(s, this.sensores.get(s.getId()));
 			else
 				this.sensores.put(s.getId(), s);
@@ -160,24 +169,28 @@ public class EstacionMeteorologica {
 			System.out.println(e.getMessage());
 		}
 	}
-	
-	public void addSensor(TipoSensor tipo, double offset, double ultimaLectura, LocalDateTime tiempoUltimaLectura, LocalDateTime ultimaCalibracion, LocalDateTime fechaInstalacion, Estrategia estrategia) {
+
+	public void addSensor(TipoSensor tipo, double offset, double ultimaLectura, LocalDateTime tiempoUltimaLectura,
+			LocalDateTime ultimaCalibracion, LocalDateTime fechaInstalacion, Estrategia estrategia) {
 		Sensor s = null;
 		Procesador procesador = new Procesador(new ConversorIdentidad());
 		try {
-			switch(tipo) {
-			case TipoSensor.TEMPERATURA: 
-				s = new SensorTemperatura(offset, ultimaLectura, tiempoUltimaLectura, ultimaCalibracion, fechaInstalacion, estrategia, procesador);
+			switch (tipo) {
+			case TipoSensor.TEMPERATURA:
+				s = new SensorTemperatura(offset, ultimaLectura, tiempoUltimaLectura, ultimaCalibracion,
+						fechaInstalacion, estrategia, procesador);
 				break;
 			case TipoSensor.PRESION:
-				s = new SensorTemperatura(offset, ultimaLectura, tiempoUltimaLectura, ultimaCalibracion, fechaInstalacion, estrategia, procesador);
+				s = new SensorTemperatura(offset, ultimaLectura, tiempoUltimaLectura, ultimaCalibracion,
+						fechaInstalacion, estrategia, procesador);
 				break;
 			case TipoSensor.HUMEDAD:
-				s = new SensorTemperatura(offset, ultimaLectura, tiempoUltimaLectura, ultimaCalibracion, fechaInstalacion, estrategia, procesador);
+				s = new SensorTemperatura(offset, ultimaLectura, tiempoUltimaLectura, ultimaCalibracion,
+						fechaInstalacion, estrategia, procesador);
 				break;
 			}
-		
-			if(this.sensores.containsValue(s))
+
+			if (this.sensores.containsValue(s))
 				throw new IdentificadorDuplicado(s, this.sensores.get(s.getId()));
 			else
 				this.sensores.put(s.getId(), s);
@@ -185,23 +198,27 @@ public class EstacionMeteorologica {
 			System.out.println(e.getMessage());
 		}
 	}
-	
-	public void addSensor(TipoSensor tipo, double offset, double ultimaLectura, LocalDateTime tiempoUltimaLectura, LocalDateTime ultimaCalibracion, LocalDateTime fechaInstalacion, Procesador procesador) {
+
+	public void addSensor(TipoSensor tipo, double offset, double ultimaLectura, LocalDateTime tiempoUltimaLectura,
+			LocalDateTime ultimaCalibracion, LocalDateTime fechaInstalacion, Procesador procesador) {
 		Sensor s = null;
 		try {
-			switch(tipo) {
-			case TipoSensor.TEMPERATURA: 
-				s = new SensorTemperatura(offset, ultimaLectura, tiempoUltimaLectura, ultimaCalibracion, fechaInstalacion, procesador);
+			switch (tipo) {
+			case TipoSensor.TEMPERATURA:
+				s = new SensorTemperatura(offset, ultimaLectura, tiempoUltimaLectura, ultimaCalibracion,
+						fechaInstalacion, procesador);
 				break;
 			case TipoSensor.PRESION:
-				s = new SensorTemperatura(offset, ultimaLectura, tiempoUltimaLectura, ultimaCalibracion, fechaInstalacion, procesador);
+				s = new SensorTemperatura(offset, ultimaLectura, tiempoUltimaLectura, ultimaCalibracion,
+						fechaInstalacion, procesador);
 				break;
 			case TipoSensor.HUMEDAD:
-				s = new SensorTemperatura(offset, ultimaLectura, tiempoUltimaLectura, ultimaCalibracion, fechaInstalacion, procesador);
+				s = new SensorTemperatura(offset, ultimaLectura, tiempoUltimaLectura, ultimaCalibracion,
+						fechaInstalacion, procesador);
 				break;
 			}
-		
-			if(this.sensores.containsValue(s))
+
+			if (this.sensores.containsValue(s))
 				throw new IdentificadorDuplicado(s, this.sensores.get(s.getId()));
 			else
 				this.sensores.put(s.getId(), s);
@@ -209,23 +226,28 @@ public class EstacionMeteorologica {
 			System.out.println(e.getMessage());
 		}
 	}
-	
-	public void addSensor(TipoSensor tipo, double offset, double ultimaLectura, LocalDateTime tiempoUltimaLectura, LocalDateTime ultimaCalibracion, LocalDateTime fechaInstalacion, Estrategia estrategia, Procesador procesador) {
+
+	public void addSensor(TipoSensor tipo, double offset, double ultimaLectura, LocalDateTime tiempoUltimaLectura,
+			LocalDateTime ultimaCalibracion, LocalDateTime fechaInstalacion, Estrategia estrategia,
+			Procesador procesador) {
 		Sensor s = null;
 		try {
-			switch(tipo) {
-			case TipoSensor.TEMPERATURA: 
-				s = new SensorTemperatura(offset, ultimaLectura, tiempoUltimaLectura, ultimaCalibracion, fechaInstalacion, estrategia, procesador);
+			switch (tipo) {
+			case TipoSensor.TEMPERATURA:
+				s = new SensorTemperatura(offset, ultimaLectura, tiempoUltimaLectura, ultimaCalibracion,
+						fechaInstalacion, estrategia, procesador);
 				break;
 			case TipoSensor.PRESION:
-				s = new SensorTemperatura(offset, ultimaLectura, tiempoUltimaLectura, ultimaCalibracion, fechaInstalacion, estrategia, procesador);
+				s = new SensorTemperatura(offset, ultimaLectura, tiempoUltimaLectura, ultimaCalibracion,
+						fechaInstalacion, estrategia, procesador);
 				break;
 			case TipoSensor.HUMEDAD:
-				s = new SensorTemperatura(offset, ultimaLectura, tiempoUltimaLectura, ultimaCalibracion, fechaInstalacion, estrategia, procesador);
+				s = new SensorTemperatura(offset, ultimaLectura, tiempoUltimaLectura, ultimaCalibracion,
+						fechaInstalacion, estrategia, procesador);
 				break;
 			}
-		
-			if(this.sensores.containsValue(s))
+
+			if (this.sensores.containsValue(s))
 				throw new IdentificadorDuplicado(s, this.sensores.get(s.getId()));
 			else
 				this.sensores.put(s.getId(), s);
@@ -233,45 +255,79 @@ public class EstacionMeteorologica {
 			System.out.println(e.getMessage());
 		}
 	}
-	
+
 	/**
 	 * Obtener una lista de sensores de un tipo concreto
+	 * 
 	 * @param tipo el tipo de sensor
 	 * @return lista con los sensores del tipo especificado
 	 */
-	public List<Sensor> buscarTipoSensores(TipoSensor tipo){
+	public List<Sensor> buscarTipoSensores(TipoSensor tipo) {
 		List<Sensor> sensores = new ArrayList<>();
-		
-		for(String id : this.sensores.keySet())
-			if(id.startsWith(tipo.getTipo()))
+
+		for (String id : this.sensores.keySet())
+			if (id.startsWith(tipo.getTipo()))
 				sensores.add(this.obtenerSensorId(id));
-		
+
 		return sensores;
 	}
-	
+
 	/**
 	 * Realizar una lectura simultánea de todos los sensores
 	 */
 	public void realizarLecturas() {
 		this.sensores.values().parallelStream().forEach(Sensor::realizarLectura);
 	}
-	
+
 	/**
 	 * Realizar lecturas periódicas de los sensores
 	 */
 	public void realizarLecturasPeriodicas() {
 		TimerTask tarea = new TimerTask() {
 			@Override
-	        public void run() {
+			public void run() {
 				int lecturasActual = contadorLecturas.incrementAndGet();
-				if(lecturasActual <= maximoLecturas)
+				if (lecturasActual <= maximoLecturas)
 					EstacionMeteorologica.this.realizarLecturas();
 				else
 					this.cancel();
-					timer.purge();
+				timer.purge();
 			}
 		};
 		this.timer.scheduleAtFixedRate(tarea, 0, periodoLectura);
+	}
+
+	@Override
+	public String getTituloDocumento() {
+		return "Estación meteorológica: " + nombre;
+	}
+
+	@Override
+	public String getTituloSeccion() {
+		return nombre;
+	}
+
+	@Override
+	public List<String> getParrafos() {
+		List<String> parrafos = new ArrayList<>();
+		parrafos.add(ubicacion.toString());
+		parrafos.add("Número de sensores: " + sensores.size());
+		parrafos.add("Última lectura: "); // DE DONDE LA SACO??
+		return parrafos;
+	}
+
+	@Override
+	public List<Seccion> getListas() {
+		List<Seccion> secciones = new ArrayList<>();
+		
+		List<String> listaSensores = new ArrayList<>();
+		for(Sensor s : sensores.values()) listaSensores.add(s.toString());
+		Seccion sensores = new Seccion("Sensores activos: ", listaSensores);
+		secciones.add(sensores);
+		
+		// FALTA AÑADIR SECCION ALARMAS
+		
+		return secciones;
 	}
 
 }
