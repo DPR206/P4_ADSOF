@@ -185,7 +185,7 @@ public abstract class Sensor {
 	}
 
 	public void realizarLectura() {
-		this.setUltimaLectura(this.leerValorSimulado());
+		this.setUltimaLectura(this.leerValorSimulado()-offset);
 		this.setTiempoUltimaLectura(LocalDateTime.now());
 	}
 
