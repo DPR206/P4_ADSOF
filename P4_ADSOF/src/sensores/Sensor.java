@@ -4,7 +4,7 @@
 package sensores;
 
 import java.time.*;
-import java.time.temporal.*;
+
 /**
  * Esta clase representa un sensor
  * @author Claudia Saiz Escribano y Duna Puente Romera. 
@@ -14,7 +14,6 @@ import java.time.temporal.*;
  */
 public abstract class Sensor {
 	private static Duration caducidad;
-	//duration
 	
 	private String id;
 	private double offset;
@@ -187,11 +186,4 @@ public abstract class Sensor {
 	 */
 	public abstract boolean valorValido(double valor);
 	
-	/**
-	 * Determina si el valor de temperatura es válido
-	 * @param valor el valor a comprobar
-	 * @param tipo el tipo de temperatura
-	 * @return true si el valor es válido, false en caso contrario
-	 */
-	//public abstract boolean valorValido(double valor, TipoTemp tipo);
 }
