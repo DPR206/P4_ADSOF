@@ -95,7 +95,8 @@ public abstract class Sensor {
 	 * @param ultimaLectura el valor de la última lectura
 	 */
 	public void setUltimaLectura(double ultimaLectura) {
-		this.ultimaLectura = ultimaLectura;
+		if(this.valorValido(ultimaLectura))
+			this.ultimaLectura = ultimaLectura;
 	}
 
 
@@ -173,4 +174,24 @@ public abstract class Sensor {
 		return true;
 	}
 
+	/**
+	 * Obtiene la última lectura con unidades
+	 * @return String con el valor de la última lectura y las unidades
+	 */
+	public abstract String ultimaLectura();
+	
+	/**
+	 * Determina si el valor es valido de acuerdo al tipo de sensor
+	 * @param valor el valor a comprobar
+	 * @return true si el valor es válido, false en caso contrario
+	 */
+	public abstract boolean valorValido(double valor);
+	
+	/**
+	 * Determina si el valor de temperatura es válido
+	 * @param valor el valor a comprobar
+	 * @param tipo el tipo de temperatura
+	 * @return true si el valor es válido, false en caso contrario
+	 */
+	//public abstract boolean valorValido(double valor, TipoTemp tipo);
 }

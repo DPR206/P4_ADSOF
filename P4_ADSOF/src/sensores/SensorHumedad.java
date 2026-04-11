@@ -49,6 +49,19 @@ public class SensorHumedad extends Sensor{
 		super(idType+String.format("%04d", ids), offset, ultimaLectura, tiempoUltimaLectura, ultimaCalibracion, fechaInstalacion);
 		ids++;
 	}
-	
 
+	@Override
+	public String ultimaLectura() {
+		return this.getUltimaLectura()+SensorHumedad.unidad;
+	}
+
+	@Override
+	public boolean valorValido(double valor) {
+		if(valor < SensorHumedad.cotaInferior || valor > SensorHumedad.cotaSuperior)
+			return false;
+		return true;
+	}
+	
+	
+	
 }

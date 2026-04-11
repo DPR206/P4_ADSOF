@@ -13,7 +13,7 @@ package sensores;
 public enum TipoTemp {
 
 	CELSIUS("ºC"),
-	FAHARENHEIT("ºF"),
+	FAHRENHEIT("ºF"),
 	KELVIN("K");
 	
 	private String unidad;

@@ -18,6 +18,7 @@ public class SensorTemperatura extends Sensor {
 	private static String idType = "TEMP_";
 	private static double cotaInferior = -273.15;
 	private static double cotaSuperior = 1000;
+	private static final double KelvinCelsius = -273.15;
 	
 	private TipoTemp tipo;
 
@@ -66,6 +67,50 @@ public class SensorTemperatura extends Sensor {
 	public void setTipo(TipoTemp tipo) {
 		this.tipo = tipo;
 	}
+	
+	private double convertCelsius(double valor) {
+		double valorCelsius;
+		switch(this.tipo) {
+			case TipoTemp.KELVIN: valorCelsius = kelvinCelsius(valor); break;
+			case TipoTemp.FAHRENHEIT: valorCelsius = fahrenheitCelsius(valor); break;
+			default: valorCelsius = valor;
+		}
+		return valorCelsius;
+	}
+
+	/**
+	 * @param valor
+	 * @return
+	 */
+	private double kelvinCelsius(double valor) {
+		double valorCelsius;
+		valorCelsius = valor - SensorTemperatura.KelvinCelsius;
+		return valorCelsius;
+	}
+
+	/**
+	 * @param valor
+	 * @return
+	 */
+	private double fahrenheitCelsius(double valor) {
+		double valorCelsius;
+		valorCelsius = (valor - 32)*5/9;
+		return valorCelsius;
+	}
+
+	@Override
+	public String ultimaLectura() {
+		return this.getUltimaLectura()+this.tipo.getUnidad();
+	}
+
+	@Override
+	public boolean valorValido(double valor) {
+		double lectura = this.convertCelsius(valor);
+		if(lectura < SensorTemperatura.cotaInferior || lectura > SensorTemperatura.cotaSuperior)
+			return false;
+		return true;
+	}
+	
 	
 	
 }
