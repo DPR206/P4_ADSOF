@@ -61,7 +61,7 @@ public class SensorHumedad extends Sensor{
 	}
 
 	@Override
-	public boolean valorValido(double valor) {
+	public boolean lecturaEnRango(double valor) {
 		if(valor < SensorHumedad.cotaInferior || valor > SensorHumedad.cotaSuperior)
 			return false;
 		return true;

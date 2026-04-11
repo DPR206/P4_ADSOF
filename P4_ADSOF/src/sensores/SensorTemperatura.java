@@ -110,7 +110,7 @@ public class SensorTemperatura extends Sensor {
 	}
 
 	@Override
-	public boolean valorValido(double valor) {
+	public boolean lecturaEnRango(double valor) {
 		double lectura = this.convertCelsius(valor);
 		if(lectura < SensorTemperatura.cotaInferior || lectura > SensorTemperatura.cotaSuperior)
 			return false;

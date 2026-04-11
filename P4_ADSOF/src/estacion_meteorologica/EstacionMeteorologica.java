@@ -4,6 +4,7 @@
 package estacion_meteorologica;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import sensores.*;
 import excepciones.*;
@@ -20,18 +21,29 @@ public class EstacionMeteorologica {
 	private String nombre;
 	private UbicacionGeografica ubicacion;
 	private HashMap<String, Sensor> sensores;
-	
+	Timer timer = new Timer();
+	private long periodoLectura;
+	private int maximoLecturas;
+	private AtomicInteger contadorLecturas = new AtomicInteger(0);
+
 	/**
 	 * Crea una nueva estación meteorológica
 	 * 
 	 * @param nombre, nombre de la estación
 	 * @param ubicacion, ubicación de la estación
 	 * @param sensores, sensores de la estación
+	 * @param timer
+	 * @param periodoLectura
+	 * @param maximoLecturas
 	 */
-	public EstacionMeteorologica(String nombre, UbicacionGeografica ubicacion, HashMap<String, Sensor> sensores) {
+	public EstacionMeteorologica(String nombre, UbicacionGeografica ubicacion, HashMap<String, Sensor> sensores,
+			Timer timer, long periodoLectura, int maximoLecturas) {
 		this.nombre = nombre;
 		this.ubicacion = ubicacion;
 		this.sensores = sensores;
+		this.timer = timer;
+		this.periodoLectura = periodoLectura;
+		this.maximoLecturas = maximoLecturas;
 	}
 
 	/**
@@ -77,6 +89,20 @@ public class EstacionMeteorologica {
 	}
 	
 	/**
+	 * @return the periodoLectura
+	 */
+	public long getPeriodoLectura() {
+		return periodoLectura;
+	}
+
+	/**
+	 * @param periodoLectura the periodoLectura to set
+	 */
+	public void setPeriodoLectura(long periodoLectura) {
+		this.periodoLectura = periodoLectura;
+	}
+
+	/**
 	 * Obtener una lista de los sensores registrados
 	 * @return
 	 */
@@ -104,6 +130,46 @@ public class EstacionMeteorologica {
 				throw new IdentificadorDuplicado(s, this.sensores.get(s.getId()));
 			else
 				this.sensores.put(s.getId(), s);
+	}
+	
+	/**
+	 * Obtener una lista de sensores de un tipo concreto
+	 * @param tipo el tipo de sensor
+	 * @return lista con los sensores del tipo especificado
+	 */
+	public List<Sensor> buscarTipoSensores(TipoSensor tipo){
+		List<Sensor> sensores = new ArrayList<>();
+		
+		for(String id : this.sensores.keySet())
+			if(id.startsWith(tipo.getTipo()))
+				sensores.add(this.obtenerSensorId(id));
+		
+		return sensores;
+	}
+	
+	/**
+	 * Realizar una lectura simultánea de todos los sensores
+	 */
+	public void realizarLecturas() {
+		this.sensores.values().parallelStream().forEach(Sensor::realizarLectura);
+	}
+	
+	/**
+	 * Realizar lecturas periódicas de los sensores
+	 */
+	public void realizarLecturasPeriodicas() {
+		TimerTask tarea = new TimerTask() {
+			@Override
+	        public void run() {
+				int lecturasActual = contadorLecturas.incrementAndGet();
+				if(lecturasActual <= maximoLecturas)
+					EstacionMeteorologica.this.realizarLecturas();
+				else
+					this.cancel();
+					timer.purge();
+			}
+		};
+		this.timer.scheduleAtFixedRate(tarea, 0, periodoLectura);
 	}
 
 }
