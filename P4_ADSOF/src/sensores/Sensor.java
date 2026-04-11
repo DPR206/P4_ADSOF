@@ -4,7 +4,7 @@
 package sensores;
 
 import java.time.*;
-import java.time.temporal.*;
+import estrategias.*;
 /**
  * Esta clase representa un sensor
  * @author Claudia Saiz Escribano y Duna Puente Romera. 
@@ -22,6 +22,7 @@ public abstract class Sensor {
 	private LocalDateTime tiempoUltimaLectura;
 	private LocalDateTime ultimaCalibracion; /*A lo mejor habría que quitarlo y poner duration como estática*/
 	private LocalTime fechaInstalacion;
+	private Estrategia estrategia;
 	
 	
 	/**
@@ -42,6 +43,28 @@ public abstract class Sensor {
 		this.tiempoUltimaLectura = tiempoUltimaLectura;
 		this.ultimaCalibracion = ultimaCalibracion;
 		this.fechaInstalacion = fechaInstalacion;
+		this.estrategia = new EstrategiaCercana(ultimaLectura, 5);
+	}
+	
+	/**
+	 * Crea un nuevo sensor
+	 * 
+	 * @param id el identificador del sensor
+	 * @param offset offset de calibración
+	 * @param ultimaLectura valor de la última lectura
+	 * @param tiempoUltimaLectura fecha y hora de la última lectura
+	 * @param ultimaCalibracion fecha y hora de la última calibración
+	 * @param fechaInstalacion fecha de instalación del sensor
+	 */
+	public Sensor(String id, double offset, double ultimaLectura, LocalDateTime tiempoUltimaLectura, LocalDateTime ultimaCalibracion,
+			LocalTime fechaInstalacion, Estrategia estrategia) {
+		this.id = id;
+		this.offset = offset;
+		this.ultimaLectura = ultimaLectura;
+		this.tiempoUltimaLectura = tiempoUltimaLectura;
+		this.ultimaCalibracion = ultimaCalibracion;
+		this.fechaInstalacion = fechaInstalacion;
+		this.estrategia = estrategia;
 	}
 
 
@@ -173,6 +196,14 @@ public abstract class Sensor {
 			return false;
 		return true;
 	}
+	
+	/**
+	 * Devuelve un valor simulado conforme a la estrategia del sensor
+	 * @return Valor simulado generado
+	 */
+	public double leerValorSimulado() {
+	        return estrategia.generarValor();
+	    }
 
 	/**
 	 * Obtiene la última lectura con unidades
