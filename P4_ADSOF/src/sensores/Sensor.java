@@ -133,8 +133,12 @@ public abstract class Sensor {
 	 * Establece el tiempo de lecturas realizadas en rango
 	 * @param caducidad la nueva duración de la caducidad en días
 	 */
-	public void setCaducidad(Duration caducidad) {
-		this.caducidad = caducidad;
+	//public void setCaducidad(Duration caducidad) {
+		//this.caducidad = caducidad;
+	//}
+	
+	public void cambiarCaducidad(int dias) {
+		this.caducidad = Duration.ofDays(dias);
 	}
 
 	/**
