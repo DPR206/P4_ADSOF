@@ -25,6 +25,7 @@ public class EstacionMeteorologica {
 	private String nombre;
 	private UbicacionGeografica ubicacion;
 	private HashMap<String, Sensor> sensores;
+	private HashMap<List<Exception>, Sensor> alertas;
 	Timer timer = new Timer();
 	private long periodoLectura;
 	private int maximoLecturas;
@@ -104,6 +105,20 @@ public class EstacionMeteorologica {
 	 */
 	public void setPeriodoLectura(long periodoLectura) {
 		this.periodoLectura = periodoLectura;
+	}
+
+	/**
+	 * @return the alertas
+	 */
+	public HashMap<List<Exception>, Sensor> getAlertas() {
+		return alertas;
+	}
+
+	/**
+	 * @param alertas the alertas to set
+	 */
+	public void setAlertas(HashMap<List<Exception>, Sensor> alertas) {
+		this.alertas = alertas;
 	}
 
 	/**
