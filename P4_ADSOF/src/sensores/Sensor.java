@@ -222,5 +222,11 @@ public abstract class Sensor {
 	 * @return true si el valor es válido, false en caso contrario
 	 */
 	public abstract boolean lecturaEnRango(double valor);
+
+	@Override
+	public String toString() {
+		return id + " (desde: " + this.fechaInstalacion + "): ";
+	}
+	
 	
 }

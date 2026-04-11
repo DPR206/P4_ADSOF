@@ -156,4 +156,11 @@ public class SensorTemperatura extends Sensor {
 			return false;
 		return true;
 	}
+
+	@Override
+	public String toString() {
+		return super.toString() + " Sensor Temperatura (" + this.ultimaLectura() + ") última lectura: " + this.ultimaLectura();
+	}
+	
+	
 }

@@ -102,6 +102,9 @@ public class SensorHumedad extends Sensor{
 		return true;
 	}
 	
-	
+	@Override
+	public String toString() {
+		return super.toString() + " Sensor Humedad (" + this.ultimaLectura() + ") última lectura: " + this.ultimaLectura();
+	}
 	
 }

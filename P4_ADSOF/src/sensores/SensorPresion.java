@@ -99,5 +99,8 @@ public class SensorPresion extends Sensor{
 		return true;
 	}
 
-	
+	@Override
+	public String toString() {
+		return super.toString() + " Sensor Presion (" + this.ultimaLectura() + ") última lectura: " + this.ultimaLectura();
+	}
 }
