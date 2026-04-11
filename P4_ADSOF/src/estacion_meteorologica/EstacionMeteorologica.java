@@ -4,6 +4,7 @@
 package estacion_meteorologica;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import sensores.*;
 import excepciones.*;
@@ -23,6 +24,7 @@ public class EstacionMeteorologica {
 	Timer timer = new Timer();
 	private long periodoLectura;
 	private int maximoLecturas;
+	private AtomicInteger contadorLecturas = new AtomicInteger(0);
 
 	/**
 	 * Crea una nueva estación meteorológica
@@ -149,7 +151,7 @@ public class EstacionMeteorologica {
 	 * Realizar una lectura simultánea de todos los sensores
 	 */
 	public void realizarLecturas() {
-		this.sensores.values().parallelStream().forEach(sensor -> sensor.realizarLectura());
+		this.sensores.values().parallelStream().forEach(Sensor::realizarLectura);
 	}
 	
 	/**
@@ -159,7 +161,12 @@ public class EstacionMeteorologica {
 		TimerTask tarea = new TimerTask() {
 			@Override
 	        public void run() {
-				EstacionMeteorologica.this.realizarLecturas();
+				int lecturasActual = contadorLecturas.incrementAndGet();
+				if(lecturasActual <= maximoLecturas)
+					EstacionMeteorologica.this.realizarLecturas();
+				else
+					this.cancel();
+					timer.purge();
 			}
 		};
 		this.timer.scheduleAtFixedRate(tarea, 0, periodoLectura);
