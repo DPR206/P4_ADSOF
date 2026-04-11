@@ -184,6 +184,9 @@ public abstract class Sensor {
 		return id;
 	}
 
+	public void realizarLectura() {
+		
+	}
 
 	/**
 	 * Comprobar que una lectura se ha realizado en rango

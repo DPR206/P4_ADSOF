@@ -121,8 +121,11 @@ public class EstacionMeteorologica {
 		return sensores;
 	}
 	
+	/**
+	 * Realizar una lectura simultánea de todos los sensores
+	 */
 	public void realizarLecturas() {
-		
+		this.sensores.values().parallelStream().forEach(sensor -> sensor.realizarLectura());
 	}
 
 }
