@@ -1,0 +1,1 @@
+typeSearchIndex = [{"l":"All Classes and Interfaces","u":"allclasses-index.html"},{"p":"estacion_meteorologica","l":"EstacionMeteorologica"},{"p":"sensores","l":"Sensor"},{"p":"sensores","l":"SensorHumedad"},{"p":"sensores","l":"SensorTemperatura"},{"p":"sensores","l":"TipoTemp"},{"p":"estacion_meteorologica","l":"UbicacionGeografica"}];updateSearchResults();

@@ -13,27 +13,28 @@ import java.time.temporal.*;
  * 
  */
 public abstract class Sensor {
-	private static TemporalAmount caducidad;
+	private static Duration caducidad;
 	//duration
 	
 	private String id;
 	private double offset;
 	private double ultimaLectura;
 	private LocalDateTime tiempoUltimaLectura;
-	private LocalTime ultimaCalibracion; /*A lo mejor habría que quitarlo y poner duration como estática*/
+	private LocalDateTime ultimaCalibracion; /*A lo mejor habría que quitarlo y poner duration como estática*/
 	private LocalTime fechaInstalacion;
 	
 	
 	/**
 	 * Crea un nuevo sensor
 	 * 
-	 * @param offset, 
-	 * @param ultimaLectura
-	 * @param tiempoUltimaLectura
-	 * @param ultimaCalibracion
-	 * @param fechaInstalacion, fecha de instalación del sensor
+	 * @param id el identificador del sensor
+	 * @param offset offset de calibración
+	 * @param ultimaLectura valor de la última lectura
+	 * @param tiempoUltimaLectura fecha y hora de la última lectura
+	 * @param ultimaCalibracion fecha y hora de la última calibración
+	 * @param fechaInstalacion fecha de instalación del sensor
 	 */
-	public Sensor(String id, double offset, double ultimaLectura, LocalDateTime tiempoUltimaLectura, LocalTime ultimaCalibracion,
+	public Sensor(String id, double offset, double ultimaLectura, LocalDateTime tiempoUltimaLectura, LocalDateTime ultimaCalibracion,
 			LocalTime fechaInstalacion) {
 		this.id = id;
 		this.offset = offset;
@@ -45,23 +46,26 @@ public abstract class Sensor {
 
 
 	/**
+	 * Obtiene el tiempo de caducidad de las calibraciones
 	 * @return el tiempo de caducidad de la calibracion
 	 */
-	public static TemporalAmount getCaducidad() {
+	public static Duration getCaducidad() {
 		return caducidad;
 	}
 
 
 	/**
-	 * @param caducidad the caducidad to set
+	 * Establece el tiempo de lecturas realizadas en rango
+	 * @param caducidad la nueva duración de la caducidad
 	 */
-	public static void setCaducidad(TemporalAmount caducidad) {
+	public static void setCaducidad(Duration caducidad) {
 		Sensor.caducidad = caducidad;
 	}
 
 
 	/**
-	 * @return the offset
+	 * Obtiene el offset de calibración
+	 * @return el offset 
 	 */
 	public double getOffset() {
 		return offset;
@@ -69,7 +73,8 @@ public abstract class Sensor {
 
 
 	/**
-	 * @param offset the offset to set
+	 * Establece el offset
+	 * @param offset el nuevo offset
 	 */
 	public void setOffset(double offset) {
 		this.offset = offset;
@@ -77,7 +82,8 @@ public abstract class Sensor {
 
 
 	/**
-	 * @return the ultimaLectura
+	 * Obtiene el valor de la última lectura
+	 * @return la última Lectura
 	 */
 	public double getUltimaLectura() {
 		return ultimaLectura;
@@ -85,7 +91,8 @@ public abstract class Sensor {
 
 
 	/**
-	 * @param ultimaLectura the ultimaLectura to set
+	 * Establece el valor de la última lectura
+	 * @param ultimaLectura el valor de la última lectura
 	 */
 	public void setUltimaLectura(double ultimaLectura) {
 		this.ultimaLectura = ultimaLectura;
@@ -93,7 +100,8 @@ public abstract class Sensor {
 
 
 	/**
-	 * @return the tiempoUltimaLectura
+	 * Obtiene la fecha y hora de la última lectura
+	 * @return el tiempo de la última lectura
 	 */
 	public LocalDateTime getTiempoUltimaLectura() {
 		return tiempoUltimaLectura;
@@ -101,7 +109,8 @@ public abstract class Sensor {
 
 
 	/**
-	 * @param tiempoUltimaLectura the tiempoUltimaLectura to set
+	 * Establece la fecha y hora de la última lectura
+	 * @param tiempoUltimaLectura la fecha y hora de la última lectura
 	 */
 	public void setTiempoUltimaLectura(LocalDateTime tiempoUltimaLectura) {
 		this.tiempoUltimaLectura = tiempoUltimaLectura;
@@ -109,20 +118,59 @@ public abstract class Sensor {
 
 
 	/**
-	 * @return the ultimaCalibracion
+	 * Obtiene la fecha y hora de la última calibración
+	 * @return el tiempo de la última calibración
 	 */
-	public LocalTime getUltimaCalibracion() {
+	public LocalDateTime getUltimaCalibracion() {
 		return ultimaCalibracion;
 	}
 
 
 	/**
-	 * @param ultimaCalibracion the ultimaCalibracion to set
+	 * Establece la fecha y hora de la última calibración
+	 * @param ultimaCalibracion el tiempo de la última calibración
 	 */
-	public void setUltimaCalibracion(LocalTime ultimaCalibracion) {
+	public void setUltimaCalibracion(LocalDateTime ultimaCalibracion) {
 		this.ultimaCalibracion = ultimaCalibracion;
 	}
 	
 	
+	/**
+	 * Obtiene la fecha de instalación del sensor
+	 * @return la fecha de instalación
+	 */
+	public LocalTime getFechaInstalacion() {
+		return fechaInstalacion;
+	}
+
+
+	/**
+	 * Establece la fecha de instalación del sensor
+	 * @param fechaInstalacion la fecha de instalación
+	 */
+	public void setFechaInstalacion(LocalTime fechaInstalacion) {
+		this.fechaInstalacion = fechaInstalacion;
+	}
+
+
+	/**
+	 * Obtiene el id del sensor
+	 * @return el identificador
+	 */
+	public String getId() {
+		return id;
+	}
+
+
+	/**
+	 * Comprobar que una lectura se ha realizado en rango
+	 * @return true si se ha hecho en rango, false si se hace fuera de rango
+	 */
+	public boolean lecturaEnRango() {
+		Duration amount = Duration.between(ultimaCalibracion, LocalDateTime.now());
+		if(amount.compareTo(caducidad)>0)
+			return false;
+		return true;
+	}
 
 }

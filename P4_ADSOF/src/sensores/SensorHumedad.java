@@ -15,7 +15,7 @@ import java.time.LocalTime;
  */
 public class SensorHumedad extends Sensor{
 	
-	private static int ids = 0000;
+	private static int ids = 0;
 	private static String idType = "HUM_";
 	private static double cotaInferior = 0;
 	private static double cotaSuperior = 100;
@@ -31,7 +31,7 @@ public class SensorHumedad extends Sensor{
 	 * @param ultimaCalibracion
 	 */
 	public SensorHumedad(String id, double offset, double ultimaLectura, LocalDateTime tiempoUltimaLectura,
-			LocalTime ultimaCalibracion, LocalTime fechaInstalacion) {
+			LocalDateTime ultimaCalibracion, LocalTime fechaInstalacion) {
 		super(id, offset, ultimaLectura, tiempoUltimaLectura, ultimaCalibracion, fechaInstalacion);
 	}
 	
@@ -45,8 +45,8 @@ public class SensorHumedad extends Sensor{
 	 * @param fechaInstalacion, fecha de instalación del sensor
 	 */
 	public SensorHumedad(double offset, double ultimaLectura, LocalDateTime tiempoUltimaLectura,
-			LocalTime ultimaCalibracion, LocalTime fechaInstalacion) {
-		super(idType+ids, offset, ultimaLectura, tiempoUltimaLectura, ultimaCalibracion, fechaInstalacion);
+			LocalDateTime ultimaCalibracion, LocalTime fechaInstalacion) {
+		super(idType+String.format("%04d", ids), offset, ultimaLectura, tiempoUltimaLectura, ultimaCalibracion, fechaInstalacion);
 		ids++;
 	}
 	

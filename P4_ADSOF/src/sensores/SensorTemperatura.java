@@ -14,7 +14,7 @@ import java.time.*;
  */
 public class SensorTemperatura extends Sensor {
 
-	private static int ids = 0000;
+	private static int ids = 0;
 	private static String idType = "TEMP_";
 	private static double cotaInferior = -273.15;
 	private static double cotaSuperior = 1000;
@@ -33,7 +33,7 @@ public class SensorTemperatura extends Sensor {
 	 * @param tipo, tipo de unidad en la que se mide
 	 */
 	public SensorTemperatura(String id, double offset, double ultimaLectura, LocalDateTime tiempoUltimaLectura,
-			LocalTime ultimaCalibracion, LocalTime fechaInstalacion,TipoTemp tipo) {
+			LocalDateTime ultimaCalibracion, LocalTime fechaInstalacion,TipoTemp tipo) {
 		super(id, offset, ultimaLectura, tiempoUltimaLectura, ultimaCalibracion, fechaInstalacion);
 		this.tipo = tipo;
 	}
@@ -48,8 +48,24 @@ public class SensorTemperatura extends Sensor {
 	 * @param ultimaCalibracion
 	 */
 	public SensorTemperatura(double offset, double ultimaLectura, LocalDateTime tiempoUltimaLectura, LocalTime fechaInstalacion,
-			LocalTime ultimaCalibracion) {
-		this(idType+ids, offset, ultimaLectura, tiempoUltimaLectura, ultimaCalibracion, fechaInstalacion,TipoTemp.CELSIUS);
+			LocalDateTime ultimaCalibracion) {
+		this(idType+String.format("%04d", ids), offset, ultimaLectura, tiempoUltimaLectura, ultimaCalibracion, fechaInstalacion,TipoTemp.CELSIUS);
 		ids++;
 	}
+
+	/**
+	 * @return the tipo
+	 */
+	public TipoTemp getTipo() {
+		return tipo;
+	}
+
+	/**
+	 * @param tipo the tipo to set
+	 */
+	public void setTipo(TipoTemp tipo) {
+		this.tipo = tipo;
+	}
+	
+	
 }

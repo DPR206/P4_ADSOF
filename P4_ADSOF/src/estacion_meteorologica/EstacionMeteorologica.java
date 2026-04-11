@@ -3,6 +3,8 @@
  */
 package estacion_meteorologica;
 
+import java.util.*;
+
 import sensores.*;
 /**
  * Esta clase representa la estacion meteorologica
@@ -15,16 +17,16 @@ public class EstacionMeteorologica {
 	
 	private String nombre;
 	private UbicacionGeografica ubicacion;
-	private Sensor sensores;
+	private ArrayList<Sensor> sensores;
 	
 	/**
 	 * Crea una nueva estación meteorológica
 	 * 
-	 * @param nombre
-	 * @param ubicacion
-	 * @param sensores
+	 * @param nombre, nombre de la estación
+	 * @param ubicacion, ubicación de la estación
+	 * @param sensores, sensores de la estación
 	 */
-	public EstacionMeteorologica(String nombre, UbicacionGeografica ubicacion, Sensor sensores) {
+	public EstacionMeteorologica(String nombre, UbicacionGeografica ubicacion, ArrayList<Sensor> sensores) {
 		this.nombre = nombre;
 		this.ubicacion = ubicacion;
 		this.sensores = sensores;
