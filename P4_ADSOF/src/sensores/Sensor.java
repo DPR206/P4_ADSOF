@@ -117,7 +117,7 @@ public abstract class Sensor {
 	 * @param ultimaLectura el valor de la última lectura
 	 */
 	public void setUltimaLectura(double ultimaLectura) {
-		if(this.valorValido(ultimaLectura))
+		if(this.lecturaEnRango(ultimaLectura))
 			this.ultimaLectura = ultimaLectura;
 	}
 
@@ -185,16 +185,19 @@ public abstract class Sensor {
 	}
 
 	public void realizarLectura() {
-		
+		this.setUltimaLectura(this.leerValorSimulado());
+		this.setTiempoUltimaLectura(LocalDateTime.now());
 	}
 
 	/**
-	 * Comprobar que una lectura se ha realizado en rango
-	 * @return true si se ha hecho en rango, false si se hace fuera de rango
+	 * Comprobar que un sensor está calibrado
+	 * @return true si está calibrado, false si no lo está
 	 */
-	public boolean lecturaEnRango() {
+	public boolean calibrado() {
 		Duration amount = Duration.between(ultimaCalibracion, LocalDateTime.now());
 		if(amount.compareTo(caducidad)>0)
+			return false;
+		else if(this.lecturaEnRango(ultimaLectura) == false)
 			return false;
 		return true;
 	}
@@ -214,10 +217,10 @@ public abstract class Sensor {
 	public abstract String ultimaLectura();
 	
 	/**
-	 * Determina si el valor es valido de acuerdo al tipo de sensor
+	 * Determina si el valor de una lectura está dentro de rango
 	 * @param valor el valor a comprobar
 	 * @return true si el valor es válido, false en caso contrario
 	 */
-	public abstract boolean valorValido(double valor);
+	public abstract boolean lecturaEnRango(double valor);
 	
 }

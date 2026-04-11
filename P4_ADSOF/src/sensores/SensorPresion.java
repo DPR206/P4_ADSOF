@@ -93,7 +93,7 @@ public class SensorPresion extends Sensor{
 	}
 
 	@Override
-	public boolean valorValido(double valor) {
+	public boolean lecturaEnRango(double valor) {
 		if(valor < SensorPresion.cotaInferior || valor > SensorPresion.cotaSuperior)
 			return false;
 		return true;
