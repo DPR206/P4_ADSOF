@@ -6,6 +6,7 @@ package estacion_meteorologica;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 import estrategias.Estrategia;
 import sensores.*;
@@ -127,6 +128,10 @@ public class EstacionMeteorologica {
 	 */
 	public List<Sensor> sensoresResgitrados(){
 		return new ArrayList<>(this.sensores.values());
+	}
+	
+	public List<Exception> alertas(){
+		return this.alertas.values().stream().flatMap(List::stream).collect(Collectors.toList());
 	}
 	
 	/**
@@ -266,7 +271,7 @@ public class EstacionMeteorologica {
 	
 	public void calibrarSensor(Sensor sensor, double offsetLectura) {
 		sensor.setOffsetLectura(offsetLectura);
-		this.alertas.values().clear();
+		this.alertas.get(sensor).clear();
 	}
 	
 	/**
