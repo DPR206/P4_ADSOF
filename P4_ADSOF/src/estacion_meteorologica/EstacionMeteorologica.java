@@ -25,7 +25,7 @@ public class EstacionMeteorologica {
 	private String nombre;
 	private UbicacionGeografica ubicacion;
 	private HashMap<String, Sensor> sensores;
-	private HashMap<List<Exception>, Sensor> alertas;
+	private HashMap<Sensor, List<Exception>> alertas;
 	Timer timer = new Timer();
 	private long periodoLectura;
 	private int maximoLecturas;
@@ -110,14 +110,14 @@ public class EstacionMeteorologica {
 	/**
 	 * @return the alertas
 	 */
-	public HashMap<List<Exception>, Sensor> getAlertas() {
+	public HashMap<Sensor, List<Exception>> getAlertas() {
 		return alertas;
 	}
 
 	/**
 	 * @param alertas the alertas to set
 	 */
-	public void setAlertas(HashMap<List<Exception>, Sensor> alertas) {
+	public void setAlertas(HashMap<Sensor, List<Exception>> alertas) {
 		this.alertas = alertas;
 	}
 
@@ -262,6 +262,11 @@ public class EstacionMeteorologica {
 				sensores.add(this.obtenerSensorId(id));
 		
 		return sensores;
+	}
+	
+	public void calibrarSensor(Sensor sensor, double offsetLectura) {
+		sensor.setOffsetLectura(offsetLectura);
+		this.alertas.values().clear();
 	}
 	
 	/**
