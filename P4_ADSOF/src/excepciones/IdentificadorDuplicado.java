@@ -13,8 +13,9 @@ import sensores.Sensor;
  * 
  */
 
-@SuppressWarnings("serial")
 public class IdentificadorDuplicado extends Exception{
+	
+	private static final long serialVersionUID = 1L;
 	private Sensor sensorNuevo, sensorExistente;
 
 	/**

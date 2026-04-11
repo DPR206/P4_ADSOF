@@ -15,6 +15,7 @@ import procesadores.Procesador;
  */
 public abstract class Sensor {
 	private static final Duration caducidadPorDefecto = Duration.ofDays(365);
+	private static final long cambioBruscoPorDefecto = 50;
 	
 	private String id;
 	private double offset;
@@ -92,6 +93,13 @@ public abstract class Sensor {
 	 */
 	public static Duration getCaducidadPorDefecto() {
 		return caducidadPorDefecto;
+	}
+	
+	/**
+	 * @return the cambiobruscopordefecto
+	 */
+	public static long getCambiobruscopordefecto() {
+		return cambioBruscoPorDefecto;
 	}
 
 	/**
