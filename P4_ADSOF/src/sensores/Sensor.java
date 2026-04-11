@@ -14,7 +14,7 @@ import procesadores.Procesador;
  * 
  */
 public abstract class Sensor {
-	private static Duration caducidad;
+	private static final Duration caducidadPorDefecto = Duration.ofDays(365);
 	
 	private String id;
 	private double offset;
@@ -24,6 +24,7 @@ public abstract class Sensor {
 	private LocalDateTime fechaInstalacion;
 	private Estrategia estrategia;
 	private Procesador procesador;
+	private Duration caducidad;
 	
 	
 	/**
@@ -73,7 +74,7 @@ public abstract class Sensor {
 	 * Obtiene el tiempo de caducidad de las calibraciones
 	 * @return el tiempo de caducidad de la calibracion
 	 */
-	public static Duration getCaducidad() {
+	public Duration getCaducidad() {
 		return caducidad;
 	}
 
@@ -82,10 +83,16 @@ public abstract class Sensor {
 	 * Establece el tiempo de lecturas realizadas en rango
 	 * @param caducidad la nueva duración de la caducidad
 	 */
-	public static void setCaducidad(Duration caducidad) {
-		Sensor.caducidad = caducidad;
+	public void setCaducidad(Duration caducidad) {
+		this.caducidad = caducidad;
 	}
 
+	/**
+	 * @return the caducidadPorDefecto
+	 */
+	public static Duration getCaducidadPorDefecto() {
+		return caducidadPorDefecto;
+	}
 
 	/**
 	 * Obtiene el offset de calibración
