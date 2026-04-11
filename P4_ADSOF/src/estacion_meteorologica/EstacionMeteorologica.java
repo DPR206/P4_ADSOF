@@ -6,6 +6,8 @@ package estacion_meteorologica;
 import java.util.*;
 
 import sensores.*;
+import excepciones.*;
+
 /**
  * Esta clase representa la estacion meteorologica
  * @author Claudia Saiz Escribano y Duna Puente Romera. 
@@ -74,12 +76,34 @@ public class EstacionMeteorologica {
 		this.sensores = sensores;
 	}
 	
+	/**
+	 * Obtener una lista de los sensores registrados
+	 * @return
+	 */
 	public List<Sensor> sensoresResgitrados(){
 		return new ArrayList<>(this.sensores.values());
 	}
 	
+	/**
+	 * Obtener un sensor en base a su id
+	 * @param id identificador del sensor
+	 * @return el sensor asociado
+	 */
 	public Sensor obtenerSensorId(String id) {
 		return this.sensores.get(id);
+	}
+	
+	/**
+	 * Añadir sensores a la estación impidiendo duplicados
+	 * @param sensores sensores a añadir
+	 * @throws IdentificadorDuplicado error por sensor preexistente
+	 */
+	public void addSensor(Sensor...sensores) throws IdentificadorDuplicado {
+		for(Sensor s : sensores)
+			if(this.sensores.containsValue(s))
+				throw new IdentificadorDuplicado(s, this.sensores.get(s.getId()));
+			else
+				this.sensores.put(s.getId(), s);
 	}
 
 }
