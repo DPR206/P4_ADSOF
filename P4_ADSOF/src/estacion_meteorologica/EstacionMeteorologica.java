@@ -105,5 +105,24 @@ public class EstacionMeteorologica {
 			else
 				this.sensores.put(s.getId(), s);
 	}
+	
+	/**
+	 * Obtener una lista de sensores de un tipo concreto
+	 * @param tipo el tipo de sensor
+	 * @return lista con los sensores del tipo especificado
+	 */
+	public List<Sensor> buscarTipoSensores(TipoSensor tipo){
+		List<Sensor> sensores = new ArrayList<>();
+		
+		for(String id : this.sensores.keySet())
+			if(id.startsWith(tipo.getTipo()))
+				sensores.add(this.obtenerSensorId(id));
+		
+		return sensores;
+	}
+	
+	public void realizarLecturas() {
+		
+	}
 
 }

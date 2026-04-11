@@ -12,6 +12,8 @@ import sensores.Sensor;
  * Nombre del fichero: IdentificadorDuplicado.java
  * 
  */
+
+@SuppressWarnings("serial")
 public class IdentificadorDuplicado extends Exception{
 	private Sensor sensorNuevo, sensorExistente;
 
