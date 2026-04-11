@@ -20,18 +20,25 @@ public class EstacionMeteorologica {
 	private String nombre;
 	private UbicacionGeografica ubicacion;
 	private HashMap<String, Sensor> sensores;
-	
+	Timer timer = new Timer();
+	private long periodoLectura;
+
 	/**
 	 * Crea una nueva estación meteorológica
 	 * 
 	 * @param nombre, nombre de la estación
 	 * @param ubicacion, ubicación de la estación
 	 * @param sensores, sensores de la estación
+	 * @param timer
+	 * @param periodoLectura
 	 */
-	public EstacionMeteorologica(String nombre, UbicacionGeografica ubicacion, HashMap<String, Sensor> sensores) {
+	public EstacionMeteorologica(String nombre, UbicacionGeografica ubicacion, HashMap<String, Sensor> sensores,
+			Timer timer, long periodoLectura) {
 		this.nombre = nombre;
 		this.ubicacion = ubicacion;
 		this.sensores = sensores;
+		this.timer = timer;
+		this.periodoLectura = periodoLectura;
 	}
 
 	/**
@@ -76,6 +83,20 @@ public class EstacionMeteorologica {
 		this.sensores = sensores;
 	}
 	
+	/**
+	 * @return the periodoLectura
+	 */
+	public long getPeriodoLectura() {
+		return periodoLectura;
+	}
+
+	/**
+	 * @param periodoLectura the periodoLectura to set
+	 */
+	public void setPeriodoLectura(long periodoLectura) {
+		this.periodoLectura = periodoLectura;
+	}
+
 	/**
 	 * Obtener una lista de los sensores registrados
 	 * @return
@@ -126,6 +147,19 @@ public class EstacionMeteorologica {
 	 */
 	public void realizarLecturas() {
 		this.sensores.values().parallelStream().forEach(sensor -> sensor.realizarLectura());
+	}
+	
+	/**
+	 * Realizar lecturas periódicas de los sensores
+	 */
+	public void realizarLecturasPeriodicas() {
+		TimerTask tarea = new TimerTask() {
+			@Override
+	        public void run() {
+				EstacionMeteorologica.this.realizarLecturas();
+			}
+		};
+		this.timer.scheduleAtFixedRate(tarea, 0, periodoLectura);
 	}
 
 }
