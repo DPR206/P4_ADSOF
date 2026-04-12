@@ -39,10 +39,8 @@ public class EstacionMeteorologica implements IDocumento {
 	 * 
 	 * @param nombre,        nombre de la estación
 	 * @param ubicacion,     ubicación de la estación
-	 * @param sensores,      sensores de la estación
-	 * @param timer
-	 * @param periodoLectura
-	 * @param maximoLecturas
+	 * @param periodoLectura periodicidad de las lecturas (en milisegundos)
+	 * @param maximoLecturas número máximo de lecturas
 	 */
 	public EstacionMeteorologica(String nombre, UbicacionGeografica ubicacion, long periodoLectura, int maximoLecturas) {
 		this.nombre = nombre;
@@ -54,70 +52,80 @@ public class EstacionMeteorologica implements IDocumento {
 	}
 
 	/**
-	 * @return the nombre
+	 * Obtiene el nombre de la estación
+	 * @return el nombre
 	 */
 	public String getNombre() {
 		return nombre;
 	}
 
 	/**
-	 * @param nombre the nombre to set
+	 * Establece el nombre de la estación
+	 * @param nombre el nuevo nombre
 	 */
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
 
 	/**
-	 * @return the ubicacion
+	 * Obtiene la ubicación de la estación
+	 * @return la ubicacion
 	 */
 	public UbicacionGeografica getUbicacion() {
 		return ubicacion;
 	}
 
 	/**
-	 * @param ubicacion the ubicacion to set
+	 * Establece la ubicación de la estación
+	 * @param ubicacion la ubicacion a establecer
 	 */
 	public void setUbicacion(UbicacionGeografica ubicacion) {
 		this.ubicacion = ubicacion;
 	}
 
 	/**
-	 * @return the sensores
+	 * Obtiene los sensores y su id
+	 * @return un hash map de los sensores y sus ids
 	 */
 	public HashMap<String, Sensor> getSensores() {
 		return sensores;
 	}
 
 	/**
-	 * @param sensores the sensores to set
+	 * Estblece un nuevo hash map de sensores
+	 * @param sensores los nuevos sensores
 	 */
 	public void setSensores(HashMap<String, Sensor> sensores) {
 		this.sensores = sensores;
 	}
 
 	/**
-	 * @return the periodoLectura
+	 * Obtiene la periodicidad de las lecturas en milisegundos
+	 * @return el periodo de lectura
 	 */
 	public long getPeriodoLectura() {
 		return periodoLectura;
 	}
 
 	/**
-	 * @param periodoLectura the periodoLectura to set
+	 * Estblece la periodicidad de las lecturas en milisegundos
+	 * @param periodoLectura el nuevo periodo de lectura
 	 */
 	public void setPeriodoLectura(long periodoLectura) {
 		this.periodoLectura = periodoLectura;
 	}
 
 	/**
-	 * @return the alertas
+	 * Obtiene un las alertas asociadas a cada sensor
+	 * @return un hash map de las alertas
 	 */
 	public HashMap<Sensor, List<Exception>> getAlertas() {
 		return alertas;
 	}
 
 	/**
-	 * @param alertas the alertas to set
+	 * Estblece nuevas alertas asociaddas a los sensores
+	 * @param alertas hash map de las nuevas alertas
 	 */
 	public void setAlertas(HashMap<Sensor, List<Exception>> alertas) {
 		this.alertas = alertas;
@@ -126,12 +134,16 @@ public class EstacionMeteorologica implements IDocumento {
 	/**
 	 * Obtener una lista de los sensores registrados
 	 * 
-	 * @return
+	 * @return una lista de los sensores
 	 */
 	public List<Sensor> sensoresRegistrados() {
 		return new ArrayList<>(this.sensores.values());
 	}
 
+	/**
+	 * Obtiene una lista de todas las alertas 
+	 * @return una lista de las alertas
+	 */
 	public List<Exception> alertas() {
 		return this.alertas.values().stream().flatMap(List::stream).collect(Collectors.toList());
 	}
@@ -160,8 +172,15 @@ public class EstacionMeteorologica implements IDocumento {
 				this.sensores.put(s.getId(), s);
 	}
 
+	/**
+	 * Añadir sensores a la estación impidiendo duplicados
+	 * 
+	 * @param tipo el tipo de sensor
+	 * @param offset el offset de calibración
+	 * @param ultimaLectura el valor de la última lectura
+	*/
 	public void addSensor(TipoSensor tipo, double offset) {
-		Sensor s = null;
+	Sensor s = null;
 		Procesador procesador = new Procesador(new ConversorIdentidad());
 		try {
 			switch (tipo) {
@@ -185,7 +204,16 @@ public class EstacionMeteorologica implements IDocumento {
 		}
 	}
 
+	/**
+	 * Añadir sensores a la estación impidiendo duplicados
+	 * 
+	 * @param tipo el tipo de sensor
+	 * @param offset el offset de calibración
+	 * @param ultimaLectura el valor de la última lectura
+	 * @param estrategia la estrategia para realizar lecturas
+	 */	
 	public void addSensor(TipoSensor tipo, double offset, Estrategia estrategia) {
+
 		Sensor s = null;
 		Procesador procesador = new Procesador(new ConversorIdentidad());
 		try {
@@ -210,7 +238,15 @@ public class EstacionMeteorologica implements IDocumento {
 		}
 	}
 
+	/**
+	 * Añadir sensores a la estación impidiendo duplicados
+	 * 
+	 * @param tipo el tipo de sensor
+	 * @param offset el offset de calibración
+	 * @param procesador el procesador del sensor
+	 */
 	public void addSensor(TipoSensor tipo, double offset, Procesador procesador) {
+
 		Sensor s = null;
 		try {
 			switch (tipo) {
@@ -234,6 +270,14 @@ public class EstacionMeteorologica implements IDocumento {
 		}
 	}
 
+	/**
+	 * Añadir sensores a la estación impidiendo duplicados
+	 * 
+	 * @param tipo el tipo de sensor
+	 * @param offset el offset de calibración
+	 * @param estrategia la estrategia para realizar lecturas
+	 * @param procesador el procesador del sensor
+	 */
 	public void addSensor(TipoSensor tipo, double offset, Estrategia estrategia, Procesador procesador) {
 		Sensor s = null;
 		try {
@@ -274,11 +318,20 @@ public class EstacionMeteorologica implements IDocumento {
 		return sensores;
 	}
 
+	/**
+	 * Calibra un sensor estableciendo un offset de lectura
+	 * @param sensor el senor a calibrar
+	 * @param offsetLectura el nuevo offset de lectura
+	 */
 	public void calibrarSensor(Sensor sensor, double offsetLectura) {
 		sensor.setOffsetLectura(offsetLectura);
 		this.alertas.get(sensor).clear();
 	}
 	
+	/**
+	 * Establece una lista de senosores calibrados
+	 * @return una lista de sensores válidos para realizar lecturas
+	 */
 	private List<Sensor> sensoresValidos(){
 		List<Sensor> validos = new ArrayList<>();
 		
@@ -287,11 +340,11 @@ public class EstacionMeteorologica implements IDocumento {
 				s.calibrado();
 				validos.add(s);
 			} catch (CalibracionCaducada e) {
-				System.out.println(e);
-				this.alertas.get(s).add(e);
+				//System.out.println(e);
+				this.alertas.computeIfAbsent(s, k -> new ArrayList<>()).add(e);
 			} catch (LecturaFueraRango e) {
-				System.out.println(e);
-				this.alertas.get(s).add(e);
+				//System.out.println(e);
+				this.alertas.computeIfAbsent(s, k -> new ArrayList<>()).add(e);
 			}
 		return validos;
 	}
@@ -304,8 +357,8 @@ public class EstacionMeteorologica implements IDocumento {
 			try {
 				t.realizarLectura();
 			} catch (CambioBrusco e) {
-				System.out.println(e);
-				this.alertas.get(t).add(e);
+				System.out.println("Warning: "+e);
+				this.alertas.computeIfAbsent(t, k -> new ArrayList<>()).add(e);
 			}
 		});
 	}
