@@ -337,5 +337,5 @@ public abstract class Sensor {
 	 * Obtiene el string con la información específica de los sensores
 	 * @return string con la información de las subclases hijas
 	 */
-	public abstract String detallesHijo();
+	protected abstract String detallesHijo();
 }
