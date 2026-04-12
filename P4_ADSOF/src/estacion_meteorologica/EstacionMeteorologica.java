@@ -269,8 +269,12 @@ public class EstacionMeteorologica implements IDocumento {
 				s.calibrado();
 				validos.add(s);
 			} catch (CalibracionCaducada e) {
-				System.out.println("Warning: " + e);
-				this.alertas.computeIfAbsent(s, k -> new ArrayList<>()).add(e);
+				List<Exception> listaActual = this.alertas.computeIfAbsent(s, k -> new ArrayList<>());
+			    
+			    boolean yaExiste = listaActual.stream().anyMatch(ex -> ex.getClass().equals(e.getClass()));
+			    
+			    if (!yaExiste)
+			        listaActual.add(e);
 			}
 		return validos;
 	}
@@ -283,8 +287,15 @@ public class EstacionMeteorologica implements IDocumento {
 			try {
 				t.realizarLectura();
 			} catch (CambioBrusco | LecturaFueraRango e) {
-				System.out.println("Warning: " + e);
-				this.alertas.computeIfAbsent(t, k -> new ArrayList<>()).add(e);
+				List<Exception> listaActual = this.alertas.computeIfAbsent(t, k -> new ArrayList<>());
+			    
+			    boolean yaExiste = listaActual.stream().anyMatch(ex -> ex.getClass().equals(e.getClass()));
+			    
+			    if (!yaExiste) {
+			    	if (e instanceof CambioBrusco) 
+		                System.out.println("Warning: Cambio brusco detectado en el sensor " + t.getId());
+			        listaActual.add(e);
+			    }
 			}
 		});
 	}
@@ -304,9 +315,16 @@ public class EstacionMeteorologica implements IDocumento {
 			}
 		}
 		sb.append("Última lectura: " + ultimaLectura + "\n");
-		for(Sensor s : sensores.values()) {
+		for(Sensor s : sensores.values()) { //this.sensoresValidos()
 			sb.append(s.infoProcesador() + "\n");
 		}
+		
+		sb.append("\n");
+		
+		sb.append("Alertas: " + alertas.size() + "\n");
+		for(List<Exception> l: alertas.values())
+			for(Exception e : l)
+				sb.append(e.toString() + "\n");
 
 		return sb.toString();
 	}
