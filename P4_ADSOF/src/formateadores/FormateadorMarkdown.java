@@ -12,6 +12,7 @@ public class FormateadorMarkdown {
 		}
 
 		for (Seccion s : doc.getListas()) {
+			if(s.getElementos().size() == 0) continue;
 			sb.append("## ").append(s.getTitulo()).append("\n");
 
 			for (String e : s.getElementos()) {
