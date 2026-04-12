@@ -71,7 +71,7 @@ public abstract class Sensor {
 	 * 
 	 * @param id el identificador del sensor
 	 * @param offsetCalibracion offset de calibración
-	 * @param valorInicial Valor inicial para la ultima lectura al crear un sensor
+	 * @param valorInicial valor inicial de lectura
 	 * @param estrategia estrategia de toma de valores
 	 * @param procesador procesador de datos
 	 * @param caducidad duración de la caducidad de la calibración
