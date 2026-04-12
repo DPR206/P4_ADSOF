@@ -1,5 +1,5 @@
 /**
- * 
+ * Este paquete contiene los tests
  */
 package testers;
 
@@ -18,10 +18,11 @@ import sensores.*;
  * Nombre del fichero: Apartado4Test.java
  * 
  */
-public class Apartado4Test {
+class Apartado4Test {
 
 	/**
-	 * @param args
+	 * Main del test del apartado 4
+	 * @param args argumentos necesarios
 	 */
 	public static void main(String[] args) {
 		EstacionMeteorologica est = new EstacionMeteorologica("Madrid Centro", new UbicacionGeografica(32, 54));
