@@ -17,7 +17,7 @@ import procesadores.Procesador;
 public abstract class Sensor {
 	private static final Duration caducidadPorDefecto = Duration.ofDays(365);
 	private static final long cambioBruscoPorDefecto = 50;
-	private static final Estrategia estrategiaPorDefecto = new EstrategiaCercana(0, 5);
+	private static final Estrategia estrategiaPorDefecto = new EstrategiaCercana(0, 10);
 	private static final double primeraLectura = 0;
 	
 	private String id;

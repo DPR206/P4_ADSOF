@@ -1,6 +1,6 @@
 package estrategias;
 
-import java.util.List;
+import java.util.*;
 
 /**
  * Esta clase representa un tipo de estrategia de lectura que genera un valor cercano a la media de valores anteriores
@@ -11,7 +11,8 @@ import java.util.List;
  */
 public class EstrategiaMedia implements Estrategia {
 
-	private List<Double> historial;
+	private static final double valorMinimo = 1.0;
+	private List<Double> historial = new ArrayList<>();
     private double porcentaje;
 
     /**
@@ -19,18 +20,23 @@ public class EstrategiaMedia implements Estrategia {
      * @param historial Lista de valores generados anteriormente
      * @param porcentaje Desviación máxima del nuevo valor respecto del anterior
      */
-    public EstrategiaMedia(List<Double> historial, double porcentaje) {
-        this.historial = historial;
+    public EstrategiaMedia(double valorInicial, double porcentaje) {
+        this.historial.add(valorInicial);
         this.porcentaje = porcentaje;
     }
 
     @Override
     public double generarValor() {
-        double media = historial.stream().mapToDouble(Double::doubleValue).average().orElse(0);
-        double variacion = media * porcentaje / 100;
+        double media = 0;
+		for(Double d : historial) {
+			media += d;
+		}
+		media/=historial.size();
+		
+		double base = (Math.abs(media) < 1e-9) ? valorMinimo : Math.abs(media);
+        double variacion = base * porcentaje / 100.0;
         double nuevo = media + (Math.random() * 2 - 1) * variacion;
         historial.add(nuevo);
-        
         return nuevo;
     }
 }

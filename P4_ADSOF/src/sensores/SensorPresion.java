@@ -5,6 +5,7 @@ package sensores;
 
 import estrategias.Estrategia;
 import excepciones.IncompatibleConversorException;
+import procesadores.ConversorIdentidad;
 import procesadores.Procesador;
 import procesadores.conversoresPresion.ConversorPresion;
 
@@ -34,7 +35,7 @@ public class SensorPresion extends Sensor{
 	 */
 	public SensorPresion(double offset, Procesador procesador) throws IncompatibleConversorException {
 		super(idType+String.format("%04d", ids), offset, procesador);
-		if(!(procesador.getConversor() instanceof ConversorPresion)) throw new IncompatibleConversorException("Este sensor debe tener un convesor de presión");
+		if(!(procesador.getConversor() instanceof ConversorPresion) && !(procesador.getConversor() instanceof ConversorIdentidad)) throw new IncompatibleConversorException("Este sensor debe tener un convesor de presión");
 		ids++;
 	}
 	
@@ -49,7 +50,7 @@ public class SensorPresion extends Sensor{
 	 */
 	public SensorPresion(double offset, Estrategia estrategia, Procesador procesador) throws IncompatibleConversorException {
 		super(idType+String.format("%04d", ids), offset, estrategia, procesador);
-		if(!(procesador.getConversor() instanceof ConversorPresion)) throw new IncompatibleConversorException("Este sensor debe tener un convesor de presión");
+		if(!(procesador.getConversor() instanceof ConversorPresion) && !(procesador.getConversor() instanceof ConversorIdentidad)) throw new IncompatibleConversorException("Este sensor debe tener un convesor de presión");
 		ids++;
 	}
 	

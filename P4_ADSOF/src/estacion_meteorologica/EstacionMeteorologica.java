@@ -30,9 +30,6 @@ public class EstacionMeteorologica implements IDocumento {
 	private HashMap<String, Sensor> sensores;
 	private HashMap<Sensor, List<Exception>> alertas;
 	private Timer timer = new Timer();
-	private long periodoLectura;
-	private int maximoLecturas;
-	private AtomicInteger contadorLecturas = new AtomicInteger(0);
 
 	/**
 	 * Crea una nueva estación meteorológica
@@ -42,13 +39,11 @@ public class EstacionMeteorologica implements IDocumento {
 	 * @param periodoLectura periodicidad de las lecturas (en milisegundos)
 	 * @param maximoLecturas número máximo de lecturas
 	 */
-	public EstacionMeteorologica(String nombre, UbicacionGeografica ubicacion, long periodoLectura, int maximoLecturas) {
+	public EstacionMeteorologica(String nombre, UbicacionGeografica ubicacion) {
 		this.nombre = nombre;
 		this.ubicacion = ubicacion;
 		this.sensores = new HashMap<>();
 		this.alertas = new HashMap<>();
-		this.periodoLectura = periodoLectura;
-		this.maximoLecturas = maximoLecturas;
 	}
 
 	/**
@@ -100,22 +95,6 @@ public class EstacionMeteorologica implements IDocumento {
 	}
 
 	/**
-	 * Obtiene la periodicidad de las lecturas en milisegundos
-	 * @return el periodo de lectura
-	 */
-	public long getPeriodoLectura() {
-		return periodoLectura;
-	}
-
-	/**
-	 * Estblece la periodicidad de las lecturas en milisegundos
-	 * @param periodoLectura el nuevo periodo de lectura
-	 */
-	public void setPeriodoLectura(long periodoLectura) {
-		this.periodoLectura = periodoLectura;
-	}
-
-	/**
 	 * Obtiene un las alertas asociadas a cada sensor
 	 * @return un hash map de las alertas
 	 */
@@ -161,20 +140,6 @@ public class EstacionMeteorologica implements IDocumento {
 	/**
 	 * Añadir sensores a la estación impidiendo duplicados
 	 * 
-	 * @param sensores sensores a añadir
-	 * @throws IdentificadorDuplicado error por sensor preexistente
-	 */
-	public void addSensor(Sensor... sensores) throws IdentificadorDuplicado {
-		for (Sensor s : sensores)
-			if (this.sensores.containsValue(s))
-				throw new IdentificadorDuplicado(s, this.sensores.get(s.getId()));
-			else
-				this.sensores.put(s.getId(), s);
-	}
-
-	/**
-	 * Añadir sensores a la estación impidiendo duplicados
-	 * 
 	 * @param tipo el tipo de sensor
 	 * @param offset el offset de calibración
 	 * @param ultimaLectura el valor de la última lectura
@@ -188,10 +153,10 @@ public class EstacionMeteorologica implements IDocumento {
 				s = new SensorTemperatura(offset, procesador);
 				break;
 			case TipoSensor.PRESION:
-				s = new SensorTemperatura(offset, procesador);
+				s = new SensorPresion(offset, procesador);
 				break;
 			case TipoSensor.HUMEDAD:
-				s = new SensorTemperatura(offset, procesador);
+				s = new SensorHumedad(offset, procesador);
 				break;
 			}
 
@@ -222,10 +187,10 @@ public class EstacionMeteorologica implements IDocumento {
 				s = new SensorTemperatura(offset, estrategia, procesador);
 				break;
 			case TipoSensor.PRESION:
-				s = new SensorTemperatura(offset, estrategia, procesador);
+				s = new SensorPresion(offset, estrategia, procesador);
 				break;
 			case TipoSensor.HUMEDAD:
-				s = new SensorTemperatura(offset, estrategia, procesador);
+				s = new SensorHumedad(offset, estrategia, procesador);
 				break;
 			}
 
@@ -254,10 +219,10 @@ public class EstacionMeteorologica implements IDocumento {
 				s = new SensorTemperatura(offset, procesador);
 				break;
 			case TipoSensor.PRESION:
-				s = new SensorTemperatura(offset, procesador);
+				s = new SensorPresion(offset, procesador);
 				break;
 			case TipoSensor.HUMEDAD:
-				s = new SensorTemperatura(offset, procesador);
+				s = new SensorHumedad(offset, procesador);
 				break;
 			}
 
@@ -286,10 +251,10 @@ public class EstacionMeteorologica implements IDocumento {
 				s = new SensorTemperatura(offset, estrategia, procesador);
 				break;
 			case TipoSensor.PRESION:
-				s = new SensorTemperatura(offset, estrategia, procesador);
+				s = new SensorPresion(offset, estrategia, procesador);
 				break;
 			case TipoSensor.HUMEDAD:
-				s = new SensorTemperatura(offset, estrategia, procesador);
+				s = new SensorHumedad(offset, estrategia, procesador);
 				break;
 			}
 
@@ -340,10 +305,10 @@ public class EstacionMeteorologica implements IDocumento {
 				s.calibrado();
 				validos.add(s);
 			} catch (CalibracionCaducada e) {
-				//System.out.println(e);
+				//System.out.println(e.getMessage());
 				this.alertas.computeIfAbsent(s, k -> new ArrayList<>()).add(e);
 			} catch (LecturaFueraRango e) {
-				//System.out.println(e);
+				//System.out.println(e.getMessage());
 				this.alertas.computeIfAbsent(s, k -> new ArrayList<>()).add(e);
 			}
 		return validos;
@@ -366,16 +331,18 @@ public class EstacionMeteorologica implements IDocumento {
 	/**
 	 * Realizar lecturas periódicas de los sensores
 	 */
-	public void realizarLecturasPeriodicas() {
+	public void realizarLecturasPeriodicas(long periodoLectura, int maximoLecturas) {
+		AtomicInteger contadorLecturas = new AtomicInteger(0);
 		TimerTask tarea = new TimerTask() {
 			@Override
 			public void run() {
 				int lecturasActual = contadorLecturas.incrementAndGet();
 				if (lecturasActual <= maximoLecturas)
 					EstacionMeteorologica.this.realizarLecturas();
-				else
+				else {
 					this.cancel();
-				timer.purge();
+					timer.purge();
+				}
 			}
 		};
 		this.timer.scheduleAtFixedRate(tarea, 0, periodoLectura);

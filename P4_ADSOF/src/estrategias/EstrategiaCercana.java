@@ -9,6 +9,7 @@ package estrategias;
  */
 public class EstrategiaCercana implements Estrategia {
 
+	private static final double valorMinimo = 1.0;
 	private double valorAnterior;
     private double porcentaje;
 
@@ -24,7 +25,8 @@ public class EstrategiaCercana implements Estrategia {
 
     @Override
     public double generarValor() {
-        double variacion = valorAnterior * porcentaje / 100;
+    	double base = (Math.abs(valorAnterior) < 1e-9) ? valorMinimo : Math.abs(valorAnterior);
+    	double variacion = base * porcentaje / 100.0;
         double nuevo = valorAnterior + (Math.random() * 2 - 1) * variacion;
         valorAnterior = nuevo;
         return nuevo;
