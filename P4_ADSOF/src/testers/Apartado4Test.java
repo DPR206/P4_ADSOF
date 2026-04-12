@@ -26,7 +26,8 @@ public class Apartado4Test {
 	public static void main(String[] args) {
 		EstacionMeteorologica est = new EstacionMeteorologica("Madrid Centro", new UbicacionGeografica(32, 54));
 		
-		//Añadimos sensores a la estación
+		//Añadimos sensores de estrategia aleatoria a la estación
+		//Añadimos un sensor de estrategia cercana sobre el que luego forzar un cambio brusco
 		est.addSensor(TipoSensor.TEMPERATURA, 0, new EstrategiaCercana(0, 50) ,new Procesador(new ConversorCelsiusAKelvin()));
 		est.addSensor(TipoSensor.PRESION, 0, new Procesador(new hPaAPa()));
 		est.addSensor(TipoSensor.HUMEDAD, 0, new Procesador(new ConversorIdentidad()));
