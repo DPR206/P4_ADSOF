@@ -29,7 +29,7 @@ public class EstacionMeteorologica implements IDocumento {
 	private UbicacionGeografica ubicacion;
 	private HashMap<String, Sensor> sensores;
 	private HashMap<Sensor, List<Exception>> alertas;
-	Timer timer = new Timer();
+	private Timer timer = new Timer();
 	private long periodoLectura;
 	private int maximoLecturas;
 	private AtomicInteger contadorLecturas = new AtomicInteger(0);
@@ -44,12 +44,11 @@ public class EstacionMeteorologica implements IDocumento {
 	 * @param periodoLectura
 	 * @param maximoLecturas
 	 */
-	public EstacionMeteorologica(String nombre, UbicacionGeografica ubicacion, HashMap<String, Sensor> sensores,
-			Timer timer, long periodoLectura, int maximoLecturas) {
+	public EstacionMeteorologica(String nombre, UbicacionGeografica ubicacion, long periodoLectura, int maximoLecturas) {
 		this.nombre = nombre;
 		this.ubicacion = ubicacion;
-		this.sensores = sensores;
-		this.timer = timer;
+		this.sensores = new HashMap<>();
+		this.alertas = new HashMap<>();
 		this.periodoLectura = periodoLectura;
 		this.maximoLecturas = maximoLecturas;
 	}
@@ -161,23 +160,19 @@ public class EstacionMeteorologica implements IDocumento {
 				this.sensores.put(s.getId(), s);
 	}
 
-	public void addSensor(TipoSensor tipo, double offset, double ultimaLectura, LocalDateTime tiempoUltimaLectura,
-			LocalDateTime ultimaCalibracion, LocalDateTime fechaInstalacion) {
+	public void addSensor(TipoSensor tipo, double offset, double ultimaLectura) {
 		Sensor s = null;
 		Procesador procesador = new Procesador(new ConversorIdentidad());
 		try {
 			switch (tipo) {
 			case TipoSensor.TEMPERATURA:
-				s = new SensorTemperatura(offset, ultimaLectura, tiempoUltimaLectura, ultimaCalibracion,
-						fechaInstalacion, procesador);
+				s = new SensorTemperatura(offset, ultimaLectura, procesador);
 				break;
 			case TipoSensor.PRESION:
-				s = new SensorTemperatura(offset, ultimaLectura, tiempoUltimaLectura, ultimaCalibracion,
-						fechaInstalacion, procesador);
+				s = new SensorTemperatura(offset, ultimaLectura, procesador);
 				break;
 			case TipoSensor.HUMEDAD:
-				s = new SensorTemperatura(offset, ultimaLectura, tiempoUltimaLectura, ultimaCalibracion,
-						fechaInstalacion, procesador);
+				s = new SensorTemperatura(offset, ultimaLectura, procesador);
 				break;
 			}
 
@@ -190,23 +185,19 @@ public class EstacionMeteorologica implements IDocumento {
 		}
 	}
 
-	public void addSensor(TipoSensor tipo, double offset, double ultimaLectura, LocalDateTime tiempoUltimaLectura,
-			LocalDateTime ultimaCalibracion, LocalDateTime fechaInstalacion, Estrategia estrategia) {
+	public void addSensor(TipoSensor tipo, double offset, double ultimaLectura, Estrategia estrategia) {
 		Sensor s = null;
 		Procesador procesador = new Procesador(new ConversorIdentidad());
 		try {
 			switch (tipo) {
 			case TipoSensor.TEMPERATURA:
-				s = new SensorTemperatura(offset, ultimaLectura, tiempoUltimaLectura, ultimaCalibracion,
-						fechaInstalacion, estrategia, procesador);
+				s = new SensorTemperatura(offset, ultimaLectura, estrategia, procesador);
 				break;
 			case TipoSensor.PRESION:
-				s = new SensorTemperatura(offset, ultimaLectura, tiempoUltimaLectura, ultimaCalibracion,
-						fechaInstalacion, estrategia, procesador);
+				s = new SensorTemperatura(offset, ultimaLectura, estrategia, procesador);
 				break;
 			case TipoSensor.HUMEDAD:
-				s = new SensorTemperatura(offset, ultimaLectura, tiempoUltimaLectura, ultimaCalibracion,
-						fechaInstalacion, estrategia, procesador);
+				s = new SensorTemperatura(offset, ultimaLectura, estrategia, procesador);
 				break;
 			}
 
@@ -219,22 +210,18 @@ public class EstacionMeteorologica implements IDocumento {
 		}
 	}
 
-	public void addSensor(TipoSensor tipo, double offset, double ultimaLectura, LocalDateTime tiempoUltimaLectura,
-			LocalDateTime ultimaCalibracion, LocalDateTime fechaInstalacion, Procesador procesador) {
+	public void addSensor(TipoSensor tipo, double offset, double ultimaLectura, Procesador procesador) {
 		Sensor s = null;
 		try {
 			switch (tipo) {
 			case TipoSensor.TEMPERATURA:
-				s = new SensorTemperatura(offset, ultimaLectura, tiempoUltimaLectura, ultimaCalibracion,
-						fechaInstalacion, procesador);
+				s = new SensorTemperatura(offset, ultimaLectura, procesador);
 				break;
 			case TipoSensor.PRESION:
-				s = new SensorTemperatura(offset, ultimaLectura, tiempoUltimaLectura, ultimaCalibracion,
-						fechaInstalacion, procesador);
+				s = new SensorTemperatura(offset, ultimaLectura, procesador);
 				break;
 			case TipoSensor.HUMEDAD:
-				s = new SensorTemperatura(offset, ultimaLectura, tiempoUltimaLectura, ultimaCalibracion,
-						fechaInstalacion, procesador);
+				s = new SensorTemperatura(offset, ultimaLectura, procesador);
 				break;
 			}
 
@@ -247,23 +234,18 @@ public class EstacionMeteorologica implements IDocumento {
 		}
 	}
 
-	public void addSensor(TipoSensor tipo, double offset, double ultimaLectura, LocalDateTime tiempoUltimaLectura,
-			LocalDateTime ultimaCalibracion, LocalDateTime fechaInstalacion, Estrategia estrategia,
-			Procesador procesador) {
+	public void addSensor(TipoSensor tipo, double offset, double ultimaLectura, Estrategia estrategia, Procesador procesador) {
 		Sensor s = null;
 		try {
 			switch (tipo) {
 			case TipoSensor.TEMPERATURA:
-				s = new SensorTemperatura(offset, ultimaLectura, tiempoUltimaLectura, ultimaCalibracion,
-						fechaInstalacion, estrategia, procesador);
+				s = new SensorTemperatura(offset, ultimaLectura, estrategia, procesador);
 				break;
 			case TipoSensor.PRESION:
-				s = new SensorTemperatura(offset, ultimaLectura, tiempoUltimaLectura, ultimaCalibracion,
-						fechaInstalacion, estrategia, procesador);
+				s = new SensorTemperatura(offset, ultimaLectura, estrategia, procesador);
 				break;
 			case TipoSensor.HUMEDAD:
-				s = new SensorTemperatura(offset, ultimaLectura, tiempoUltimaLectura, ultimaCalibracion,
-						fechaInstalacion, estrategia, procesador);
+				s = new SensorTemperatura(offset, ultimaLectura, estrategia, procesador);
 				break;
 			}
 
@@ -357,9 +339,9 @@ public class EstacionMeteorologica implements IDocumento {
 		Seccion sensores = new Seccion("Sensores activos: ", listaSensores);
 		secciones.add(sensores);
 
-		
 		List<String> listaAlertas = new ArrayList<>();
-		for(Exception e : this.alertas()) listaAlertas.add(e.toString());
+		for (Exception e : this.alertas())
+			listaAlertas.add(e.toString());
 		Seccion alertas = new Seccion("Alertas activas: " + this.alertas.size(), listaAlertas);
 		secciones.add(alertas);
 

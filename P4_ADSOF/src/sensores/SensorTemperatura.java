@@ -3,8 +3,6 @@
  */
 package sensores;
 
-import java.time.*;
-
 import estrategias.Estrategia;
 import excepciones.IncompatibleConversorException;
 import procesadores.*;
@@ -37,8 +35,8 @@ public class SensorTemperatura extends Sensor {
 	 * @param ultimaCalibracion
 	 * @throws IncompatibleConversorException 
 	 */
-	public SensorTemperatura(double offset, double ultimaLectura, LocalDateTime tiempoUltimaLectura, LocalDateTime ultimaCalibracion, LocalDateTime fechaInstalacion, Procesador procesador) throws IncompatibleConversorException {
-		super(idType+String.format("%04d", ids), offset, ultimaLectura, tiempoUltimaLectura, ultimaCalibracion, fechaInstalacion, procesador);
+	public SensorTemperatura(double offset, double ultimaLectura, Procesador procesador) throws IncompatibleConversorException {
+		super(idType+String.format("%04d", ids), offset, ultimaLectura, procesador);
 		if(!(procesador.getConversor() instanceof ConversorTemperatura)) throw new IncompatibleConversorException("Este sensor debe tener un convesor de temperatura");
 		ids++;
 		this.tipo = TipoTemp.CELSIUS;
@@ -54,8 +52,8 @@ public class SensorTemperatura extends Sensor {
 	 * @param ultimaCalibracion
 	 * @throws IncompatibleConversorException 
 	 */
-	public SensorTemperatura(double offset, double ultimaLectura, LocalDateTime tiempoUltimaLectura, LocalDateTime ultimaCalibracion, LocalDateTime fechaInstalacion, Estrategia estrategia, Procesador procesador) throws IncompatibleConversorException {
-		super(idType+String.format("%04d", ids), offset, ultimaLectura, tiempoUltimaLectura, ultimaCalibracion, fechaInstalacion, estrategia, procesador);
+	public SensorTemperatura(double offset, double ultimaLectura, Estrategia estrategia, Procesador procesador) throws IncompatibleConversorException {
+		super(idType+String.format("%04d", ids), offset, ultimaLectura, estrategia, procesador);
 		if(!(procesador.getConversor() instanceof ConversorTemperatura)) throw new IncompatibleConversorException("Este sensor debe tener un convesor de temperatura");
 		ids++;
 		this.tipo = TipoTemp.CELSIUS;
