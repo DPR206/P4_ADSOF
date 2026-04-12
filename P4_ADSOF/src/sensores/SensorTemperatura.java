@@ -22,6 +22,7 @@ public class SensorTemperatura extends Sensor {
 	private static String idType = "TEMP_";
 	private static double cotaInferior = -273.15;
 	private static double cotaSuperior = 1000;
+	private static final double valorInicial = (cotaInferior+cotaSuperior)/2;
 	private static final double KelvinCelsius = -273.15;
 	private static final Estrategia estrategiaPorDefecto = new EstrategiaAleatoria(cotaInferior, cotaSuperior, 0);
 	
@@ -35,7 +36,7 @@ public class SensorTemperatura extends Sensor {
 	 * @throws IncompatibleConversorException error por conversor incompatible
 	 */
 	public SensorTemperatura(double offset, Procesador procesador) throws IncompatibleConversorException {
-		super(idType+String.format("%04d", ids), offset,estrategiaPorDefecto, procesador);
+		super(idType+String.format("%04d", ids), offset, valorInicial, estrategiaPorDefecto, procesador);
 		if(!(procesador.getConversor() instanceof ConversorTemperatura) && !(procesador.getConversor() instanceof ConversorIdentidad)) throw new IncompatibleConversorException("Este sensor debe tener un conversor de temperatura");
 		ids++;
 		this.tipo = TipoTemp.CELSIUS;
@@ -50,7 +51,7 @@ public class SensorTemperatura extends Sensor {
 	 * @throws IncompatibleConversorException error por conversor incompatible
 	 */
 	public SensorTemperatura(double offset, Estrategia estrategia, Procesador procesador) throws IncompatibleConversorException {
-		super(idType+String.format("%04d", ids), offset, estrategia, procesador);
+		super(idType+String.format("%04d", ids), offset, valorInicial, estrategia, procesador);
 		if(!(procesador.getConversor() instanceof ConversorTemperatura) && !(procesador.getConversor() instanceof ConversorIdentidad)) throw new IncompatibleConversorException("Este sensor debe tener un conversor de temperatura");
 		ids++;
 		this.tipo = TipoTemp.CELSIUS;

@@ -23,6 +23,7 @@ public class SensorPresion extends Sensor{
 	private static String idType = "PRES_";
 	private static double cotaInferior = 300;
 	private static double cotaSuperior = 1100;
+	private static final double valorInicial = (cotaInferior+cotaSuperior)/2;
 	private static String unidad = "hPa";
 	private static final Estrategia estrategiaPorDefecto = new EstrategiaAleatoria(cotaInferior, cotaSuperior, 0);
 	
@@ -33,7 +34,7 @@ public class SensorPresion extends Sensor{
 	 * @throws IncompatibleConversorException error por conversor incompatible
 	 */
 	public SensorPresion(double offset, Procesador procesador) throws IncompatibleConversorException {
-		super(idType+String.format("%04d", ids), offset, estrategiaPorDefecto, procesador);
+		super(idType+String.format("%04d", ids), offset, valorInicial, estrategiaPorDefecto, procesador);
 		if(!(procesador.getConversor() instanceof ConversorPresion) && !(procesador.getConversor() instanceof ConversorIdentidad)) throw new IncompatibleConversorException("Este sensor debe tener un conversor de presión");
 		ids++;
 	}
@@ -46,7 +47,7 @@ public class SensorPresion extends Sensor{
 	 * @throws IncompatibleConversorException error por conversor incompatible
 	 */
 	public SensorPresion(double offset, Estrategia estrategia, Procesador procesador) throws IncompatibleConversorException {
-		super(idType+String.format("%04d", ids), offset, estrategia, procesador);
+		super(idType+String.format("%04d", ids), offset, valorInicial, estrategia, procesador);
 		if(!(procesador.getConversor() instanceof ConversorPresion) && !(procesador.getConversor() instanceof ConversorIdentidad)) throw new IncompatibleConversorException("Este sensor debe tener un conversor de presión");
 		ids++;
 	}

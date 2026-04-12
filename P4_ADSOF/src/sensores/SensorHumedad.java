@@ -20,6 +20,7 @@ public class SensorHumedad extends Sensor{
 	private static String idType = "HUM_";
 	private static double cotaInferior = 0;
 	private static double cotaSuperior = 100;
+	private static final double valorInicial = (cotaInferior+cotaSuperior)/2;
 	private static String unidad = "%";
 	private static final Estrategia estrategiaPorDefecto = new EstrategiaAleatoria(cotaInferior, cotaSuperior, 0);
 	
@@ -31,7 +32,7 @@ public class SensorHumedad extends Sensor{
 	 * @throws IncompatibleConversorException error por conversor incompatible
 	 */
 	public SensorHumedad(double offset, Procesador procesador) throws IncompatibleConversorException {
-		super(idType+String.format("%04d", ids), offset, estrategiaPorDefecto, procesador);
+		super(idType+String.format("%04d", ids), offset, valorInicial, estrategiaPorDefecto, procesador);
 		if(!(procesador.getConversor() instanceof ConversorIdentidad)) throw new IncompatibleConversorException("Este sensor debe tener un conversor identidad");
 		ids++;
 	}
@@ -45,7 +46,7 @@ public class SensorHumedad extends Sensor{
 	 * @throws IncompatibleConversorException error por conversor incompatible
 	 */
 	public SensorHumedad(double offset, Estrategia estrategia, Procesador procesador) throws IncompatibleConversorException {
-		super(idType+String.format("%04d", ids), offset, estrategia, procesador);
+		super(idType+String.format("%04d", ids), offset, valorInicial, estrategia, procesador);
 		if(!(procesador.getConversor() instanceof ConversorIdentidad)) throw new IncompatibleConversorException("Este sensor debe tener un conversor identidad");
 		ids++;
 	}

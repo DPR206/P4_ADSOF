@@ -315,7 +315,7 @@ public class EstacionMeteorologica implements IDocumento {
 			}
 		}
 		sb.append("Última lectura: " + ultimaLectura + "\n");
-		for(Sensor s : sensores.values()) { //this.sensoresValidos()
+		for(Sensor s : this.sensoresValidos()) {
 			sb.append(s.infoProcesador() + "\n");
 		}
 		
@@ -382,7 +382,7 @@ public class EstacionMeteorologica implements IDocumento {
 		List<Seccion> secciones = new ArrayList<>();
 
 		List<String> listaSensores = new ArrayList<>();
-		for (Sensor s : sensores.values())
+		for (Sensor s : this.sensoresValidos())
 			listaSensores.add(s.infoProcesador());
 		Seccion sensores = new Seccion("Sensores activos: ", listaSensores);
 		secciones.add(sensores);

@@ -17,7 +17,6 @@ import procesadores.Procesador;
 public abstract class Sensor {
 	private static final Duration caducidadPorDefecto = Duration.ofDays(365);
 	private static final long cambioBruscoPorDefecto = 50;
-	private static final double primeraLectura = 0;
 	
 	private String id;
 	private double offsetCalibracion;
@@ -40,10 +39,10 @@ public abstract class Sensor {
 	 * @param caducidad duración de la caducidad de la calibración
 	 * @param cambioBrusco porcentaje de cambio brusco entre lecturas
 	 */
-	public Sensor(String id, double offsetCalibracion, Estrategia estrategia, Procesador procesador, Duration caducidad, long cambioBrusco) {
+	public Sensor(String id, double offsetCalibracion, double valorInicial, Estrategia estrategia, Procesador procesador, Duration caducidad, long cambioBrusco) {
 		this.id = id;
 		this.offsetCalibracion = offsetCalibracion;
-		this.ultimaLectura = primeraLectura;
+		this.ultimaLectura = valorInicial;
 		this.tiempoUltimaLectura = LocalDateTime.now();
 		this.ultimaCalibracion = LocalDateTime.now();
 		this.fechaInstalacion = LocalDateTime.now();
@@ -61,8 +60,8 @@ public abstract class Sensor {
 	 * @param estrategia estrategia de toma de valores
 	 * @param procesador procesador de datos
 	 */
-	public Sensor(String id, double offsetCalibracion, Estrategia estrategia, Procesador procesador) {
-		this(id, offsetCalibracion, estrategia, procesador, Sensor.caducidadPorDefecto, Sensor.cambioBruscoPorDefecto);
+	public Sensor(String id, double offsetCalibracion, double valorInicial, Estrategia estrategia, Procesador procesador) {
+		this(id, offsetCalibracion, valorInicial, estrategia, procesador, Sensor.caducidadPorDefecto, Sensor.cambioBruscoPorDefecto);
 	}
 
 	/**
@@ -74,9 +73,9 @@ public abstract class Sensor {
 	 * @param procesador procesador de datos
 	 * @param caducidad duración de la caducidad de la calibración
 	 */
-	public Sensor(String id, double offsetCalibracion, Estrategia estrategia, Procesador procesador, Duration caducidad) {
+	public Sensor(String id, double offsetCalibracion, double valorInicial, Estrategia estrategia, Procesador procesador, Duration caducidad) {
 		
-		this(id, offsetCalibracion, estrategia, procesador, caducidad, Sensor.cambioBruscoPorDefecto);
+		this(id, offsetCalibracion, valorInicial, estrategia, procesador, caducidad, Sensor.cambioBruscoPorDefecto);
 	}
 
 	/**
@@ -88,9 +87,9 @@ public abstract class Sensor {
 	 * @param procesador procesador de datos
 	 * @param cambioBrusco porcentaje de cambio brusco entre lecturas
 	 */
-	public Sensor(String id, double offset, Estrategia estrategia, Procesador procesador, long cambioBrusco) {
+	public Sensor(String id, double offset, double valorInicial, Estrategia estrategia, Procesador procesador, long cambioBrusco) {
 		
-		this(id, offset, estrategia, procesador, Sensor.caducidadPorDefecto, cambioBrusco);
+		this(id, offset, valorInicial, estrategia, procesador, Sensor.caducidadPorDefecto, cambioBrusco);
 	}
 
 	/**
