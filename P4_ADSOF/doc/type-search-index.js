@@ -1,1 +1,1 @@
-typeSearchIndex = [{"l":"All Classes and Interfaces","u":"allclasses-index.html"},{"p":"estacion_meteorologica","l":"EstacionMeteorologica"}];updateSearchResults();
+typeSearchIndex = [{"l":"All Classes and Interfaces","u":"allclasses-index.html"},{"p":"estacion_meteorologica","l":"EstacionMeteorologica"},{"p":"estacion_meteorologica","l":"UbicacionGeografica"}];updateSearchResults();

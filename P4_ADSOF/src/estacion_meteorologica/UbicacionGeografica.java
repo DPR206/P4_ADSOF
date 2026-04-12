@@ -1,5 +1,5 @@
 /**
- * Este paquete contiene las clases necesarias para gestionar una ubicación geográfica
+ * Este paquete contiene las clases necesarias para gestionar una estación meteorológica
  */
 package estacion_meteorologica;
 
@@ -12,8 +12,8 @@ package estacion_meteorologica;
  */
 public class UbicacionGeografica {
 	
-	private double longitud;
 	private double latitud;
+	private double longitud;
 
 	/**
 	 * Crea una nueva ubicación geográfica
@@ -21,19 +21,21 @@ public class UbicacionGeografica {
 	 * @param longitud, longitud de la ubicación
 	 * @param latitud, latitud de la ubicación
 	 */
-	public UbicacionGeografica(double longitud, double latitud) {
+	public UbicacionGeografica(double latitud, double longitud) {
 		this.longitud = longitud;
 		this.latitud = latitud;
 	}
 
 	/**
-	 * @return the longitud
+	 * Obtiene la longitud en grados decimales
+	 * @return la longitud
 	 */
 	public double getLongitud() {
 		return longitud;
 	}
 
 	/**
+	 * Establece la longitud en grados decimales
 	 * @param longitud the longitud to set
 	 */
 	public void setLongitud(double longitud) {
@@ -41,18 +43,24 @@ public class UbicacionGeografica {
 	}
 
 	/**
-	 * @return the latitud
+	 * Obtiene la latitud en grados decimales
+	 * @return la latitud
 	 */
 	public double getLatitud() {
 		return latitud;
 	}
 
 	/**
+	 * Establece la latitud en grados decimales
 	 * @param latitud the latitud to set
 	 */
 	public void setLatitud(double latitud) {
 		this.latitud = latitud;
 	}
 
+	@Override
+	public String toString() {
+		return "UbicacionGeografica [latitud=" + latitud + ", longitud=" + longitud + "]";
+	}
 	
 }

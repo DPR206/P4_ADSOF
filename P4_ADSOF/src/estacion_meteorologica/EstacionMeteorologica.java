@@ -1,5 +1,5 @@
 /**
- * Este paquete contiene las clases necesarias para gestionar una estacion meteorologica
+ * Este paquete contiene las clases necesarias para gestionar una estación meteorológica
  */
 package estacion_meteorologica;
 
