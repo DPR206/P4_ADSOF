@@ -254,7 +254,7 @@ public class EstacionMeteorologica implements IDocumento {
 	 */
 	public void calibrarSensor(Sensor sensor, double offsetLectura) {
 		sensor.setOffset(offsetLectura);
-		this.alertas.get(sensor).clear();
+		this.alertas.remove(sensor);
 	}
 	
 	/**
