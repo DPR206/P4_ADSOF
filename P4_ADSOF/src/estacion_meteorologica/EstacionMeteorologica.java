@@ -278,12 +278,36 @@ public class EstacionMeteorologica implements IDocumento {
 		sensor.setOffsetLectura(offsetLectura);
 		this.alertas.get(sensor).clear();
 	}
+	
+	private List<Sensor> sensoresValidos(){
+		List<Sensor> validos = new ArrayList<>();
+		
+		for(Sensor s : this.sensoresRegistrados())
+			try {
+				s.calibrado();
+				validos.add(s);
+			} catch (CalibracionCaducada e) {
+				System.out.println(e);
+				this.alertas.get(s).add(e);
+			} catch (LecturaFueraRango e) {
+				System.out.println(e);
+				this.alertas.get(s).add(e);
+			}
+		return validos;
+	}
 
 	/**
 	 * Realizar una lectura simultánea de todos los sensores
 	 */
 	public void realizarLecturas() {
-		this.sensores.values().parallelStream().forEach(Sensor::realizarLectura);
+		this.sensoresValidos().parallelStream().forEach(t -> {
+			try {
+				t.realizarLectura();
+			} catch (CambioBrusco e) {
+				System.out.println(e);
+				this.alertas.get(t).add(e);
+			}
+		});
 	}
 
 	/**

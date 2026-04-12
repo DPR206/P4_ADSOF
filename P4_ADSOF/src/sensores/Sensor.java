@@ -270,12 +270,22 @@ public abstract class Sensor {
 	public void setOffsetLectura(double offsetLectura) {
 		this.offsetLectura = offsetLectura;
 	}
+	
+	private boolean cambioBrusco(double valor) {
+		double diferencia = ((valor - ultimaLectura)/ultimaLectura)*100;
+		if(diferencia > cambioBrusco)
+			return true;
+		return false;
+	}
 
-	public void realizarLectura() {
+	public void realizarLectura() throws CambioBrusco{
 		double valor = estrategia.generarValor()-offsetCalibracion;
+		String lecturaAnterior = this.ultimaLectura();
 		this.setUltimaLectura(valor);
 		this.setTiempoUltimaLectura(LocalDateTime.now());
 		this.procesador.procesar(valor);
+		if(this.cambioBrusco(valor))
+			throw new CambioBrusco(this, lecturaAnterior, LocalDateTime.now());
 	}
 
 	/**
