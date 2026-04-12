@@ -10,7 +10,7 @@ package testers;
  * @version 1.0 Nombre del fichero: EstacionMeteorologica.java
  * 
  */
-public class AlertasTest {
+public class Apartado4Test {
 
 	/**
 	 * @param args
