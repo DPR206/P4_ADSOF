@@ -3,9 +3,13 @@
  */
 package sensores;
 
+import java.time.Duration;
+
 import estrategias.Estrategia;
 import estrategias.EstrategiaAleatoria;
 import excepciones.IncompatibleConversorException;
+import procesadores.Conversor;
+import procesadores.ConversorCompuesto;
 import procesadores.ConversorIdentidad;
 import procesadores.Procesador;
 import procesadores.conversoresPresion.ConversorPresion;
@@ -34,9 +38,37 @@ public class SensorPresion extends Sensor{
 	 * @throws IncompatibleConversorException error por conversor incompatible
 	 */
 	public SensorPresion(double offset, Procesador procesador) throws IncompatibleConversorException {
-		super(idType+String.format("%04d", ids), offset, valorInicial, estrategiaPorDefecto, procesador);
-		if(!(procesador.getConversor() instanceof ConversorPresion) && !(procesador.getConversor() instanceof ConversorIdentidad)) throw new IncompatibleConversorException("Este sensor debe tener un conversor de presión");
-		ids++;
+		this(offset, estrategiaPorDefecto, procesador, getCaducidadPorDefecto(), getCambiobruscopordefecto());
+	}
+	
+	/**
+	 * Crea un nuevo sensor de presión
+	 * @param offset offset de calibración
+	 * @param procesador procesador de datos
+	 * @throws IncompatibleConversorException error por conversor incompatible
+	 */
+	public SensorPresion(double offset, Estrategia estrategia, Procesador procesador) throws IncompatibleConversorException {
+		this(offset, estrategia, procesador, getCaducidadPorDefecto(), getCambiobruscopordefecto());
+	}
+	
+	/**
+	 * Crea un nuevo sensor de presión
+	 * @param offset offset de calibración
+	 * @param procesador procesador de datos
+	 * @throws IncompatibleConversorException error por conversor incompatible
+	 */
+	public SensorPresion(double offset, Procesador procesador, Duration caducidad) throws IncompatibleConversorException {
+		this(offset, estrategiaPorDefecto, procesador, caducidad, getCambiobruscopordefecto());
+	}
+	
+	/**
+	 * Crea un nuevo sensor de presión
+	 * @param offset offset de calibración
+	 * @param procesador procesador de datos
+	 * @throws IncompatibleConversorException error por conversor incompatible
+	 */
+	public SensorPresion(double offset, Procesador procesador, double cambioBrusco) throws IncompatibleConversorException {
+		this(offset, estrategiaPorDefecto, procesador, getCaducidadPorDefecto(), cambioBrusco);
 	}
 	
 	/**
@@ -46,10 +78,36 @@ public class SensorPresion extends Sensor{
 	 * @param procesador procesador de datos
 	 * @throws IncompatibleConversorException error por conversor incompatible
 	 */
-	public SensorPresion(double offset, Estrategia estrategia, Procesador procesador) throws IncompatibleConversorException {
-		super(idType+String.format("%04d", ids), offset, valorInicial, estrategia, procesador);
-		if(!(procesador.getConversor() instanceof ConversorPresion) && !(procesador.getConversor() instanceof ConversorIdentidad)) throw new IncompatibleConversorException("Este sensor debe tener un conversor de presión");
+	public SensorPresion(double offset, Estrategia estrategia, Procesador procesador, Duration caducidad, double cambioBrusco) throws IncompatibleConversorException {
+		super(idType+String.format("%04d", ids), offset, valorInicial, estrategia, procesador, caducidad, cambioBrusco);
+		conversorCorrecto(procesador.getConversor());
 		ids++;
+	}
+	
+	/**
+	 * Comprueba que el tipo del conversor es acorde con el tipo de sensor
+	 * @param conversor Conversor que se quiere asociar
+	 * @throws IncompatibleConversorException Error con el tipo de conversor
+	 */
+	private void tipoConversorCorrecto(Conversor conversor) throws IncompatibleConversorException {
+		if (!(conversor instanceof ConversorPresion) && !(conversor instanceof ConversorIdentidad) && !(conversor instanceof ConversorCompuesto))
+			throw new IncompatibleConversorException("Este sensor debe tener un conversor de presión");
+	}
+
+	/**
+	 * Comprueba en general que el conversor es acorde con el sensor al que se quiere asociar
+	 * @param conversor Conversor que se quiere asociar
+	 * @throws IncompatibleConversorException Error con el conversor
+	 */
+	private void conversorCorrecto(Conversor conversor) throws IncompatibleConversorException {
+		tipoConversorCorrecto(conversor);
+		
+		if (conversor instanceof ConversorCompuesto) {
+			ConversorCompuesto compuesto = (ConversorCompuesto) conversor;
+			conversorCorrecto(compuesto.getPrimero());
+			tipoConversorCorrecto(compuesto.getSegundo());
+			
+		}
 	}
 	
 	@Override

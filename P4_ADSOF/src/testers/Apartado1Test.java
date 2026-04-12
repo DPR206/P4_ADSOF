@@ -3,7 +3,6 @@ package testers;
 import estacion_meteorologica.*;
 import estrategias.*;
 import procesadores.*;
-import procesadores.conversoresPresion.hPaAPa;
 import sensores.TipoSensor;
 
 /**
@@ -22,7 +21,7 @@ class Apartado1Test {
 		est.addSensor(TipoSensor.TEMPERATURA, 0);
 		est.addSensor(TipoSensor.TEMPERATURA, 0, new EstrategiaAleatoria(10, 50, 20));
 		est.addSensor(TipoSensor.HUMEDAD, 0, new Procesador(new ConversorIdentidad()));
-		est.addSensor(TipoSensor.PRESION, 0, new EstrategiaAleatoria(600, 800, 0), new Procesador(new hPaAPa()));
+		est.addSensor(TipoSensor.PRESION, 0, new EstrategiaAleatoria(600, 800, 0));
 		
 		// Coger los todos los sensores por tipo
 		System.out.println("Caso 1: ");

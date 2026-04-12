@@ -3,6 +3,7 @@
  */
 package estacion_meteorologica;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -142,7 +143,6 @@ public class EstacionMeteorologica implements IDocumento {
 	 * @param estrategia la estrategia para realizar lecturas
 	 */	
 	public void addSensor(TipoSensor tipo, double offset, Estrategia estrategia) {
-
 		Sensor s = null;
 		Procesador procesador = new Procesador(new ConversorIdentidad());
 		try {
@@ -175,7 +175,6 @@ public class EstacionMeteorologica implements IDocumento {
 	 * @param procesador el procesador del sensor
 	 */
 	public void addSensor(TipoSensor tipo, double offset, Procesador procesador) {
-
 		Sensor s = null;
 		try {
 			switch (tipo) {
@@ -198,27 +197,87 @@ public class EstacionMeteorologica implements IDocumento {
 			System.out.println("Warning: " + e);
 		}
 	}
-
+	
 	/**
 	 * Añadir sensores a la estación impidiendo duplicados
 	 * 
 	 * @param tipo el tipo de sensor
 	 * @param offset el offset de calibración
-	 * @param estrategia la estrategia para realizar lecturas
-	 * @param procesador el procesador del sensor
-	 */
-	public void addSensor(TipoSensor tipo, double offset, Estrategia estrategia, Procesador procesador) {
-		Sensor s = null;
+	*/
+	public void addSensor(TipoSensor tipo, double offset, Duration caducidad) {
+	Sensor s = null;
+		Procesador procesador = new Procesador(new ConversorIdentidad());
 		try {
 			switch (tipo) {
 			case TipoSensor.TEMPERATURA:
-				s = new SensorTemperatura(offset, estrategia, procesador);
+				s = new SensorTemperatura(offset, procesador, caducidad);
 				break;
 			case TipoSensor.PRESION:
-				s = new SensorPresion(offset, estrategia, procesador);
+				s = new SensorPresion(offset, procesador, caducidad);
 				break;
 			case TipoSensor.HUMEDAD:
-				s = new SensorHumedad(offset, estrategia, procesador);
+				s = new SensorHumedad(offset, procesador, caducidad);
+				break;
+			}
+
+			if (this.sensores.containsValue(s))
+				throw new IdentificadorDuplicado(s, this.sensores.get(s.getId()));
+			else
+				this.sensores.put(s.getId(), s);
+		} catch (IncompatibleConversorException | IdentificadorDuplicado e) {
+			System.out.println("Warning: " + e);
+		}
+	}
+	
+	/**
+	 * Añadir sensores a la estación impidiendo duplicados
+	 * 
+	 * @param tipo el tipo de sensor
+	 * @param offset el offset de calibración
+	*/
+	public void addSensor(TipoSensor tipo, double offset, double cambioBrusco) {
+	Sensor s = null;
+		Procesador procesador = new Procesador(new ConversorIdentidad());
+		try {
+			switch (tipo) {
+			case TipoSensor.TEMPERATURA:
+				s = new SensorTemperatura(offset, procesador, cambioBrusco);
+				break;
+			case TipoSensor.PRESION:
+				s = new SensorPresion(offset, procesador, cambioBrusco);
+				break;
+			case TipoSensor.HUMEDAD:
+				s = new SensorHumedad(offset, procesador, cambioBrusco);
+				break;
+			}
+
+			if (this.sensores.containsValue(s))
+				throw new IdentificadorDuplicado(s, this.sensores.get(s.getId()));
+			else
+				this.sensores.put(s.getId(), s);
+		} catch (IncompatibleConversorException | IdentificadorDuplicado e) {
+			System.out.println("Warning: " + e);
+		}
+	}
+	
+	/**
+	 * Añadir sensores a la estación impidiendo duplicados
+	 * 
+	 * @param tipo el tipo de sensor
+	 * @param offset el offset de calibración
+	*/
+	public void addSensor(TipoSensor tipo, double offset, Estrategia estrategia, Procesador procesador, Duration caducidad, double cambioBrusco) {
+	Sensor s = null;
+		try {
+			switch (tipo) {
+			case TipoSensor.TEMPERATURA:
+				s = new SensorTemperatura(offset, estrategia, procesador, caducidad, cambioBrusco);
+				break;
+			case TipoSensor.PRESION:
+				s = new SensorPresion(offset, estrategia, procesador, caducidad, cambioBrusco);
+				break;
+			case TipoSensor.HUMEDAD:
+				s = new SensorHumedad(offset, estrategia, procesador, caducidad, cambioBrusco);
 				break;
 			}
 

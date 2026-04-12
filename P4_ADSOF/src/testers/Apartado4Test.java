@@ -7,7 +7,6 @@ import estacion_meteorologica.*;
 import estrategias.*;
 import procesadores.*;
 import procesadores.conversoresPresion.*;
-import procesadores.conversoresTemperatura.*;
 import sensores.*;
 
 /**
@@ -25,7 +24,7 @@ class Apartado4Test {
 		
 		//Añadimos sensores de estrategia aleatoria a la estación
 		//Añadimos un sensor de estrategia cercana sobre el que luego forzar un cambio brusco
-		est.addSensor(TipoSensor.TEMPERATURA, 0, new EstrategiaCercana(0, 50), new Procesador(new ConversorCelsiusAKelvin()));
+		est.addSensor(TipoSensor.TEMPERATURA, 0, new EstrategiaCercana(0, 50));
 		est.addSensor(TipoSensor.PRESION, 0, new Procesador(new hPaAPa()));
 		est.addSensor(TipoSensor.HUMEDAD, 0, new Procesador(new ConversorIdentidad()));
 		est.addSensor(TipoSensor.TEMPERATURA, 0);

@@ -3,6 +3,8 @@
  */
 package sensores;
 
+import java.time.Duration;
+
 import estrategias.*;
 import excepciones.IncompatibleConversorException;
 import procesadores.*;
@@ -32,9 +34,40 @@ public class SensorHumedad extends Sensor{
 	 * @throws IncompatibleConversorException error por conversor incompatible
 	 */
 	public SensorHumedad(double offset, Procesador procesador) throws IncompatibleConversorException {
-		super(idType+String.format("%04d", ids), offset, valorInicial, estrategiaPorDefecto, procesador);
-		if(!(procesador.getConversor() instanceof ConversorIdentidad)) throw new IncompatibleConversorException("Este sensor debe tener un conversor identidad");
-		ids++;
+		this(offset, estrategiaPorDefecto, procesador, getCaducidadPorDefecto(), getCambiobruscopordefecto());
+	}
+	
+	/**
+	 * Crea un nuevo sensor de humedad
+	 * 
+	 * @param offset, offset de calibración
+	 * @param procesador, el procesador del sensor
+	 * @throws IncompatibleConversorException error por conversor incompatible
+	 */
+	public SensorHumedad(double offset, Estrategia estrategia, Procesador procesador) throws IncompatibleConversorException {
+		this(offset, estrategia, procesador, getCaducidadPorDefecto(), getCambiobruscopordefecto());
+	}
+	
+	/**
+	 * Crea un nuevo sensor de humedad
+	 * 
+	 * @param offset, offset de calibración
+	 * @param procesador, el procesador del sensor
+	 * @throws IncompatibleConversorException error por conversor incompatible
+	 */
+	public SensorHumedad(double offset, Procesador procesador, Duration caducidad) throws IncompatibleConversorException {
+		this(offset, estrategiaPorDefecto, procesador, caducidad, getCambiobruscopordefecto());
+	}
+	
+	/**
+	 * Crea un nuevo sensor de humedad
+	 * 
+	 * @param offset, offset de calibración
+	 * @param procesador, el procesador del sensor
+	 * @throws IncompatibleConversorException error por conversor incompatible
+	 */
+	public SensorHumedad(double offset, Procesador procesador, double cambioBrusco) throws IncompatibleConversorException {
+		this(offset, estrategiaPorDefecto, procesador, getCaducidadPorDefecto(), cambioBrusco);
 	}
 	
 	/**
@@ -45,10 +78,36 @@ public class SensorHumedad extends Sensor{
 	 * @param procesador, el procesador del sensor
 	 * @throws IncompatibleConversorException error por conversor incompatible
 	 */
-	public SensorHumedad(double offset, Estrategia estrategia, Procesador procesador) throws IncompatibleConversorException {
-		super(idType+String.format("%04d", ids), offset, valorInicial, estrategia, procesador);
-		if(!(procesador.getConversor() instanceof ConversorIdentidad)) throw new IncompatibleConversorException("Este sensor debe tener un conversor identidad");
+	public SensorHumedad(double offset, Estrategia estrategia, Procesador procesador, Duration caducidad, double cambioBrusco) throws IncompatibleConversorException {
+		super(idType+String.format("%04d", ids), offset, valorInicial, estrategia, procesador, caducidad, cambioBrusco);
+		conversorCorrecto(procesador.getConversor());
 		ids++;
+	}
+	
+	/**
+	 * Comprueba que el tipo del conversor es acorde con el tipo de sensor
+	 * @param conversor Conversor que se quiere asociar
+	 * @throws IncompatibleConversorException Error con el tipo de conversor
+	 */
+	private void tipoConversorCorrecto(Conversor conversor) throws IncompatibleConversorException {
+		if (!(conversor instanceof ConversorIdentidad) && !(conversor instanceof ConversorCompuesto))
+			throw new IncompatibleConversorException("Este sensor debe tener un conversor identidad");
+	}
+
+	/**
+	 * Comprueba en general que el conversor es acorde con el sensor al que se quiere asociar
+	 * @param conversor Conversor que se quiere asociar
+	 * @throws IncompatibleConversorException Error con el conversor
+	 */
+	private void conversorCorrecto(Conversor conversor) throws IncompatibleConversorException {
+		tipoConversorCorrecto(conversor);
+		
+		if (conversor instanceof ConversorCompuesto) {
+			ConversorCompuesto compuesto = (ConversorCompuesto) conversor;
+			conversorCorrecto(compuesto.getPrimero());
+			tipoConversorCorrecto(compuesto.getSegundo());
+			
+		}
 	}
 
 	@Override

@@ -1,5 +1,7 @@
 package procesadores.conversoresTemperatura;
 
+import sensores.TipoTemp;
+
 /**
  * Esta clase representa un conversor de Kelvin a Farenheit
  * 
@@ -13,6 +15,7 @@ public class ConversorKelvinAFarenheit extends ConversorTemperatura {
 	 * Crea un nuevo conversor de Kelvin a Farenheit
 	 */
 	public ConversorKelvinAFarenheit() {
+		super(TipoTemp.KELVIN, TipoTemp.FAHRENHEIT);
 	}
 
 	@Override

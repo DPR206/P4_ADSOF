@@ -27,7 +27,7 @@ public abstract class Sensor {
 	private Estrategia estrategia;
 	private Procesador procesador;
 	private Duration caducidad;
-	private long cambioBrusco;
+	private double cambioBrusco;
 	
 	/**
 	 * Crea un nuevo sensor
@@ -40,7 +40,7 @@ public abstract class Sensor {
 	 * @param caducidad duración de la caducidad de la calibración
 	 * @param cambioBrusco porcentaje de cambio brusco entre lecturas
 	 */
-	public Sensor(String id, double offsetCalibracion, double valorInicial, Estrategia estrategia, Procesador procesador, Duration caducidad, long cambioBrusco) {
+	public Sensor(String id, double offsetCalibracion, double valorInicial, Estrategia estrategia, Procesador procesador, Duration caducidad, double cambioBrusco) {
 		this.id = id;
 		this.offsetCalibracion = offsetCalibracion;
 		this.ultimaLectura = valorInicial;
@@ -52,50 +52,7 @@ public abstract class Sensor {
 		this.caducidad = caducidad;
 		this.cambioBrusco = cambioBrusco;
 	}
-
-	/**
-	 * Crea un nuevo sensor
-	 * 
-	 * @param id el identificador del sensor
-	 * @param offsetCalibracion offset de calibración
-	 * @param valorInicial Valor inicial para la ultima lectura al crear un sensor
-	 * @param estrategia estrategia de toma de valores
-	 * @param procesador procesador de datos
-	 */
-	public Sensor(String id, double offsetCalibracion, double valorInicial, Estrategia estrategia, Procesador procesador) {
-		this(id, offsetCalibracion, valorInicial, estrategia, procesador, Sensor.caducidadPorDefecto, Sensor.cambioBruscoPorDefecto);
-	}
-
-	/**
-	 * Crea un nuevo sensor
-	 * 
-	 * @param id el identificador del sensor
-	 * @param offsetCalibracion offset de calibración
-	 * @param valorInicial valor inicial de lectura
-	 * @param estrategia estrategia de toma de valores
-	 * @param procesador procesador de datos
-	 * @param caducidad duración de la caducidad de la calibración
-	 */
-	public Sensor(String id, double offsetCalibracion, double valorInicial, Estrategia estrategia, Procesador procesador, Duration caducidad) {
-		
-		this(id, offsetCalibracion, valorInicial, estrategia, procesador, caducidad, Sensor.cambioBruscoPorDefecto);
-	}
-
-	/**
-	 * Crea un nuevo sensor
-	 * 
-	 * @param id el identificador del sensor
-	 * @param offset offset de calibración
-	 * @param valorInicial Valor inicial para la ultima lectura al crear un sensor
-	 * @param estrategia estrategia de toma de valores
-	 * @param procesador procesador de datos
-	 * @param cambioBrusco porcentaje de cambio brusco entre lecturas
-	 */
-	public Sensor(String id, double offset, double valorInicial, Estrategia estrategia, Procesador procesador, long cambioBrusco) {
-		
-		this(id, offset, valorInicial, estrategia, procesador, Sensor.caducidadPorDefecto, cambioBrusco);
-	}
-
+	
 	/**
 	 * Obtiene el tiempo de caducidad de las calibraciones
 	 * @return el tiempo de caducidad de la calibracion
@@ -140,7 +97,7 @@ public abstract class Sensor {
 	 * Obtiene la medidad de cambio brusco (en porcentaje)
 	 * @return el cambio brusco
 	 */
-	public long getCambioBrusco() {
+	public double getCambioBrusco() {
 		return cambioBrusco;
 	}
 
@@ -262,14 +219,11 @@ public abstract class Sensor {
 	 * @param valor el valor de la lectura más reciente
 	 * @return true si ha habido un cambio brusco, false if else
 	 */
-	private boolean cambioBrusco(double valor) {
-		if (Math.abs(ultimaLectura) < 1e-9)
-	        return false;
-		
-		double diferencia = ((valor - ultimaLectura)/ultimaLectura)*100;
-		if(diferencia > cambioBrusco)
-			return true;
-		return false;
+	private boolean cambioBrusco(double valor, double valorAnterior) {
+		if (valorAnterior == 0) return false; // Evitar que divida entre 0
+
+		double diferencia = Math.abs((valor - valorAnterior) / valorAnterior) * 100;
+		return diferencia > cambioBrusco;
 	}
 
 	/**
@@ -283,12 +237,13 @@ public abstract class Sensor {
 		if(this.lecturaEnRango(valor) == false)
 			throw new LecturaFueraRango(this, LocalDateTime.now(), valor + "");
 		
+		double ultimaLectura = this.ultimaLectura;
 		String lecturaAnterior = this.ultimaLectura();
-		if(this.cambioBrusco(valor)) 
-			throw new CambioBrusco(this, lecturaAnterior, LocalDateTime.now());
 		this.setUltimaLectura(valor);
 		this.setTiempoUltimaLectura(LocalDateTime.now());
 		this.procesador.procesar(valor);
+		if(this.cambioBrusco(valor, ultimaLectura)) 
+			throw new CambioBrusco(this, lecturaAnterior, LocalDateTime.now());
 		
 	}
 

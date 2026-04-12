@@ -1,5 +1,7 @@
 package procesadores.conversoresTemperatura;
 
+import sensores.TipoTemp;
+
 /**
  * Esta clase representa un conversor de Celsius a Kelvin
  * 
@@ -13,6 +15,7 @@ public class ConversorCelsiusAKelvin extends ConversorTemperatura {
 	 * Crea un conversor de celsius a kelvin
 	 */
 	public ConversorCelsiusAKelvin() {
+		super(TipoTemp.CELSIUS, TipoTemp.KELVIN);
 	}
 
 	@Override

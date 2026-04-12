@@ -1,6 +1,7 @@
 package testers;
 
 import estacion_meteorologica.*;
+import excepciones.IncompatibleConversorException;
 import procesadores.conversoresPresion.*;
 import procesadores.conversoresTemperatura.*;
 import procesadores.*;
@@ -22,6 +23,16 @@ class Apartado3Test {
 		est.addSensor(TipoSensor.TEMPERATURA, 0, new Procesador(new hPaAPa()));
 		est.addSensor(TipoSensor.PRESION, 0, new Procesador(new ConversorCelsiusAKelvin()));
 		est.addSensor(TipoSensor.HUMEDAD, 0, new Procesador(new ConversorCelsiusAKelvin()));
+		try {
+			est.addSensor(TipoSensor.TEMPERATURA, 0, new Procesador(new ConversorCompuesto(new ConversorCelsiusAKelvin(), new ConversorFarenheitACelsius())));
+		} catch (IncompatibleConversorException e) {
+			System.out.println("Warning: " + e);
+		}
+		try {
+			est.addSensor(TipoSensor.TEMPERATURA, 0, new Procesador(new ConversorCompuesto(new ConversorCelsiusAKelvin(), new hPaAPa())));
+		} catch (IncompatibleConversorException e) {
+			System.out.println("Warning: " + e);
+		}
 		
 		// Añadir un sensor sin especificar el conversor asigna un ConversorIdentidad
 		est.addSensor(TipoSensor.TEMPERATURA, 0);
@@ -31,6 +42,11 @@ class Apartado3Test {
 		est.addSensor(TipoSensor.TEMPERATURA, 0, new Procesador(new ConversorCelsiusAKelvin()));
 		est.addSensor(TipoSensor.PRESION, 0, new Procesador(new hPaAPa()));
 		est.addSensor(TipoSensor.HUMEDAD, 0, new Procesador(new ConversorIdentidad()));
+		try {
+			est.addSensor(TipoSensor.TEMPERATURA, 0, new Procesador(new ConversorCompuesto(new ConversorCelsiusAKelvin(), new ConversorKelvinAFarenheit())));
+		} catch (IncompatibleConversorException e) {
+			System.out.println("Warning: " + e);
+		}
 		
 		// Configuramos 5 lecturas en cada uno e imprimimos la información de la estación
 		est.realizarLecturasPeriodicas(100, 5);

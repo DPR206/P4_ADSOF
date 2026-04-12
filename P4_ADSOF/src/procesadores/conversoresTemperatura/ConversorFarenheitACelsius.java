@@ -1,5 +1,7 @@
 package procesadores.conversoresTemperatura;
 
+import sensores.TipoTemp;
+
 /**
  * Esta clase representa un conversor de Farenheit a Celsius
  * 
@@ -13,6 +15,7 @@ public class ConversorFarenheitACelsius extends ConversorTemperatura {
 	 * Crea un nuevo conversor de Farenheit a Celsius
 	 */
 	public ConversorFarenheitACelsius() {
+		super(TipoTemp.FAHRENHEIT, TipoTemp.CELSIUS);
 	}
 
 	@Override
