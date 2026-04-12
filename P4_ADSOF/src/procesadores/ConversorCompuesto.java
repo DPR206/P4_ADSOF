@@ -13,4 +13,9 @@ public class ConversorCompuesto implements Conversor {
 	public double convertir(double valor) {
 		return segundo.convertir(primero.convertir(valor));
 	}
+	
+	@Override
+	public String toString() {
+		return segundo.toString();
+	}
 }

@@ -60,7 +60,7 @@ public class UbicacionGeografica {
 
 	@Override
 	public String toString() {
-		return "UbicacionGeografica [latitud=" + latitud + ", longitud=" + longitud + "]";
+		return latitud + ", " + longitud;
 	}
 	
 }

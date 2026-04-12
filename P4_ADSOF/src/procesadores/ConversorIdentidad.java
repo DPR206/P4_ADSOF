@@ -6,5 +6,10 @@ public class ConversorIdentidad implements Conversor {
 	public double convertir(double valor) {
 		return valor;
 	}
+	
+	@Override
+	public String toString() {
+		return "";
+	}
 
 }

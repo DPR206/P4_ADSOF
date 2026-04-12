@@ -32,7 +32,7 @@ public class SensorHumedad extends Sensor{
 	 */
 	public SensorHumedad(double offset, Procesador procesador) throws IncompatibleConversorException {
 		super(idType+String.format("%04d", ids), offset, estrategiaPorDefecto, procesador);
-		if(!(procesador.getConversor() instanceof ConversorIdentidad)) throw new IncompatibleConversorException("Este sensor debe tener un convesor identidad");
+		if(!(procesador.getConversor() instanceof ConversorIdentidad)) throw new IncompatibleConversorException("Este sensor debe tener un conversor identidad");
 		ids++;
 	}
 	
@@ -46,7 +46,7 @@ public class SensorHumedad extends Sensor{
 	 */
 	public SensorHumedad(double offset, Estrategia estrategia, Procesador procesador) throws IncompatibleConversorException {
 		super(idType+String.format("%04d", ids), offset, estrategia, procesador);
-		if(!(procesador.getConversor() instanceof ConversorIdentidad)) throw new IncompatibleConversorException("Este sensor debe tener un convesor identidad");
+		if(!(procesador.getConversor() instanceof ConversorIdentidad)) throw new IncompatibleConversorException("Este sensor debe tener un conversor identidad");
 		ids++;
 	}
 
@@ -65,6 +65,15 @@ public class SensorHumedad extends Sensor{
 	@Override
 	public String detallesHijo() {
 		return " Sensor Humedad (" + this.ultimaLectura();
+	}
+	
+	@Override
+	public String infoProcesador() {
+		StringBuilder sb = new StringBuilder();
+
+		sb.append(super.getId() + " (" + unidad + ")");
+		sb.append(super.getProcesador());
+		return sb.toString();
 	}
 	
 	

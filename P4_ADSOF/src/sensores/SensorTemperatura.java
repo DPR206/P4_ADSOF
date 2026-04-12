@@ -36,7 +36,7 @@ public class SensorTemperatura extends Sensor {
 	 */
 	public SensorTemperatura(double offset, Procesador procesador) throws IncompatibleConversorException {
 		super(idType+String.format("%04d", ids), offset,estrategiaPorDefecto, procesador);
-		if(!(procesador.getConversor() instanceof ConversorTemperatura) && !(procesador.getConversor() instanceof ConversorIdentidad)) throw new IncompatibleConversorException("Este sensor debe tener un convesor de temperatura");
+		if(!(procesador.getConversor() instanceof ConversorTemperatura) && !(procesador.getConversor() instanceof ConversorIdentidad)) throw new IncompatibleConversorException("Este sensor debe tener un conversor de temperatura");
 		ids++;
 		this.tipo = TipoTemp.CELSIUS;
 	}
@@ -51,7 +51,7 @@ public class SensorTemperatura extends Sensor {
 	 */
 	public SensorTemperatura(double offset, Estrategia estrategia, Procesador procesador) throws IncompatibleConversorException {
 		super(idType+String.format("%04d", ids), offset, estrategia, procesador);
-		if(!(procesador.getConversor() instanceof ConversorTemperatura) && !(procesador.getConversor() instanceof ConversorIdentidad)) throw new IncompatibleConversorException("Este sensor debe tener un convesor de temperatura");
+		if(!(procesador.getConversor() instanceof ConversorTemperatura) && !(procesador.getConversor() instanceof ConversorIdentidad)) throw new IncompatibleConversorException("Este sensor debe tener un conversor de temperatura");
 		ids++;
 		this.tipo = TipoTemp.CELSIUS;
 	}
@@ -125,6 +125,15 @@ public class SensorTemperatura extends Sensor {
 	@Override
 	public String detallesHijo() {
 		return " Sensor Temperatura (" + this.ultimaLectura();
+	}
+	
+	@Override
+	public String infoProcesador() {
+		StringBuilder sb = new StringBuilder();
+
+		sb.append(super.getId() + " (" + tipo.getUnidad() + ")");
+		sb.append(super.getProcesador());
+		return sb.toString();
 	}
 	
 	

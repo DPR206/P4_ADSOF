@@ -46,16 +46,11 @@ public class Procesador {
 	
 	@Override
 	public String toString() {
-		String valores = "[";
-		for(Valor v : historial) {
-			valores += v.getValor();
-			valores += ", ";
-		}
-		if (!historial.isEmpty()) {
-		    valores = valores.substring(0, valores.length() - 2);
-		}
-		valores += "]";
-		
-		return valores + "-- MIN: " + this.getMin() + "-- MAX: " + this.getMax() + "-- MEDIA: " + this.getMedia();
+		StringBuilder sb = new StringBuilder();
+
+		sb.append(conversor + ": ");
+		sb.append(historial);
+		sb.append(" -- MIN: " + this.getMin() + " MAX: " + this.getMax() + " MEDIA: " + this.getMedia());
+		return sb.toString();
 	}
 }

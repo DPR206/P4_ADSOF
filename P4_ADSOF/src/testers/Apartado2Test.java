@@ -7,12 +7,12 @@ import excepciones.LecturaFueraRango;
 import procesadores.*;
 import sensores.*;
 
-public class EstrategiaTest {
+public class Apartado2Test {
 
 	public static void main(String[] args) throws IncompatibleConversorException, CambioBrusco, LecturaFueraRango {
 		
-		// Por defecto sin especificar estrategia se pone la cercana con valor inicial 0 y desviación 10%
-		// El resultado deberá estar entre -0.1 y 0.1 (si el valor base es 0 se cambia por un valor mínimo para ver una variación)
+		// Por defecto la estrategia da un valor aleatoria siempre dentro del rango de cada tipo de sensor
+		// El resultado deberá estar entre -273.15 y 1000
 		Sensor s = new SensorTemperatura(0, new Procesador(new ConversorIdentidad()));
 		s.realizarLectura();
 		System.out.println("Caso 1: " + s.getUltimaLectura());

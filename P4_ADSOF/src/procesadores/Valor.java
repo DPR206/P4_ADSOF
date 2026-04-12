@@ -18,4 +18,9 @@ public class Valor {
 	public LocalDateTime getFechaLectura() {
 		return fechaLectura;
 	}
+	
+	@Override
+	public String toString() {
+		return valor + "";
+	}
 }
