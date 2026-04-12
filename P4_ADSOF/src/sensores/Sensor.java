@@ -281,10 +281,12 @@ public abstract class Sensor {
 			throw new LecturaFueraRango(this, LocalDateTime.now(), valor + "");
 		
 		String lecturaAnterior = this.ultimaLectura();
+		if(this.cambioBrusco(valor)) 
+			throw new CambioBrusco(this, lecturaAnterior, LocalDateTime.now());
 		this.setUltimaLectura(valor);
 		this.setTiempoUltimaLectura(LocalDateTime.now());
 		this.procesador.procesar(valor);
-		if(this.cambioBrusco(valor)) throw new CambioBrusco(this, lecturaAnterior, LocalDateTime.now());
+		
 	}
 
 	/**

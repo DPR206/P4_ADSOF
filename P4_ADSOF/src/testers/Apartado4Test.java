@@ -13,7 +13,8 @@ import sensores.*;
  * Esta clase representa un test de las alertas (apartado 4)
  * 
  * @author Claudia Saiz Escribano y Duna Puente Romera.
- * @version 1.0 Nombre del fichero: Apartado4Test.java
+ * @version 1.0 
+ * Nombre del fichero: Apartado4Test.java
  * 
  */
 public class Apartado4Test {
@@ -63,7 +64,10 @@ public class Apartado4Test {
 		}
 		
 		//Forzamos un cambio brusco de valores
+		//est.obtenerSensorId("HUM_0001").setCambioBrusco(5);
+		//est.calibrarSensor(est.obtenerSensorId("HUM_0001"), 30);
 		
+		//est.realizarLecturas();
 		
 		System.out.println(est);
 
