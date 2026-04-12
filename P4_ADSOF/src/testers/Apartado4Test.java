@@ -18,11 +18,8 @@ import sensores.*;
  * Nombre del fichero: Apartado4Test.java
  * 
  */
-public class Apartado4Test {
+class Apartado4Test {
 
-	/**
-	 * @param args
-	 */
 	public static void main(String[] args) {
 		EstacionMeteorologica est = new EstacionMeteorologica("Madrid Centro", new UbicacionGeografica(32, 54));
 		

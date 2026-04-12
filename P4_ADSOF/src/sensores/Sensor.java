@@ -34,6 +34,7 @@ public abstract class Sensor {
 	 * 
 	 * @param id el identificador del sensor
 	 * @param offsetCalibracion offset de calibración
+	 * @param valorInicial Valor inicial para la ultima lectura al crear un sensor
 	 * @param estrategia estrategia de toma de valores
 	 * @param procesador procesador de datos
 	 * @param caducidad duración de la caducidad de la calibración
@@ -57,6 +58,7 @@ public abstract class Sensor {
 	 * 
 	 * @param id el identificador del sensor
 	 * @param offsetCalibracion offset de calibración
+	 * @param valorInicial Valor inicial para la ultima lectura al crear un sensor
 	 * @param estrategia estrategia de toma de valores
 	 * @param procesador procesador de datos
 	 */
@@ -69,6 +71,7 @@ public abstract class Sensor {
 	 * 
 	 * @param id el identificador del sensor
 	 * @param offsetCalibracion offset de calibración
+	 * @param valorInicial Valor inicial para la ultima lectura al crear un sensor
 	 * @param estrategia estrategia de toma de valores
 	 * @param procesador procesador de datos
 	 * @param caducidad duración de la caducidad de la calibración
@@ -83,6 +86,7 @@ public abstract class Sensor {
 	 * 
 	 * @param id el identificador del sensor
 	 * @param offset offset de calibración
+	 * @param valorInicial Valor inicial para la ultima lectura al crear un sensor
 	 * @param estrategia estrategia de toma de valores
 	 * @param procesador procesador de datos
 	 * @param cambioBrusco porcentaje de cambio brusco entre lecturas
