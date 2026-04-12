@@ -32,8 +32,8 @@ public class SensorHumedad extends Sensor{
 	 * @param fechaInstalacion, fecha de instalación del sensor
 	 * @throws IncompatibleConversorException 
 	 */
-	public SensorHumedad(double offset, double ultimaLectura, Procesador procesador) throws IncompatibleConversorException {
-		super(idType+String.format("%04d", ids), offset, ultimaLectura, procesador);
+	public SensorHumedad(double offset, Procesador procesador) throws IncompatibleConversorException {
+		super(idType+String.format("%04d", ids), offset, procesador);
 		if(!(procesador.getConversor() instanceof ConversorIdentidad)) throw new IncompatibleConversorException("Este sensor debe tener un convesor identidad");
 		ids++;
 	}
@@ -48,8 +48,8 @@ public class SensorHumedad extends Sensor{
 	 * @param fechaInstalacion, fecha de instalación del sensor
 	 * @throws IncompatibleConversorException 
 	 */
-	public SensorHumedad(double offset, double ultimaLectura, Estrategia estrategia, Procesador procesador) throws IncompatibleConversorException {
-		super(idType+String.format("%04d", ids), offset, ultimaLectura, estrategia, procesador);
+	public SensorHumedad(double offset, Estrategia estrategia, Procesador procesador) throws IncompatibleConversorException {
+		super(idType+String.format("%04d", ids), offset, estrategia, procesador);
 		if(!(procesador.getConversor() instanceof ConversorIdentidad)) throw new IncompatibleConversorException("Este sensor debe tener un convesor identidad");
 		ids++;
 	}

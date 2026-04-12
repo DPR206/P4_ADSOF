@@ -178,20 +178,20 @@ public class EstacionMeteorologica implements IDocumento {
 	 * @param tipo el tipo de sensor
 	 * @param offset el offset de calibración
 	 * @param ultimaLectura el valor de la última lectura
-	 */
-	public void addSensor(TipoSensor tipo, double offset, double ultimaLectura) {
-		Sensor s = null;
+	*/
+	public void addSensor(TipoSensor tipo, double offset) {
+	Sensor s = null;
 		Procesador procesador = new Procesador(new ConversorIdentidad());
 		try {
 			switch (tipo) {
 			case TipoSensor.TEMPERATURA:
-				s = new SensorTemperatura(offset, ultimaLectura, procesador);
+				s = new SensorTemperatura(offset, procesador);
 				break;
 			case TipoSensor.PRESION:
-				s = new SensorTemperatura(offset, ultimaLectura, procesador);
+				s = new SensorTemperatura(offset, procesador);
 				break;
 			case TipoSensor.HUMEDAD:
-				s = new SensorTemperatura(offset, ultimaLectura, procesador);
+				s = new SensorTemperatura(offset, procesador);
 				break;
 			}
 
@@ -211,20 +211,21 @@ public class EstacionMeteorologica implements IDocumento {
 	 * @param offset el offset de calibración
 	 * @param ultimaLectura el valor de la última lectura
 	 * @param estrategia la estrategia para realizar lecturas
-	 */
-	public void addSensor(TipoSensor tipo, double offset, double ultimaLectura, Estrategia estrategia) {
+	 */	
+	public void addSensor(TipoSensor tipo, double offset, Estrategia estrategia) {
+
 		Sensor s = null;
 		Procesador procesador = new Procesador(new ConversorIdentidad());
 		try {
 			switch (tipo) {
 			case TipoSensor.TEMPERATURA:
-				s = new SensorTemperatura(offset, ultimaLectura, estrategia, procesador);
+				s = new SensorTemperatura(offset, estrategia, procesador);
 				break;
 			case TipoSensor.PRESION:
-				s = new SensorTemperatura(offset, ultimaLectura, estrategia, procesador);
+				s = new SensorTemperatura(offset, estrategia, procesador);
 				break;
 			case TipoSensor.HUMEDAD:
-				s = new SensorTemperatura(offset, ultimaLectura, estrategia, procesador);
+				s = new SensorTemperatura(offset, estrategia, procesador);
 				break;
 			}
 
@@ -242,21 +243,21 @@ public class EstacionMeteorologica implements IDocumento {
 	 * 
 	 * @param tipo el tipo de sensor
 	 * @param offset el offset de calibración
-	 * @param ultimaLectura el valor de la última lectura
 	 * @param procesador el procesador del sensor
 	 */
-	public void addSensor(TipoSensor tipo, double offset, double ultimaLectura, Procesador procesador) {
+	public void addSensor(TipoSensor tipo, double offset, Procesador procesador) {
+
 		Sensor s = null;
 		try {
 			switch (tipo) {
 			case TipoSensor.TEMPERATURA:
-				s = new SensorTemperatura(offset, ultimaLectura, procesador);
+				s = new SensorTemperatura(offset, procesador);
 				break;
 			case TipoSensor.PRESION:
-				s = new SensorTemperatura(offset, ultimaLectura, procesador);
+				s = new SensorTemperatura(offset, procesador);
 				break;
 			case TipoSensor.HUMEDAD:
-				s = new SensorTemperatura(offset, ultimaLectura, procesador);
+				s = new SensorTemperatura(offset, procesador);
 				break;
 			}
 
@@ -274,22 +275,21 @@ public class EstacionMeteorologica implements IDocumento {
 	 * 
 	 * @param tipo el tipo de sensor
 	 * @param offset el offset de calibración
-	 * @param ultimaLectura el valor de la última lectura
 	 * @param estrategia la estrategia para realizar lecturas
 	 * @param procesador el procesador del sensor
 	 */
-	public void addSensor(TipoSensor tipo, double offset, double ultimaLectura, Estrategia estrategia, Procesador procesador) {
+	public void addSensor(TipoSensor tipo, double offset, Estrategia estrategia, Procesador procesador) {
 		Sensor s = null;
 		try {
 			switch (tipo) {
 			case TipoSensor.TEMPERATURA:
-				s = new SensorTemperatura(offset, ultimaLectura, estrategia, procesador);
+				s = new SensorTemperatura(offset, estrategia, procesador);
 				break;
 			case TipoSensor.PRESION:
-				s = new SensorTemperatura(offset, ultimaLectura, estrategia, procesador);
+				s = new SensorTemperatura(offset, estrategia, procesador);
 				break;
 			case TipoSensor.HUMEDAD:
-				s = new SensorTemperatura(offset, ultimaLectura, estrategia, procesador);
+				s = new SensorTemperatura(offset, estrategia, procesador);
 				break;
 			}
 
