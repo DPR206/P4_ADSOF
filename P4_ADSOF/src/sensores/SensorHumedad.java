@@ -23,14 +23,11 @@ public class SensorHumedad extends Sensor{
 	private static String unidad = "%";
 	
 	/**
-	 * Crea un nuevo sensor de temperatura
+	 * Crea un nuevo sensor de humedad
 	 * 
 	 * @param offset, offset de calibración
-	 * @param ultimaLectura, valor de la última lectura
-	 * @param tiempoUltimaLectura, fecha y hora de la última lectura
-	 * @param ultimaCalibracion
-	 * @param fechaInstalacion, fecha de instalación del sensor
-	 * @throws IncompatibleConversorException 
+	 * @param procesador, el procesador del sensor
+	 * @throws IncompatibleConversorException error por conversor incompatible
 	 */
 	public SensorHumedad(double offset, Procesador procesador) throws IncompatibleConversorException {
 		super(idType+String.format("%04d", ids), offset, procesador);
@@ -39,14 +36,12 @@ public class SensorHumedad extends Sensor{
 	}
 	
 	/**
-	 * Crea un nuevo sensor de temperatura
+	 * Crea un nuevo sensor de humedad
 	 * 
 	 * @param offset, offset de calibración
-	 * @param ultimaLectura, valor de la última lectura
-	 * @param tiempoUltimaLectura, fecha y hora de la última lectura
-	 * @param ultimaCalibracion
-	 * @param fechaInstalacion, fecha de instalación del sensor
-	 * @throws IncompatibleConversorException 
+	 * @param estrategia estrtegia de lectura
+	 * @param procesador, el procesador del sensor
+	 * @throws IncompatibleConversorException error por conversor incompatible
 	 */
 	public SensorHumedad(double offset, Estrategia estrategia, Procesador procesador) throws IncompatibleConversorException {
 		super(idType+String.format("%04d", ids), offset, estrategia, procesador);

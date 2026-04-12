@@ -25,12 +25,9 @@ public class SensorPresion extends Sensor{
 	private static String unidad = "hPa";
 	
 	/**
-	 * 
+	 * Crea un nuevo sensor de presión
 	 * @param offset
-	 * @param ultimaLectura
-	 * @param tiempoUltimaLectura
-	 * @param ultimaCalibracion
-	 * @param fechaInstalacion
+	 * @param procesador
 	 * @throws IncompatibleConversorException 
 	 */
 	public SensorPresion(double offset, Procesador procesador) throws IncompatibleConversorException {
@@ -40,12 +37,10 @@ public class SensorPresion extends Sensor{
 	}
 	
 	/**
-	 * 
+	 * Crea un nuevo sensor de presión
 	 * @param offset
-	 * @param ultimaLectura
-	 * @param tiempoUltimaLectura
-	 * @param ultimaCalibracion
-	 * @param fechaInstalacion
+	 * @param estrategia
+	 * @param procesador
 	 * @throws IncompatibleConversorException 
 	 */
 	public SensorPresion(double offset, Estrategia estrategia, Procesador procesador) throws IncompatibleConversorException {
