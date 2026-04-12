@@ -3,7 +3,7 @@
  */
 package sensores;
 
-import estrategias.Estrategia;
+import estrategias.*;
 import excepciones.IncompatibleConversorException;
 import procesadores.*;
 
@@ -21,6 +21,7 @@ public class SensorHumedad extends Sensor{
 	private static double cotaInferior = 0;
 	private static double cotaSuperior = 100;
 	private static String unidad = "%";
+	private static final Estrategia estrategiaPorDefecto = new EstrategiaAleatoria(cotaInferior, cotaSuperior, 0);
 	
 	/**
 	 * Crea un nuevo sensor de humedad
@@ -30,7 +31,7 @@ public class SensorHumedad extends Sensor{
 	 * @throws IncompatibleConversorException error por conversor incompatible
 	 */
 	public SensorHumedad(double offset, Procesador procesador) throws IncompatibleConversorException {
-		super(idType+String.format("%04d", ids), offset, procesador);
+		super(idType+String.format("%04d", ids), offset, estrategiaPorDefecto, procesador);
 		if(!(procesador.getConversor() instanceof ConversorIdentidad)) throw new IncompatibleConversorException("Este sensor debe tener un convesor identidad");
 		ids++;
 	}

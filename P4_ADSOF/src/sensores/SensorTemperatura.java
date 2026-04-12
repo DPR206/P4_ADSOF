@@ -4,6 +4,7 @@
 package sensores;
 
 import estrategias.Estrategia;
+import estrategias.EstrategiaAleatoria;
 import excepciones.IncompatibleConversorException;
 import procesadores.*;
 import procesadores.conversoresTemperatura.ConversorTemperatura;
@@ -22,6 +23,7 @@ public class SensorTemperatura extends Sensor {
 	private static double cotaInferior = -273.15;
 	private static double cotaSuperior = 1000;
 	private static final double KelvinCelsius = -273.15;
+	private static final Estrategia estrategiaPorDefecto = new EstrategiaAleatoria(cotaInferior, cotaSuperior, 0);
 	
 	private TipoTemp tipo;
 	
@@ -33,7 +35,7 @@ public class SensorTemperatura extends Sensor {
 	 * @throws IncompatibleConversorException error por conversor incompatible
 	 */
 	public SensorTemperatura(double offset, Procesador procesador) throws IncompatibleConversorException {
-		super(idType+String.format("%04d", ids), offset, procesador);
+		super(idType+String.format("%04d", ids), offset,estrategiaPorDefecto, procesador);
 		if(!(procesador.getConversor() instanceof ConversorTemperatura) && !(procesador.getConversor() instanceof ConversorIdentidad)) throw new IncompatibleConversorException("Este sensor debe tener un convesor de temperatura");
 		ids++;
 		this.tipo = TipoTemp.CELSIUS;

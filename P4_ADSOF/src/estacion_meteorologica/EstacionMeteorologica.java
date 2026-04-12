@@ -55,27 +55,11 @@ public class EstacionMeteorologica implements IDocumento {
 	}
 
 	/**
-	 * Establece el nombre de la estación
-	 * @param nombre el nuevo nombre
-	 */
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
-
-	/**
 	 * Obtiene la ubicación de la estación
 	 * @return la ubicacion
 	 */
 	public UbicacionGeografica getUbicacion() {
 		return ubicacion;
-	}
-
-	/**
-	 * Establece la ubicación de la estación
-	 * @param ubicacion la ubicacion a establecer
-	 */
-	public void setUbicacion(UbicacionGeografica ubicacion) {
-		this.ubicacion = ubicacion;
 	}
 
 	/**
@@ -87,27 +71,11 @@ public class EstacionMeteorologica implements IDocumento {
 	}
 
 	/**
-	 * Estblece un nuevo hash map de sensores
-	 * @param sensores los nuevos sensores
-	 */
-	public void setSensores(HashMap<String, Sensor> sensores) {
-		this.sensores = sensores;
-	}
-
-	/**
 	 * Obtiene un las alertas asociadas a cada sensor
 	 * @return un hash map de las alertas
 	 */
 	public HashMap<Sensor, List<Exception>> getAlertas() {
 		return alertas;
-	}
-
-	/**
-	 * Estblece nuevas alertas asociaddas a los sensores
-	 * @param alertas hash map de las nuevas alertas
-	 */
-	public void setAlertas(HashMap<Sensor, List<Exception>> alertas) {
-		this.alertas = alertas;
 	}
 
 	/**
@@ -305,10 +273,7 @@ public class EstacionMeteorologica implements IDocumento {
 				s.calibrado();
 				validos.add(s);
 			} catch (CalibracionCaducada e) {
-				//System.out.println(e.getMessage());
-				this.alertas.computeIfAbsent(s, k -> new ArrayList<>()).add(e);
-			} catch (LecturaFueraRango e) {
-				//System.out.println(e.getMessage());
+				System.out.println("Warning: " + e);
 				this.alertas.computeIfAbsent(s, k -> new ArrayList<>()).add(e);
 			}
 		return validos;
@@ -321,8 +286,8 @@ public class EstacionMeteorologica implements IDocumento {
 		this.sensoresValidos().parallelStream().forEach(t -> {
 			try {
 				t.realizarLectura();
-			} catch (CambioBrusco e) {
-				System.out.println("Warning: "+e);
+			} catch (CambioBrusco | LecturaFueraRango e) {
+				System.out.println("Warning: " + e);
 				this.alertas.computeIfAbsent(t, k -> new ArrayList<>()).add(e);
 			}
 		});

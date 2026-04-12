@@ -12,10 +12,10 @@ public class EstacionMeteorologicaTest {
 		EstacionMeteorologica est = new EstacionMeteorologica("Madrid Centro", new UbicacionGeografica(32, 54));
 		
 		// Añadimos 4 sensores, utilizando diferentes constructores
-		est.addSensor(TipoSensor.TEMPERATURA, 10);
-		est.addSensor(TipoSensor.TEMPERATURA, 20, new EstrategiaAleatoria(10, 50, 20));
-		est.addSensor(TipoSensor.HUMEDAD, 30, new Procesador(new ConversorIdentidad()));
-		est.addSensor(TipoSensor.PRESION, 40, new EstrategiaAleatoria(10, 50, 20), new Procesador(new hPaAPa()));
+		est.addSensor(TipoSensor.TEMPERATURA, 0);
+		est.addSensor(TipoSensor.TEMPERATURA, 0, new EstrategiaAleatoria(10, 50, 20));
+		est.addSensor(TipoSensor.HUMEDAD, 0, new Procesador(new ConversorIdentidad()));
+		est.addSensor(TipoSensor.PRESION, 0, new EstrategiaAleatoria(600, 800, 0), new Procesador(new hPaAPa()));
 		
 		// Coger los todos los sensores por tipo
 		System.out.println("Caso 1: ");
@@ -24,10 +24,22 @@ public class EstacionMeteorologicaTest {
 		System.out.println(est.buscarTipoSensores(TipoSensor.PRESION));
 		
 		// Cogemos un sensor por id
-		System.out.println("\nCaso 2 : " + est.obtenerSensorId("TEMP_0000"));
+		System.out.println("\nCaso 2: " + est.obtenerSensorId("TEMP_0000"));
 		
 		// Realizamos lectura de los sensores
 		est.realizarLecturas();
+		System.out.println("\nCaso 3: " + est.getSensores().values());
+		
+		// Activamos las lecturas periodicas cada 0,1 segundo con máximo de 5 lecturas
+		est.realizarLecturasPeriodicas(100, 5);
+		try {
+		    Thread.sleep(2000);
+		} catch (InterruptedException e) {
+		    e.printStackTrace();
+		}
+		System.out.println("\nCaso 4: " + est.getSensores().values());
+		
+		//
 	}
 	
 }

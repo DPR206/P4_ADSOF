@@ -3,12 +3,13 @@ package testers;
 import estrategias.*;
 import excepciones.CambioBrusco;
 import excepciones.IncompatibleConversorException;
+import excepciones.LecturaFueraRango;
 import procesadores.*;
 import sensores.*;
 
 public class EstrategiaTest {
 
-	public static void main(String[] args) throws IncompatibleConversorException, CambioBrusco {
+	public static void main(String[] args) throws IncompatibleConversorException, CambioBrusco, LecturaFueraRango {
 		
 		// Por defecto sin especificar estrategia se pone la cercana con valor inicial 0 y desviación 10%
 		// El resultado deberá estar entre -0.1 y 0.1 (si el valor base es 0 se cambia por un valor mínimo para ver una variación)

@@ -4,6 +4,7 @@
 package sensores;
 
 import estrategias.Estrategia;
+import estrategias.EstrategiaAleatoria;
 import excepciones.IncompatibleConversorException;
 import procesadores.ConversorIdentidad;
 import procesadores.Procesador;
@@ -23,6 +24,7 @@ public class SensorPresion extends Sensor{
 	private static double cotaInferior = 300;
 	private static double cotaSuperior = 1100;
 	private static String unidad = "hPa";
+	private static final Estrategia estrategiaPorDefecto = new EstrategiaAleatoria(cotaInferior, cotaSuperior, 0);
 	
 	/**
 	 * Crea un nuevo sensor de presión
@@ -31,7 +33,7 @@ public class SensorPresion extends Sensor{
 	 * @throws IncompatibleConversorException 
 	 */
 	public SensorPresion(double offset, Procesador procesador) throws IncompatibleConversorException {
-		super(idType+String.format("%04d", ids), offset, procesador);
+		super(idType+String.format("%04d", ids), offset, estrategiaPorDefecto, procesador);
 		if(!(procesador.getConversor() instanceof ConversorPresion) && !(procesador.getConversor() instanceof ConversorIdentidad)) throw new IncompatibleConversorException("Este sensor debe tener un convesor de presión");
 		ids++;
 	}
@@ -56,8 +58,12 @@ public class SensorPresion extends Sensor{
 
 	@Override
 	public boolean lecturaEnRango(double valor) {
-		if(valor < SensorPresion.cotaInferior || valor > SensorPresion.cotaSuperior)
+		if(valor < SensorPresion.cotaInferior || valor > SensorPresion.cotaSuperior) {
+			
+			System.out.println(valor + "esta saltando esto\n");
+			
 			return false;
+		}
 		return true;
 	}
 

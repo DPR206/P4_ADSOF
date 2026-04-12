@@ -17,7 +17,6 @@ import procesadores.Procesador;
 public abstract class Sensor {
 	private static final Duration caducidadPorDefecto = Duration.ofDays(365);
 	private static final long cambioBruscoPorDefecto = 50;
-	private static final Estrategia estrategiaPorDefecto = new EstrategiaCercana(0, 10);
 	private static final double primeraLectura = 0;
 	
 	private String id;
@@ -31,22 +30,6 @@ public abstract class Sensor {
 	private Procesador procesador;
 	private Duration caducidad;
 	private long cambioBrusco;
-	
-	
-	/**
-	 * Crea un nuevo sensor
-	 * 
-	 * @param id el identificador del sensor
-	 * @param offset offset de calibración
-	 * @param ultimaLectura valor de la última lectura
-	 * @param tiempoUltimaLectura fecha y hora de la última lectura
-	 * @param ultimaCalibracion fecha y hora de la última calibración
-	 * @param fechaInstalacion fecha de instalación del sensor
-	 */
-	public Sensor(String id, double offsetCalibracion, Procesador procesador, Duration caducidad, long cambioBrusco) {
-		
-		this(id, offsetCalibracion, estrategiaPorDefecto, procesador, caducidad, cambioBrusco);
-	}
 	
 	/**
 	 * Crea un nuevo sensor
@@ -69,10 +52,6 @@ public abstract class Sensor {
 		this.procesador = procesador;
 		this.caducidad = caducidad;
 		this.cambioBrusco = cambioBrusco;
-	}
-
-	public Sensor(String id, double offsetCalibracion, Procesador procesador) {
-		this(id, offsetCalibracion, procesador, Sensor.caducidadPorDefecto, Sensor.cambioBruscoPorDefecto);
 	}
 	
 	public Sensor(String id, double offsetCalibracion, Estrategia estrategia, Procesador procesador) {
@@ -118,7 +97,6 @@ public abstract class Sensor {
 	public Duration getCaducidad() {
 		return caducidad;
 	}
-
 
 	/**
 	 * Establece el tiempo de lecturas realizadas en rango
@@ -273,32 +251,36 @@ public abstract class Sensor {
 	}
 	
 	private boolean cambioBrusco(double valor) {
+		if (Math.abs(ultimaLectura) < 1e-9)
+	        return false;
+		
 		double diferencia = ((valor - ultimaLectura)/ultimaLectura)*100;
 		if(diferencia > cambioBrusco)
 			return true;
 		return false;
 	}
 
-	public void realizarLectura() throws CambioBrusco{
+	public void realizarLectura() throws CambioBrusco, LecturaFueraRango{
 		double valor = estrategia.generarValor()-offsetCalibracion;
+		
+		if(this.lecturaEnRango(valor) == false)
+			throw new LecturaFueraRango(this, LocalDateTime.now(), valor + "");
+		
 		String lecturaAnterior = this.ultimaLectura();
 		this.setUltimaLectura(valor);
 		this.setTiempoUltimaLectura(LocalDateTime.now());
 		this.procesador.procesar(valor);
-		if(this.cambioBrusco(valor))
-			throw new CambioBrusco(this, lecturaAnterior, LocalDateTime.now());
+		if(this.cambioBrusco(valor)) throw new CambioBrusco(this, lecturaAnterior, LocalDateTime.now());
 	}
 
 	/**
 	 * Comprobar que un sensor está calibrado
 	 * @return true si está calibrado, false si no lo está
 	 */
-	public boolean calibrado() throws CalibracionCaducada, LecturaFueraRango {
+	public boolean calibrado() throws CalibracionCaducada {
 		Duration amount = Duration.between(ultimaCalibracion, LocalDateTime.now());
 		if(amount.compareTo(caducidad)>0) 
 			throw new CalibracionCaducada(this, LocalDateTime.now());
-		else if(this.lecturaEnRango(ultimaLectura) == false)
-			throw new LecturaFueraRango(this, LocalDateTime.now(), this.ultimaLectura());
 		return true;
 	}
 
@@ -317,7 +299,7 @@ public abstract class Sensor {
 
 	@Override
 	public String toString() {
-		return id + " (desde: " + this.fechaInstalacion + "): "+ detallesHijo() + ") última lectura: " + this.ultimaLectura;
+		return id + " (desde: " + this.fechaInstalacion + "): "+ detallesHijo() + ") última lectura: " + this.tiempoUltimaLectura;
 	}
 	
 	public abstract String detallesHijo();
