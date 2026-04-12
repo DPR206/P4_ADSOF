@@ -2,7 +2,13 @@ package formateadores;
 
 import java.util.List;
 
-
+/**
+ * Esta interfaz representa un documento que puede ser formateado
+ * 
+ * @author Claudia Saiz Escribano y Duna Puente Romera.
+ * @version 1.0 Nombre del fichero: IDocumento.java
+ * 
+ */
 public interface IDocumento {
 	/**
 	 * Obtiene el título del documento

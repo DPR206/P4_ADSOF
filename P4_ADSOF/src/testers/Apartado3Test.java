@@ -6,7 +6,14 @@ import procesadores.conversoresTemperatura.*;
 import procesadores.*;
 import sensores.TipoSensor;
 
-public class Apartado3Test {
+/**
+ * Esta clase representa un test de procesadores
+ * 
+ * @author Claudia Saiz Escribano y Duna Puente Romera.
+ * @version 1.0 Nombre del fichero: Apartado3Test.java
+ * 
+ */
+class Apartado3Test {
 
 	public static void main(String[] args) {
 		EstacionMeteorologica est = new EstacionMeteorologica("Madrid Centro", new UbicacionGeografica(32, 54));

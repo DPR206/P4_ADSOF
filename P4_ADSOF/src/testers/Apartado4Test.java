@@ -13,7 +13,7 @@ import sensores.*;
  * Esta clase representa un test de las alertas (apartado 4)
  * 
  * @author Claudia Saiz Escribano y Duna Puente Romera.
- * @version 1.0 Nombre del fichero: Apartado4.java
+ * @version 1.0 Nombre del fichero: Apartado4Test.java
  * 
  */
 public class Apartado4Test {

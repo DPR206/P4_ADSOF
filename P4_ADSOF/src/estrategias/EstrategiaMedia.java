@@ -7,7 +7,7 @@ import java.util.*;
  * 
  * @author Claudia Saiz Escribano y Duna Puente Romera
  * @version 1.0
- * Nombre del fichero: EstrategiaAleatoria.java
+ * Nombre del fichero: EstrategiaMEdia.java
  */
 public class EstrategiaMedia implements Estrategia {
 
@@ -17,7 +17,7 @@ public class EstrategiaMedia implements Estrategia {
 
     /**
      * Constructor de la estrategia media
-     * @param historial Lista de valores generados anteriormente
+     * @param valorInicial Primer valor que se añade en el historial
      * @param porcentaje Desviación máxima del nuevo valor respecto del anterior
      */
     public EstrategiaMedia(double valorInicial, double porcentaje) {

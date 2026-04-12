@@ -7,7 +7,14 @@ import procesadores.conversoresPresion.hPaAPa;
 import procesadores.conversoresTemperatura.ConversorCelsiusAKelvin;
 import sensores.TipoSensor;
 
-public class Apartado5Test {
+/**
+ * Esta clase representa un test de los formateadores
+ * 
+ * @author Claudia Saiz Escribano y Duna Puente Romera.
+ * @version 1.0 Nombre del fichero: Apartado5Test.java
+ * 
+ */
+class Apartado5Test {
 
 	public static void main(String[] args) {
 		EstacionMeteorologica est = new EstacionMeteorologica("Madrid Centro", new UbicacionGeografica(32, 54));
@@ -17,6 +24,8 @@ public class Apartado5Test {
 		est.addSensor(TipoSensor.TEMPERATURA, 0, new Procesador(new ConversorCelsiusAKelvin()));
 		est.addSensor(TipoSensor.PRESION, 0, new Procesador(new hPaAPa()));
 		est.addSensor(TipoSensor.HUMEDAD, 0, new Procesador(new ConversorIdentidad()));
+		
+		// Añadirmos alertas
 		
 		// Configuramos 5 lecturas en cada uno e imprimimos la información de la estación
 		est.realizarLecturasPeriodicas(100, 5);

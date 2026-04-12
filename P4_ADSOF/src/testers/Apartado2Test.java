@@ -7,7 +7,14 @@ import excepciones.LecturaFueraRango;
 import procesadores.*;
 import sensores.*;
 
-public class Apartado2Test {
+/**
+ * Esta clase representa un test de las estrategias
+ * 
+ * @author Claudia Saiz Escribano y Duna Puente Romera.
+ * @version 1.0 Nombre del fichero: Apartado2Test.java
+ * 
+ */
+class Apartado2Test {
 
 	public static void main(String[] args) throws IncompatibleConversorException, CambioBrusco, LecturaFueraRango {
 		

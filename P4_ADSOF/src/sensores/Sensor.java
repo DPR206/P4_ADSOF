@@ -272,6 +272,7 @@ public abstract class Sensor {
 	/**
 	 * El sensor realiza una nueva lectura
 	 * @throws CambioBrusco error por cambio brusco entre la lectura anterior y esta
+	 * @throws LecturaFueraRango error por una lectura fuera de rango
 	 */
 	public void realizarLectura() throws CambioBrusco, LecturaFueraRango{
 		double valor = estrategia.generarValor()-offsetCalibracion;
@@ -290,7 +291,6 @@ public abstract class Sensor {
 	 * Comprobar que un sensor está calibrado
 	 * @return true si está calibrado, false si no lo está
 	 * @throws CalibracionCaducada error porque el sensor no está calibrado
-	 * @throws LecturaFueraRango error por una lectura fuera de rango
 	 */
 	public boolean calibrado() throws CalibracionCaducada {
 		Duration amount = Duration.between(ultimaCalibracion, LocalDateTime.now());
@@ -317,6 +317,10 @@ public abstract class Sensor {
 		return id + " (desde: " + this.fechaInstalacion + "): "+ detallesHijo() + ") última lectura: " + this.tiempoUltimaLectura;
 	}
 	
+	/**
+	 * Devuelve la información del procesador
+	 * @return String con la información del procesador
+	 */
 	public abstract String infoProcesador();
 	
 	/**
