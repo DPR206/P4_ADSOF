@@ -36,8 +36,6 @@ public class EstacionMeteorologica implements IDocumento {
 	 * 
 	 * @param nombre,        nombre de la estación
 	 * @param ubicacion,     ubicación de la estación
-	 * @param periodoLectura periodicidad de las lecturas (en milisegundos)
-	 * @param maximoLecturas número máximo de lecturas
 	 */
 	public EstacionMeteorologica(String nombre, UbicacionGeografica ubicacion) {
 		this.nombre = nombre;
@@ -142,7 +140,6 @@ public class EstacionMeteorologica implements IDocumento {
 	 * 
 	 * @param tipo el tipo de sensor
 	 * @param offset el offset de calibración
-	 * @param ultimaLectura el valor de la última lectura
 	*/
 	public void addSensor(TipoSensor tipo, double offset) {
 	Sensor s = null;
@@ -174,7 +171,6 @@ public class EstacionMeteorologica implements IDocumento {
 	 * 
 	 * @param tipo el tipo de sensor
 	 * @param offset el offset de calibración
-	 * @param ultimaLectura el valor de la última lectura
 	 * @param estrategia la estrategia para realizar lecturas
 	 */	
 	public void addSensor(TipoSensor tipo, double offset, Estrategia estrategia) {
@@ -330,6 +326,9 @@ public class EstacionMeteorologica implements IDocumento {
 
 	/**
 	 * Realizar lecturas periódicas de los sensores
+	 * 
+	 * @param periodoLectura periodicidad de las lecturas
+	 * @param maximoLecturas número máximo de lecturas
 	 */
 	public void realizarLecturasPeriodicas(long periodoLectura, int maximoLecturas) {
 		AtomicInteger contadorLecturas = new AtomicInteger(0);

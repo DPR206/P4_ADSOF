@@ -1,1 +1,1 @@
-typeSearchIndex = [{"l":"All Classes and Interfaces","u":"allclasses-index.html"},{"p":"sensores","l":"Sensor"},{"p":"sensores","l":"SensorHumedad"},{"p":"sensores","l":"SensorPresion"},{"p":"sensores","l":"SensorTemperatura"},{"p":"sensores","l":"TipoSensor"},{"p":"sensores","l":"TipoTemp"}];updateSearchResults();
+typeSearchIndex = [{"l":"All Classes and Interfaces","u":"allclasses-index.html"},{"p":"estacion_meteorologica","l":"EstacionMeteorologica"}];updateSearchResults();
