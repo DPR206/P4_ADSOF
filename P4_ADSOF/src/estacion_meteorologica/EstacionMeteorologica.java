@@ -347,8 +347,8 @@ public class EstacionMeteorologica implements IDocumento {
 	@Override
 	public List<String> getParrafos() {
 		List<String> parrafos = new ArrayList<>();
-		parrafos.add(ubicacion.toString());
-		parrafos.add("Número de sensores: " + sensores.size());
+		parrafos.add("Ubicacion: " + ubicacion.toString());
+		parrafos.add("Sensores instalados: " + sensores.size());
 		LocalDateTime ultimaLectura = null;
 		for (Sensor s : sensores.values()) {
 			if (ultimaLectura == null || s.getTiempoUltimaLectura().isBefore(ultimaLectura)) {
@@ -365,7 +365,7 @@ public class EstacionMeteorologica implements IDocumento {
 
 		List<String> listaSensores = new ArrayList<>();
 		for (Sensor s : sensores.values())
-			listaSensores.add(s.toString());
+			listaSensores.add(s.infoProcesador());
 		Seccion sensores = new Seccion("Sensores activos: ", listaSensores);
 		secciones.add(sensores);
 
