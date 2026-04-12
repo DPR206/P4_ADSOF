@@ -29,11 +29,8 @@ public class SensorTemperatura extends Sensor {
 	 * Crea un nuevo sensor de temperatura por defecto
 	 * 
 	 * @param offset, offset de calibración
-	 * @param ultimaLectura, valor de la última lectura
-	 * @param tiempoUltimaLectura, fecha y hora de la última lectura
-	 * @param fechaInstalacion, fecha de instalación del sensor
-	 * @param ultimaCalibracion
-	 * @throws IncompatibleConversorException 
+	 * @param procesador, el procesador del sensor
+	 * @throws IncompatibleConversorException error por conversor incompatible
 	 */
 	public SensorTemperatura(double offset, Procesador procesador) throws IncompatibleConversorException {
 		super(idType+String.format("%04d", ids), offset, procesador);
@@ -46,11 +43,9 @@ public class SensorTemperatura extends Sensor {
 	 * Crea un nuevo sensor de temperatura por defecto
 	 * 
 	 * @param offset, offset de calibración
-	 * @param ultimaLectura, valor de la última lectura
-	 * @param tiempoUltimaLectura, fecha y hora de la última lectura
-	 * @param fechaInstalacion, fecha de instalación del sensor
-	 * @param ultimaCalibracion
-	 * @throws IncompatibleConversorException 
+	 * @param estrategia estrtegia de lectura
+	 * @param procesador, el procesador del sensor
+	 * @throws IncompatibleConversorException error por conversor incompatible
 	 */
 	public SensorTemperatura(double offset, Estrategia estrategia, Procesador procesador) throws IncompatibleConversorException {
 		super(idType+String.format("%04d", ids), offset, estrategia, procesador);
@@ -60,19 +55,26 @@ public class SensorTemperatura extends Sensor {
 	}
 
 	/**
-	 * @return the tipo
+	 * Obtiene el "tipo" de temperatura que se está midiendo
+	 * @return el tipo de temperatura
 	 */
 	public TipoTemp getTipo() {
 		return tipo;
 	}
 
 	/**
+	 * Establece el "tipo" de temperatura que se está midiendo
 	 * @param tipo the tipo to set
 	 */
 	public void setTipo(TipoTemp tipo) {
 		this.tipo = tipo;
 	}
 	
+	/**
+	 * Covnierte el valor a unidades Celsius
+	 * @param valor el valor a convertir
+	 * @return el valor en Celsius
+	 */
 	private double convertCelsius(double valor) {
 		double valorCelsius;
 		switch(this.tipo) {
@@ -84,8 +86,9 @@ public class SensorTemperatura extends Sensor {
 	}
 
 	/**
-	 * @param valor
-	 * @return
+	 * Convierte valores de Kelvin a Celsius
+	 * @param valor el valor en Kelvin
+	 * @return el valor en Celsius
 	 */
 	private double kelvinCelsius(double valor) {
 		double valorCelsius;
@@ -94,8 +97,9 @@ public class SensorTemperatura extends Sensor {
 	}
 
 	/**
-	 * @param valor
-	 * @return
+	 * Convierte el valor de Fahrenheit a Celius
+	 * @param valor el valor en Fahrenheit
+	 * @return el valor en Celsius
 	 */
 	private double fahrenheitCelsius(double valor) {
 		double valorCelsius;
