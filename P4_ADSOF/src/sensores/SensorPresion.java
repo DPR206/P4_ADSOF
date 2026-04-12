@@ -32,8 +32,8 @@ public class SensorPresion extends Sensor{
 	 * @param fechaInstalacion
 	 * @throws IncompatibleConversorException 
 	 */
-	public SensorPresion(double offset, double ultimaLectura, Procesador procesador) throws IncompatibleConversorException {
-		super(idType+String.format("%04d", ids), offset, ultimaLectura, procesador);
+	public SensorPresion(double offset, Procesador procesador) throws IncompatibleConversorException {
+		super(idType+String.format("%04d", ids), offset, procesador);
 		if(!(procesador.getConversor() instanceof ConversorPresion)) throw new IncompatibleConversorException("Este sensor debe tener un convesor de presión");
 		ids++;
 	}
@@ -47,8 +47,8 @@ public class SensorPresion extends Sensor{
 	 * @param fechaInstalacion
 	 * @throws IncompatibleConversorException 
 	 */
-	public SensorPresion(double offset, double ultimaLectura, Estrategia estrategia, Procesador procesador) throws IncompatibleConversorException {
-		super(idType+String.format("%04d", ids), offset, ultimaLectura, estrategia, procesador);
+	public SensorPresion(double offset, Estrategia estrategia, Procesador procesador) throws IncompatibleConversorException {
+		super(idType+String.format("%04d", ids), offset, estrategia, procesador);
 		if(!(procesador.getConversor() instanceof ConversorPresion)) throw new IncompatibleConversorException("Este sensor debe tener un convesor de presión");
 		ids++;
 	}
