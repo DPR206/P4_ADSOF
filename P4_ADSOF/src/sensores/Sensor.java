@@ -52,7 +52,7 @@ public abstract class Sensor {
 		this.caducidad = caducidad;
 		this.cambioBrusco = cambioBrusco;
 	}
-	
+
 	/**
 	 * Crea un nuevo sensor
 	 * 
@@ -157,6 +157,13 @@ public abstract class Sensor {
 		return offsetCalibracion;
 	}
 
+	/**
+	 * Obtiene el procesador
+	 * @return el procesador 
+	 */
+	public Procesador getProcesador() {
+		return procesador;
+	}
 
 	/**
 	 * Establece el offset
@@ -309,6 +316,8 @@ public abstract class Sensor {
 	public String toString() {
 		return id + " (desde: " + this.fechaInstalacion + "): "+ detallesHijo() + ") última lectura: " + this.tiempoUltimaLectura;
 	}
+	
+	public abstract String infoProcesador();
 	
 	/**
 	 * Obtiene el string con la información específica de los sensores

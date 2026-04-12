@@ -6,7 +6,7 @@ import procesadores.*;
 import procesadores.conversoresPresion.hPaAPa;
 import sensores.TipoSensor;
 
-public class EstacionMeteorologicaTest {
+public class Apartado1Test {
 	
 	public static void main(String[] args) {
 		EstacionMeteorologica est = new EstacionMeteorologica("Madrid Centro", new UbicacionGeografica(32, 54));

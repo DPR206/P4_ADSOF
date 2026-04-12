@@ -130,7 +130,7 @@ public class EstacionMeteorologica implements IDocumento {
 			else
 				this.sensores.put(s.getId(), s);
 		} catch (IncompatibleConversorException | IdentificadorDuplicado e) {
-			System.out.println(e.getMessage());
+			System.out.println("Warning: " + e);
 		}
 	}
 
@@ -163,7 +163,7 @@ public class EstacionMeteorologica implements IDocumento {
 			else
 				this.sensores.put(s.getId(), s);
 		} catch (IncompatibleConversorException | IdentificadorDuplicado e) {
-			System.out.println(e.getMessage());
+			System.out.println("Warning: " + e);
 		}
 	}
 
@@ -195,7 +195,7 @@ public class EstacionMeteorologica implements IDocumento {
 			else
 				this.sensores.put(s.getId(), s);
 		} catch (IncompatibleConversorException | IdentificadorDuplicado e) {
-			System.out.println(e.getMessage());
+			System.out.println("Warning: " + e);
 		}
 	}
 
@@ -227,7 +227,7 @@ public class EstacionMeteorologica implements IDocumento {
 			else
 				this.sensores.put(s.getId(), s);
 		} catch (IncompatibleConversorException | IdentificadorDuplicado e) {
-			System.out.println(e.getMessage());
+			System.out.println("Warning: " + e);
 		}
 	}
 
@@ -287,6 +287,28 @@ public class EstacionMeteorologica implements IDocumento {
 				this.alertas.computeIfAbsent(t, k -> new ArrayList<>()).add(e);
 			}
 		});
+	}
+	
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+
+		sb.append("\nEstación Meteorológica: " + this.nombre + "\n");
+		sb.append("Ubicación: " + this.getUbicacion() + "\n");
+		sb.append("---------------------------------------\n");
+		sb.append("Sensores instalados: " + sensores.size() + "\n");
+		LocalDateTime ultimaLectura = null;
+		for (Sensor s : sensores.values()) {
+			if (ultimaLectura == null || s.getTiempoUltimaLectura().isBefore(ultimaLectura)) {
+				ultimaLectura = s.getTiempoUltimaLectura();
+			}
+		}
+		sb.append("Última lectura: " + ultimaLectura + "\n");
+		for(Sensor s : sensores.values()) {
+			sb.append(s.infoProcesador() + "\n");
+		}
+
+		return sb.toString();
 	}
 
 	/**

@@ -34,7 +34,7 @@ public class SensorPresion extends Sensor{
 	 */
 	public SensorPresion(double offset, Procesador procesador) throws IncompatibleConversorException {
 		super(idType+String.format("%04d", ids), offset, estrategiaPorDefecto, procesador);
-		if(!(procesador.getConversor() instanceof ConversorPresion) && !(procesador.getConversor() instanceof ConversorIdentidad)) throw new IncompatibleConversorException("Este sensor debe tener un convesor de presión");
+		if(!(procesador.getConversor() instanceof ConversorPresion) && !(procesador.getConversor() instanceof ConversorIdentidad)) throw new IncompatibleConversorException("Este sensor debe tener un conversor de presión");
 		ids++;
 	}
 	
@@ -47,7 +47,7 @@ public class SensorPresion extends Sensor{
 	 */
 	public SensorPresion(double offset, Estrategia estrategia, Procesador procesador) throws IncompatibleConversorException {
 		super(idType+String.format("%04d", ids), offset, estrategia, procesador);
-		if(!(procesador.getConversor() instanceof ConversorPresion) && !(procesador.getConversor() instanceof ConversorIdentidad)) throw new IncompatibleConversorException("Este sensor debe tener un convesor de presión");
+		if(!(procesador.getConversor() instanceof ConversorPresion) && !(procesador.getConversor() instanceof ConversorIdentidad)) throw new IncompatibleConversorException("Este sensor debe tener un conversor de presión");
 		ids++;
 	}
 	
@@ -70,6 +70,15 @@ public class SensorPresion extends Sensor{
 	@Override
 	public String detallesHijo() {
 		return " Sensor Presion (" + this.ultimaLectura();
+	}
+	
+	@Override
+	public String infoProcesador() {
+		StringBuilder sb = new StringBuilder();
+
+		sb.append(super.getId() + " (" + unidad + ")");
+		sb.append(super.getProcesador());
+		return sb.toString();
 	}
 	
 	

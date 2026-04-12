@@ -1,13 +1,13 @@
 package procesadores.conversoresPresion;
 
-public class hPaAPa extends ConversorPresion {
+public class hPaAMbar extends ConversorPresion {
 	@Override
 	public double convertir(double valor) {
-		return valor * 100.0;
+		return valor;
 	}
 	
 	@Override
 	public String toString() {
-		return " con conversor a Pa";
+		return " con conversor a mBar";
 	}
 }
