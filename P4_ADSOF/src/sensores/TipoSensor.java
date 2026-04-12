@@ -12,9 +12,12 @@ package sensores;
  */
 public enum TipoSensor {
 
-	TEMPERATURA("TEMP"), /**Sensor de temperatura*/
-	HUMEDAD("HUM"), /**Sensor de humedad*/
-	PRESION("PRES"); /**Sensor de presión*/
+	/**Sensor de temperatura*/
+	TEMPERATURA("TEMP"),
+	/**Sensor de humedad*/
+	HUMEDAD("HUM"),
+	/**Sensor de presión*/
+	PRESION("PRES"); 
 	
 	private String tipo;
 

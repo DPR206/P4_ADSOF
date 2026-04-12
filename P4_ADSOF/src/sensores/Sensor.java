@@ -31,16 +31,14 @@ public abstract class Sensor {
 	private Duration caducidad;
 	private long cambioBrusco;
 	
-	
 	/**
 	 * Crea un nuevo sensor
 	 * 
 	 * @param id el identificador del sensor
-	 * @param offset offset de calibración
-	 * @param ultimaLectura valor de la última lectura
-	 * @param tiempoUltimaLectura fecha y hora de la última lectura
-	 * @param ultimaCalibracion fecha y hora de la última calibración
-	 * @param fechaInstalacion fecha de instalación del sensor
+	 * @param offsetCalibracion offset de calibración
+	 * @param procesador procesador de datos
+	 * @param caducidad duración de la caducidad de la calibración
+	 * @param cambioBrusco porcentaje de cambio brusco entre lecturas
 	 */
 	public Sensor(String id, double offsetCalibracion, Procesador procesador, Duration caducidad, long cambioBrusco) {
 		
@@ -51,11 +49,11 @@ public abstract class Sensor {
 	 * Crea un nuevo sensor
 	 * 
 	 * @param id el identificador del sensor
-	 * @param offset offset de calibración
-	 * @param ultimaLectura valor de la última lectura
-	 * @param tiempoUltimaLectura fecha y hora de la última lectura
-	 * @param ultimaCalibracion fecha y hora de la última calibración
-	 * @param fechaInstalacion fecha de instalación del sensor
+	 * @param offsetCalibracion offset de calibración
+	 * @param estrategia estrategia de toma de valores
+	 * @param procesador procesador de datos
+	 * @param caducidad duración de la caducidad de la calibración
+	 * @param cambioBrusco porcentaje de cambio brusco entre lecturas
 	 */
 	public Sensor(String id, double offsetCalibracion, Estrategia estrategia, Procesador procesador, Duration caducidad, long cambioBrusco) {
 		this.id = id;
@@ -70,24 +68,37 @@ public abstract class Sensor {
 		this.cambioBrusco = cambioBrusco;
 	}
 
+	/**
+	 * Crea un nuevo sensor
+	 * 
+	 * @param id el identificador del sensor
+	 * @param offsetCalibracion offset de calibración
+	 * @param procesador procesador de datos
+	 */
 	public Sensor(String id, double offsetCalibracion, Procesador procesador) {
 		this(id, offsetCalibracion, procesador, Sensor.caducidadPorDefecto, Sensor.cambioBruscoPorDefecto);
 	}
 	
+	/**
+	 * Crea un nuevo sensor
+	 * 
+	 * @param id el identificador del sensor
+	 * @param offsetCalibracion offset de calibración
+	 * @param estrategia estrategia de toma de valores
+	 * @param procesador procesador de datos
+	 */
 	public Sensor(String id, double offsetCalibracion, Estrategia estrategia, Procesador procesador) {
 		this(id, offsetCalibracion, estrategia, procesador, Sensor.caducidadPorDefecto, Sensor.cambioBruscoPorDefecto);
 	}
 
 	/**
-	 * @param id
-	 * @param offset
-	 * @param ultimaLectura
-	 * @param tiempoUltimaLectura
-	 * @param ultimaCalibracion
-	 * @param fechaInstalacion
-	 * @param estrategia
-	 * @param procesador
-	 * @param caducidad
+	 * Crea un nuevo sensor
+	 * 
+	 * @param id el identificador del sensor
+	 * @param offsetCalibracion offset de calibración
+	 * @param estrategia estrategia de toma de valores
+	 * @param procesador procesador de datos
+	 * @param caducidad duración de la caducidad de la calibración
 	 */
 	public Sensor(String id, double offsetCalibracion, Estrategia estrategia, Procesador procesador, Duration caducidad) {
 		
@@ -95,15 +106,13 @@ public abstract class Sensor {
 	}
 
 	/**
-	 * @param id
-	 * @param offset
-	 * @param ultimaLectura
-	 * @param tiempoUltimaLectura
-	 * @param ultimaCalibracion
-	 * @param fechaInstalacion
-	 * @param estrategia
-	 * @param procesador
-	 * @param cambioBrusco
+	 * Crea un nuevo sensor
+	 * 
+	 * @param id el identificador del sensor
+	 * @param offset offset de calibración
+	 * @param estrategia estrategia de toma de valores
+	 * @param procesador procesador de datos
+	 * @param cambioBrusco porcentaje de cambio brusco entre lecturas
 	 */
 	public Sensor(String id, double offset, Estrategia estrategia, Procesador procesador, long cambioBrusco) {
 		
@@ -121,38 +130,46 @@ public abstract class Sensor {
 
 	/**
 	 * Establece el tiempo de lecturas realizadas en rango
-	 * @param caducidad la nueva duración de la caducidad en días
+	 * @param dias la nueva duración de la caducidad en días
 	 */
 	public void cambiarCaducidad(int dias) {
 		this.caducidad = Duration.ofDays(dias);
 	}
 	
+	/**
+	 * Cambia la caduciada de la calibración
+	 * @param date fecha de fin de la calibración
+	 */
 	public void cambiarCaducidad(LocalDate date) {
 		this.caducidad = Duration.between(LocalDate.now(), date);
 	}
 
 	/**
-	 * @return the caducidadPorDefecto
+	 * Obtiene la caducidad por defecto de un sensor
+	 * @return la caducidad por defecto
 	 */
 	public static Duration getCaducidadPorDefecto() {
 		return caducidadPorDefecto;
 	}
 	
 	/**
-	 * @return the cambiobruscopordefecto
+	 * Obtiene la medida de cambio brusco por defecto
+	 * @return el cambio brusco por defecto (en porcentaje)
 	 */
 	public static long getCambiobruscopordefecto() {
 		return cambioBruscoPorDefecto;
 	}
 
 	/**
-	 * @return the cambioBrusco
+	 * Obtiene la medidad de cambio brusco (en porcentaje)
+	 * @return el cambio brusco
 	 */
 	public long getCambioBrusco() {
 		return cambioBrusco;
 	}
 
 	/**
+	 * Establce una nueva medidad de cambio brusco (en porcentaje)
 	 * @param cambioBrusco the cambioBrusco to set
 	 */
 	public void setCambioBrusco(long cambioBrusco) {
@@ -170,7 +187,7 @@ public abstract class Sensor {
 
 	/**
 	 * Establece el offset
-	 * @param offset el nuevo offset
+	 * @param offsetCalibracion el nuevo offset
 	 */
 	public void setOffset(double offsetCalibracion) {
 		this.offsetCalibracion = offsetCalibracion;
@@ -257,6 +274,11 @@ public abstract class Sensor {
 		return id;
 	}
 	
+	/**
+	 * Determina si ha habido un cambio brusco entre las lecturas
+	 * @param valor el valor de la lectura más reciente
+	 * @return true si ha habido un cambio brusco, false if else
+	 */
 	private boolean cambioBrusco(double valor) {
 		double diferencia = ((valor - ultimaLectura)/ultimaLectura)*100;
 		if(diferencia > cambioBrusco)
@@ -264,6 +286,10 @@ public abstract class Sensor {
 		return false;
 	}
 
+	/**
+	 * El sensor realiza una nueva lectura
+	 * @throws CambioBrusco error por cambio brusco entre la lectura anterior y esta
+	 */
 	public void realizarLectura() throws CambioBrusco{
 		double valor = estrategia.generarValor()-offsetCalibracion;
 		String lecturaAnterior = this.ultimaLectura();
@@ -277,6 +303,8 @@ public abstract class Sensor {
 	/**
 	 * Comprobar que un sensor está calibrado
 	 * @return true si está calibrado, false si no lo está
+	 * @throws CalibracionCaducada error porque el sensor no está calibrado
+	 * @throws LecturaFueraRango error por una lectura fuera de rango
 	 */
 	public boolean calibrado() throws CalibracionCaducada, LecturaFueraRango {
 		Duration amount = Duration.between(ultimaCalibracion, LocalDateTime.now());
@@ -305,5 +333,9 @@ public abstract class Sensor {
 		return id + " (desde: " + this.fechaInstalacion + "): "+ detallesHijo() + ") última lectura: " + this.ultimaLectura;
 	}
 	
+	/**
+	 * Obtiene el string con la información específica de los sensores
+	 * @return string con la información de las subclases hijas
+	 */
 	public abstract String detallesHijo();
 }

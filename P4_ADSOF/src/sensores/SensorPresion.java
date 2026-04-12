@@ -26,9 +26,9 @@ public class SensorPresion extends Sensor{
 	
 	/**
 	 * Crea un nuevo sensor de presión
-	 * @param offset
-	 * @param procesador
-	 * @throws IncompatibleConversorException 
+	 * @param offset offset de calibración
+	 * @param procesador procesador de datos
+	 * @throws IncompatibleConversorException error por conversor incompatible
 	 */
 	public SensorPresion(double offset, Procesador procesador) throws IncompatibleConversorException {
 		super(idType+String.format("%04d", ids), offset, procesador);
@@ -38,10 +38,10 @@ public class SensorPresion extends Sensor{
 	
 	/**
 	 * Crea un nuevo sensor de presión
-	 * @param offset
-	 * @param estrategia
-	 * @param procesador
-	 * @throws IncompatibleConversorException 
+	 * @param offset offset de calibración
+	 * @param estrategia estrategia de toma de valores
+	 * @param procesador procesador de datos
+	 * @throws IncompatibleConversorException error por conversor incompatible
 	 */
 	public SensorPresion(double offset, Estrategia estrategia, Procesador procesador) throws IncompatibleConversorException {
 		super(idType+String.format("%04d", ids), offset, estrategia, procesador);
