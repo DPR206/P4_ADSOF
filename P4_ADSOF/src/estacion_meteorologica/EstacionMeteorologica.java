@@ -289,7 +289,7 @@ public class EstacionMeteorologica implements IDocumento {
 	 * @param offsetLectura el nuevo offset de lectura
 	 */
 	public void calibrarSensor(Sensor sensor, double offsetLectura) {
-		sensor.setOffsetLectura(offsetLectura);
+		sensor.setOffset(offsetLectura);
 		this.alertas.get(sensor).clear();
 	}
 	

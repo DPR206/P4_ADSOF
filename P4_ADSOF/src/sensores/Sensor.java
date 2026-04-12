@@ -22,7 +22,6 @@ public abstract class Sensor {
 	
 	private String id;
 	private double offsetCalibracion;
-	private double offsetLectura;
 	private double ultimaLectura;
 	private LocalDateTime tiempoUltimaLectura;
 	private LocalDateTime ultimaCalibracion;
@@ -256,20 +255,6 @@ public abstract class Sensor {
 	 */
 	public String getId() {
 		return id;
-	}
-
-	/**
-	 * @return the offsetLectura
-	 */
-	public double getOffsetLectura() {
-		return offsetLectura;
-	}
-
-	/**
-	 * @param offsetLectura the offsetLectura to set
-	 */
-	public void setOffsetLectura(double offsetLectura) {
-		this.offsetLectura = offsetLectura;
 	}
 	
 	private boolean cambioBrusco(double valor) {
