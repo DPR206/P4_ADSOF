@@ -20,7 +20,7 @@ public class ConversorCompuesto implements Conversor {
 	 * 
 	 * @param primero Primer conversor
 	 * @param segundo Segundo conversor
-	 * @throws IncompatibleConversorException
+	 * @throws IncompatibleConversorException Error cuando las unidades de los conversores no cuadran
 	 */
 	public ConversorCompuesto(Conversor primero, Conversor segundo) throws IncompatibleConversorException {
 		if (primero instanceof ConversorTemperatura ct1 && segundo instanceof ConversorTemperatura ct2) {

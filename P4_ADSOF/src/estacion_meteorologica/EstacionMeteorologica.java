@@ -203,6 +203,7 @@ public class EstacionMeteorologica implements IDocumento {
 	 * 
 	 * @param tipo el tipo de sensor
 	 * @param offset el offset de calibración
+	 * @param caducidad el tiempo hasta caducar el sensor
 	*/
 	public void addSensor(TipoSensor tipo, double offset, Duration caducidad) {
 	Sensor s = null;
@@ -234,6 +235,7 @@ public class EstacionMeteorologica implements IDocumento {
 	 * 
 	 * @param tipo el tipo de sensor
 	 * @param offset el offset de calibración
+	 * @param cambioBrusco el porcentaje máximo de cambio que se permite
 	*/
 	public void addSensor(TipoSensor tipo, double offset, double cambioBrusco) {
 	Sensor s = null;
@@ -265,6 +267,10 @@ public class EstacionMeteorologica implements IDocumento {
 	 * 
 	 * @param tipo el tipo de sensor
 	 * @param offset el offset de calibración
+	 * @param estrategia la estrategia para realizar lecturas
+	 * @param procesador el procesador del sensor
+	 * @param caducidad el tiempo hasta caducar el sensor
+	 * @param cambioBrusco el porcentaje máximo de cambio que se permite
 	*/
 	public void addSensor(TipoSensor tipo, double offset, Estrategia estrategia, Procesador procesador, Duration caducidad, double cambioBrusco) {
 	Sensor s = null;

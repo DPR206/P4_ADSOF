@@ -44,6 +44,7 @@ public class SensorPresion extends Sensor{
 	/**
 	 * Crea un nuevo sensor de presión
 	 * @param offset offset de calibración
+	 * @param estrategia estrategia de toma de valores
 	 * @param procesador procesador de datos
 	 * @throws IncompatibleConversorException error por conversor incompatible
 	 */
@@ -55,6 +56,7 @@ public class SensorPresion extends Sensor{
 	 * Crea un nuevo sensor de presión
 	 * @param offset offset de calibración
 	 * @param procesador procesador de datos
+	 * @param caducidad el tiempo hasta caducar el sensor
 	 * @throws IncompatibleConversorException error por conversor incompatible
 	 */
 	public SensorPresion(double offset, Procesador procesador, Duration caducidad) throws IncompatibleConversorException {
@@ -65,6 +67,7 @@ public class SensorPresion extends Sensor{
 	 * Crea un nuevo sensor de presión
 	 * @param offset offset de calibración
 	 * @param procesador procesador de datos
+	 * @param cambioBrusco el porcentaje máximo de cambio que se permite
 	 * @throws IncompatibleConversorException error por conversor incompatible
 	 */
 	public SensorPresion(double offset, Procesador procesador, double cambioBrusco) throws IncompatibleConversorException {
@@ -76,6 +79,8 @@ public class SensorPresion extends Sensor{
 	 * @param offset offset de calibración
 	 * @param estrategia estrategia de toma de valores
 	 * @param procesador procesador de datos
+	 * @param caducidad el tiempo hasta caducar el sensor
+	 * @param cambioBrusco el porcentaje máximo de cambio que se permite
 	 * @throws IncompatibleConversorException error por conversor incompatible
 	 */
 	public SensorPresion(double offset, Estrategia estrategia, Procesador procesador, Duration caducidad, double cambioBrusco) throws IncompatibleConversorException {

@@ -44,8 +44,8 @@ public class SensorTemperatura extends Sensor {
 	/**
 	 * Crea un nuevo sensor de temperatura
 	 * 
-	 * @param offset,     offset de calibración
-	 * @param estrategia  estrtegia de lectura
+	 * @param offset, offset de calibración
+	 * @param estrategia, estrtegia de lectura
 	 * @param procesador, el procesador del sensor
 	 * @throws IncompatibleConversorException error por conversor incompatible
 	 */
@@ -57,9 +57,9 @@ public class SensorTemperatura extends Sensor {
 	/**
 	 * Crea un nuevo sensor de temperatura
 	 * 
-	 * @param offset,     offset de calibración
-	 * @param estrategia  estrtegia de lectura
+	 * @param offset, offset de calibración
 	 * @param procesador, el procesador del sensor
+	 * @param caducidad el tiempo hasta caducar el sensor
 	 * @throws IncompatibleConversorException error por conversor incompatible
 	 */
 	public SensorTemperatura(double offset, Procesador procesador, Duration caducidad)
@@ -70,9 +70,9 @@ public class SensorTemperatura extends Sensor {
 	/**
 	 * Crea un nuevo sensor de temperatura
 	 * 
-	 * @param offset,     offset de calibración
-	 * @param estrategia  estrtegia de lectura
+	 * @param offset, offset de calibración
 	 * @param procesador, el procesador del sensor
+	 * @param cambioBrusco el porcentaje máximo de cambio que se permite
 	 * @throws IncompatibleConversorException error por conversor incompatible
 	 */
 	public SensorTemperatura(double offset, Procesador procesador, double cambioBrusco)
@@ -83,9 +83,11 @@ public class SensorTemperatura extends Sensor {
 	/**
 	 * Crea un nuevo sensor de temperatura con todos los parmámetros
 	 * 
-	 * @param offset,     offset de calibración
-	 * @param estrategia  estrtegia de lectura
+	 * @param offset, offset de calibración
+	 * @param estrategia, estrtegia de lectura
 	 * @param procesador, el procesador del sensor
+	 * @param caducidad el tiempo hasta caducar el sensor
+	 * @param cambioBrusco el porcentaje máximo de cambio que se permite
 	 * @throws IncompatibleConversorException error por conversor incompatible
 	 */
 	public SensorTemperatura(double offset, Estrategia estrategia, Procesador procesador, Duration caducidad, double cambioBrusco)

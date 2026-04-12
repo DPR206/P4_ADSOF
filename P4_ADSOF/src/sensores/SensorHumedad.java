@@ -41,6 +41,7 @@ public class SensorHumedad extends Sensor{
 	 * Crea un nuevo sensor de humedad
 	 * 
 	 * @param offset, offset de calibración
+	 * @param estrategia la estrategia para realizar lecturas
 	 * @param procesador, el procesador del sensor
 	 * @throws IncompatibleConversorException error por conversor incompatible
 	 */
@@ -53,6 +54,7 @@ public class SensorHumedad extends Sensor{
 	 * 
 	 * @param offset, offset de calibración
 	 * @param procesador, el procesador del sensor
+	 * @param caducidad el tiempo hasta caducar el sensor
 	 * @throws IncompatibleConversorException error por conversor incompatible
 	 */
 	public SensorHumedad(double offset, Procesador procesador, Duration caducidad) throws IncompatibleConversorException {
@@ -64,6 +66,7 @@ public class SensorHumedad extends Sensor{
 	 * 
 	 * @param offset, offset de calibración
 	 * @param procesador, el procesador del sensor
+	 * @param cambioBrusco el porcentaje máximo de cambio que se permite
 	 * @throws IncompatibleConversorException error por conversor incompatible
 	 */
 	public SensorHumedad(double offset, Procesador procesador, double cambioBrusco) throws IncompatibleConversorException {
@@ -74,8 +77,10 @@ public class SensorHumedad extends Sensor{
 	 * Crea un nuevo sensor de humedad
 	 * 
 	 * @param offset, offset de calibración
-	 * @param estrategia estrtegia de lectura
+	 * @param estrategia estrategia de lectura
 	 * @param procesador, el procesador del sensor
+	 * @param caducidad el tiempo hasta caducar el sensor
+	 * @param cambioBrusco el porcentaje máximo de cambio que se permite
 	 * @throws IncompatibleConversorException error por conversor incompatible
 	 */
 	public SensorHumedad(double offset, Estrategia estrategia, Procesador procesador, Duration caducidad, double cambioBrusco) throws IncompatibleConversorException {
