@@ -1,6 +1,25 @@
 package formateadores;
 
+/**
+ * Esta clase representa un formateador a Markdown
+ * 
+ * @author Claudia Saiz Escribano y Duna Puente Romera.
+ * @version 1.0 Nombre del fichero: FormateadorMarkdown.java
+ * 
+ */
 public class FormateadorMarkdown {
+	
+	/**
+	 * Crea un formateador a HTML
+	 */
+	public FormateadorMarkdown() {
+	}
+
+	/**
+	 * Devuelve el IDocumento en formato Markdown
+	 * @param doc Documento que se quiere formatear
+	 * @return string con el documento formateado
+	 */
 	public String formatear(IDocumento doc) {
 
 		StringBuilder sb = new StringBuilder();

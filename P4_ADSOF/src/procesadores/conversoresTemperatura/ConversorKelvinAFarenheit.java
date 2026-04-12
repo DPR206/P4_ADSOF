@@ -1,6 +1,20 @@
 package procesadores.conversoresTemperatura;
 
+/**
+ * Esta clase representa un conversor de Kelvin a Farenheit
+ * 
+ * @author Claudia Saiz Escribano y Duna Puente Romera.
+ * @version 1.0 Nombre del fichero: ConversorKelvinAFarenheit.java
+ * 
+ */
 public class ConversorKelvinAFarenheit extends ConversorTemperatura {
+	
+	/**
+	 * Crea un nuevo conversor de Kelvin a Farenheit
+	 */
+	public ConversorKelvinAFarenheit() {
+	}
+
 	@Override
 	public double convertir(double valor) {
 		return (valor - 273.15) * 9 / 5 + 32;

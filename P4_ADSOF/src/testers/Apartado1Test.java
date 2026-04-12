@@ -6,7 +6,14 @@ import procesadores.*;
 import procesadores.conversoresPresion.hPaAPa;
 import sensores.TipoSensor;
 
-public class Apartado1Test {
+/**
+ * Esta clase representa un test de la estación meteorológica
+ * 
+ * @author Claudia Saiz Escribano y Duna Puente Romera.
+ * @version 1.0 Nombre del fichero: Apartado1Test.java
+ * 
+ */
+class Apartado1Test {
 	
 	public static void main(String[] args) {
 		EstacionMeteorologica est = new EstacionMeteorologica("Madrid Centro", new UbicacionGeografica(32, 54));

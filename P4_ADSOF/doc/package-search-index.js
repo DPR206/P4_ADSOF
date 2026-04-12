@@ -1,1 +1,1 @@
-packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"estacion_meteorologica"},{"l":"excepciones"},{"l":"sensores"}];updateSearchResults();
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"estacion_meteorologica"},{"l":"estrategias"},{"l":"excepciones"},{"l":"formateadores"},{"l":"procesadores"},{"l":"procesadores.conversoresPresion"},{"l":"procesadores.conversoresTemperatura"},{"l":"sensores"},{"l":"testers"}];updateSearchResults();

@@ -1,6 +1,25 @@
 package formateadores;
 
+/**
+ * Esta clase representa un formateador a HTML
+ * 
+ * @author Claudia Saiz Escribano y Duna Puente Romera.
+ * @version 1.0 Nombre del fichero: FormateadorHTML.java
+ * 
+ */
 public class FormateadorHTML {
+	
+	/**
+	 * Crea un formateador a HTML
+	 */
+	public FormateadorHTML() {
+	}
+
+	/**
+	 * Devuelve el IDocumento en formato HTML
+	 * @param doc Documento que se quiere formatear
+	 * @return string con el documento formateado
+	 */
 	public String formatear(IDocumento doc) {
 
 		StringBuilder sb = new StringBuilder();
