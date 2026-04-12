@@ -4,6 +4,7 @@
 package testers;
 
 import estacion_meteorologica.*;
+import estrategias.*;
 import procesadores.*;
 import procesadores.conversoresPresion.*;
 import procesadores.conversoresTemperatura.*;
@@ -26,7 +27,7 @@ public class Apartado4Test {
 		EstacionMeteorologica est = new EstacionMeteorologica("Madrid Centro", new UbicacionGeografica(32, 54));
 		
 		//Añadimos sensores a la estación
-		est.addSensor(TipoSensor.TEMPERATURA, 0, new Procesador(new ConversorCelsiusAKelvin()));
+		est.addSensor(TipoSensor.TEMPERATURA, 0, new EstrategiaCercana(0, 50) ,new Procesador(new ConversorCelsiusAKelvin()));
 		est.addSensor(TipoSensor.PRESION, 0, new Procesador(new hPaAPa()));
 		est.addSensor(TipoSensor.HUMEDAD, 0, new Procesador(new ConversorIdentidad()));
 		est.addSensor(TipoSensor.TEMPERATURA, 0);
@@ -63,11 +64,11 @@ public class Apartado4Test {
 		    e.printStackTrace();
 		}
 		
-		//Forzamos un cambio brusco de valores
-		//est.obtenerSensorId("HUM_0001").setCambioBrusco(5);
-		//est.calibrarSensor(est.obtenerSensorId("HUM_0001"), 30);
+		//Forzamos un cambio brusco de valores en un sensor de estrategia cercana
+		est.obtenerSensorId("TEMP_0000").setCambioBrusco(5);
+		est.calibrarSensor(est.obtenerSensorId("TEMP_0000"), 50);
 		
-		//est.realizarLecturas();
+		est.realizarLecturas();
 		
 		System.out.println(est);
 
