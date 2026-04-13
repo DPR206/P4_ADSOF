@@ -81,7 +81,7 @@ public class SensorTemperatura extends Sensor {
 	}
 	
 	/**
-	 * Crea un nuevo sensor de temperatura con todos los parmámetros
+	 * Crea un nuevo sensor de temperatura
 	 * 
 	 * @param offset, offset de calibración
 	 * @param estrategia, estrtegia de lectura
@@ -97,6 +97,26 @@ public class SensorTemperatura extends Sensor {
 		conversorCorrecto(procesador.getConversor());
 		ids++;
 	}
+	
+	/**
+	 * Crea un nuevo sensor de temperatura con todos los parmámetros
+	 * 
+	 * @param offset, offset de calibración
+	 * @param estrategia, estrtegia de lectura
+	 * @param procesador, el procesador del sensor
+	 * @param caducidad el tiempo hasta caducar el sensor
+	 * @param cambioBrusco el porcentaje máximo de cambio que se permite
+	 * @param tipoTemp el tipo de unidad de medida de temperatura
+	 * @throws IncompatibleConversorException error por conversor incompatible
+	 */
+	public SensorTemperatura(double offset, Estrategia estrategia, Procesador procesador, Duration caducidad, 
+			double cambioBrusco, TipoTemp tipoTemp) throws IncompatibleConversorException {
+		super(idType + String.format("%04d", ids), offset, valorInicial, estrategia, procesador, caducidad, cambioBrusco);
+		this.tipo = tipoTemp;
+		conversorCorrecto(procesador.getConversor());
+		ids++;
+	}
+	
 
 	/**
 	 * Obtiene el "tipo" de temperatura que se está midiendo

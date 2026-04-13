@@ -295,6 +295,33 @@ public class EstacionMeteorologica implements IDocumento {
 			System.out.println("Warning: " + e);
 		}
 	}
+	
+	/**
+	 * Añadir sensores a la estación impidiendo duplicados
+	 * 
+	 * @param tipo el tipo de sensor
+	 * @param offset el offset de calibración
+	 * @param estrategia la estrategia para realizar lecturas
+	 * @param procesador el procesador del sensor
+	 * @param caducidad el tiempo hasta caducar el sensor
+	 * @param cambioBrusco el porcentaje máximo de cambio que se permite
+	 * @param tipoTemp el tipo de unidad de medida de temperatura
+	*/
+	public void addSensor(TipoSensor tipo, double offset, Estrategia estrategia, 
+			Procesador procesador, Duration caducidad, double cambioBrusco, TipoTemp tipoTemp) {
+	Sensor s = null;
+		try {
+
+			s = new SensorTemperatura(offset, estrategia, procesador, caducidad, cambioBrusco, tipoTemp);
+
+			if (this.sensores.containsValue(s))
+				throw new IdentificadorDuplicado(s, this.sensores.get(s.getId()));
+			else
+				this.sensores.put(s.getId(), s);
+		} catch (IncompatibleConversorException | IdentificadorDuplicado e) {
+			System.out.println("Warning: " + e);
+		}
+	}
 
 	/**
 	 * Obtener una lista de sensores de un tipo concreto
