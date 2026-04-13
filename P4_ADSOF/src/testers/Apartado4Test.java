@@ -54,6 +54,7 @@ class Apartado4Test {
 		//Forzamos que un sensor tenga la calibracion caducada
 		est.obtenerSensorId("PRES_0000").cambiarCaducidad(0);;
 		
+		//Realizamos una tercera lectura
 		est.realizarLecturasPeriodicas(100, 5);
 		try {
 		    Thread.sleep(2000);
@@ -65,6 +66,7 @@ class Apartado4Test {
 		est.obtenerSensorId("TEMP_0000").setCambioBrusco(5);
 		est.calibrarSensor(est.obtenerSensorId("TEMP_0000"), 50);
 		
+		//Realizamos una última lectura puntual
 		est.realizarLecturas();
 		
 		System.out.println(est);
