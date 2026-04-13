@@ -25,8 +25,6 @@ class Apartado5Test {
 		est.addSensor(TipoSensor.PRESION, 0, new Procesador(new hPaAPa()));
 		est.addSensor(TipoSensor.HUMEDAD, 0, new Procesador(new ConversorIdentidad()));
 		
-		// Añadirmos alertas
-		
 		// Configuramos 5 lecturas en cada uno e imprimimos la información de la estación
 		est.realizarLecturasPeriodicas(100, 5);
 		try {
